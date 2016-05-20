@@ -1,6 +1,5 @@
 package com.example.thomas.lindenmayer;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,17 +32,25 @@ public class MainActivity extends AppCompatActivity {
         });
 
         try {
-            populateSamples();
+            populateRuleSets();
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
         }
     }
 
-    private void populateSamples() throws IOException, JSONException {
-        List<RuleSet> ruleSets = DataReader.readSampleRuleSets(getResources());
-        LinearLayout layout = (LinearLayout) findViewById(R.id.sampleLayout);
-        layout.removeAllViewsInLayout();
+    private void populateRuleSets() throws IOException, JSONException {
+        List<RuleSet> userDefinedRuleSets = DataReader.readUserRuleSets(this);
+        LinearLayout userDefinedLayout = (LinearLayout) findViewById(R.id.userDefinedLayout);
+        userDefinedLayout.removeAllViewsInLayout();
+        addRulesToView(userDefinedRuleSets, userDefinedLayout);
 
+        List<RuleSet> sampleRuleSets = DataReader.readSampleRuleSets(getResources());
+        LinearLayout samplesLayout = (LinearLayout) findViewById(R.id.sampleLayout);
+        samplesLayout.removeAllViewsInLayout();
+        addRulesToView(sampleRuleSets, samplesLayout);
+    }
+
+    private void addRulesToView(List<RuleSet> ruleSets, LinearLayout samplesLayout) {
         for (final RuleSet ruleSet : ruleSets) {
             Button button = new Button(this);
             ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
@@ -59,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
-            layout.addView(button);
+            samplesLayout.addView(button);
         }
     }
 

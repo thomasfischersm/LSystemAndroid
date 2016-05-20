@@ -1,15 +1,23 @@
 package com.example.thomas.lindenmayer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,12 +25,18 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.thomas.lindenmayer.data.DataReader;
 import com.example.thomas.lindenmayer.domain.Fragment;
 import com.example.thomas.lindenmayer.domain.RuleSet;
 import com.example.thomas.lindenmayer.logic.DimensionProcessor;
 import com.example.thomas.lindenmayer.logic.RuleProcessor;
+import com.example.thomas.lindenmayer.widgets.SaveView;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +48,57 @@ public class RulesActivity extends AppCompatActivity {
     private NeatRowWatcher neatRowWatcher = new NeatRowWatcher();
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_rules, menu);
+
+        final MenuItem saveMenuItem = menu.findItem(R.id.action_save);
+        final SaveView saveView = (SaveView) saveMenuItem.getActionView();
+        saveView.addSaveHandler(new SaveView.SaveHandler() {
+            @Override
+            public void onSave(String fileName) {
+                try {
+                    saveRuleSet(fileName);
+                    saveMenuItem.collapseActionView();
+                    Toast toast = Toast.makeText(getApplicationContext(), fileName + " saved.", Toast.LENGTH_SHORT);
+                    toast.show();
+                    InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputManager.hideSoftInputFromWindow(findViewById(R.id.axiomText).getWindowToken(), 0);
+                } catch (IOException | JSONException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        MenuItemCompat.setOnActionExpandListener(saveMenuItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                saveView.setText(intentRuleSet.getName());
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                return false;
+            }
+        });
+        return true;
+    }
+
+    private void saveRuleSet(String fileName) throws IOException, JSONException {
+        intentRuleSet.setName(fileName);
+        DataReader.saveUserRuleSets(this, intentRuleSet);
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rules);
+
+        Toolbar rulesToolbar = (Toolbar) findViewById(R.id.rulesToolbar);
+        setSupportActionBar(rulesToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FloatingActionButton goButton = (FloatingActionButton) findViewById(R.id.goButton);
         goButton.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +115,8 @@ public class RulesActivity extends AppCompatActivity {
             intentRuleSet = null;
             clearUi();
         }
+
+        findViewById(R.id.axiomText).requestFocus();
     }
 
     private void populateUi() {
