@@ -1,0 +1,112 @@
+{
+  "samples": [
+    {
+      "name": "Koch Curve",
+      "axiom": "f",
+      "directionIncrement": "90",
+      "defaultIterationCount": "3",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "f+f-f-f+f"
+        }
+      ]
+    },
+    {
+      "name": "Dragon Curve",
+      "axiom": "fx",
+      "directionIncrement": "90",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "x",
+          "replacement": "x+yf+"
+        },
+        {
+          "match": "y",
+          "replacement": "-fx-y"
+        }
+      ]
+    },
+    {
+      "name": "Hexagonal gosper",
+      "axiom": "xf",
+      "directionIncrement": "60",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "x",
+          "replacement": "x+yf++yf-fx–fxfx-yf+"
+        },
+        {
+          "match": "y",
+          "replacement": "-fx+yfyf++yf+fx–fx-y"
+        }
+      ]
+    },
+    {
+      "name": "Box",
+      "axiom": "f+f+f+f",
+      "directionIncrement": "90",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "ff+f+f+f+ff"
+        }
+      ]
+    },
+    {
+      "name": "Crystal",
+      "axiom": "f+f+f+f",
+      "directionIncrement": "90",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "ff+f++f+f"
+        }
+      ]
+    },
+    {
+      "name": "Rings",
+      "axiom": "f+f+f+f",
+      "directionIncrement": "90",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "ff+f+f+f+f+f-f"
+        }
+      ]
+    },
+    {
+      "name": "Box fractal",
+      "axiom": "f-f-f-f",
+      "directionIncrement": "90",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "f-f+f+f-f"
+        }
+      ]
+    },
+    {
+      "name": "Hilbert curve I",
+      "axiom": "x",
+      "directionIncrement": "90",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "x",
+          "replacement": "+yf-xfx-fy+"
+        },
+        {
+          "match": "y",
+          "replacement": "-xf+yfy+fx-"
+        }
+      ]
+    }
+  ]
+}
