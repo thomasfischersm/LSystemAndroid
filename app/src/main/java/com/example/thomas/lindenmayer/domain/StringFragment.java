@@ -70,7 +70,13 @@ public class StringFragment implements Fragment {
                     if (c == 'f') {
                         Paint paint = new Paint();
                         paint.setColor(Color.BLACK);
-                        turtle.getCanvas().drawLine((float) turtle.getCurrentX(), (float) turtle.getCurrentY(), (float) x, (float) y, paint);
+                        // Math.max(0,...) deals with rounding issues where the coordinate could
+                        // be slightly negative and be drawn off canvas.
+                        float currentX = Math.max(0, (float) turtle.getCurrentX());
+                        float currentY = Math.max(0, (float) turtle.getCurrentY());
+                        float nextX = Math.max(0, (float) x);
+                        float nextY = Math.max(0, (float) y);
+                        turtle.getCanvas().drawLine(currentX, currentY, nextX, nextY, paint);
                     }
 
                     turtle.setCurrentX(x);

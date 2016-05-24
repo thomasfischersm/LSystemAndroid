@@ -20,8 +20,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -49,11 +50,46 @@ public class DataReader {
 
     public static List<RuleSet> readUserRuleSets(Context context) throws JSONException, IOException {
         try {
-            return parseJson(readUserFile(context));
+            return  parseJson(readUserFile(context));
         } catch (FileNotFoundException e) {
             // The first time, the file needs to be created.
             return new ArrayList<>();
         }
+    }
+
+    public static void saveUserRuleSets(Context context, RuleSet ruleSet) throws IOException, JSONException {
+        List<RuleSet> ruleSets = readUserRuleSets(context);
+
+        boolean found = false;
+        for (int i = 0; i < ruleSets.size(); i++) {
+            RuleSet currentRuleSet = ruleSets.get(i);
+            if (currentRuleSet.getName().equalsIgnoreCase(ruleSet.getName())) {
+                // Replace an existing rule set.
+                ruleSets.set(i, ruleSet);
+                found = true;
+            }
+        }
+
+        if (!found) {
+            ruleSets.add(ruleSet);
+        }
+
+        writeUserRuleSets(context, ruleSets);
+    }
+
+    public static void deleteUserRuleSet(Context context, String name) throws IOException, JSONException {
+        List<RuleSet> ruleSets = readUserRuleSets(context);
+
+        for (int i = 0; i < ruleSets.size(); i++) {
+            RuleSet currentRuleSet = ruleSets.get(i);
+            if (currentRuleSet.getName().equalsIgnoreCase(name)) {
+                // Replace an existing rule set.
+                ruleSets.remove(i);
+                break;
+            }
+        }
+
+        writeUserRuleSets(context, ruleSets);
     }
 
     @NonNull
@@ -80,6 +116,7 @@ public class DataReader {
             ruleSets.add(new RuleSet(axiom, directionIncrement, name, rules));
         }
 
+        Collections.sort(ruleSets, new AlphabeticalComparator());
         return ruleSets;
     }
 
@@ -108,26 +145,6 @@ public class DataReader {
         }
 
         return sb.toString();
-    }
-
-    public static void saveUserRuleSets(Context context, RuleSet ruleSet) throws IOException, JSONException {
-        List<RuleSet> ruleSets = readUserRuleSets(context);
-
-        boolean found = false;
-        for (int i = 0; i < ruleSets.size(); i++) {
-            RuleSet currentRuleSet = ruleSets.get(i);
-            if (currentRuleSet.getName().equalsIgnoreCase(ruleSet.getName())) {
-                // Replace an existing rule set.
-                ruleSets.set(i, ruleSet);
-                found = true;
-            }
-        }
-
-        if (!found) {
-            ruleSets.add(ruleSet);
-        }
-
-        writeUserRuleSets(context, ruleSets);
     }
 
     private static void writeUserRuleSets(Context context, List<RuleSet> ruleSets) throws IOException, JSONException {
@@ -169,5 +186,13 @@ public class DataReader {
         }
 
         return rootNode.toString();
+    }
+
+    private static class AlphabeticalComparator implements Comparator<RuleSet> {
+
+        @Override
+        public int compare(RuleSet lhs, RuleSet rhs) {
+            return lhs.getName().compareTo(rhs.getName());
+        }
     }
 }

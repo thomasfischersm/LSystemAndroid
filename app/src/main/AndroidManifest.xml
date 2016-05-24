@@ -15,8 +15,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RulesActivity" android:parentActivityName=".MainActivity" />
-        <activity android:name=".RenderingActivity" android:parentActivityName=".RulesActivity"></activity>
+        <activity
+            android:name=".RulesActivity"
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".RenderingActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".RulesActivity" />
+        <!-- <provider -->
+        <!-- android:authorities="com.example.thomas.lindenmayer" -->
+        <!-- android:name="com.example.thomas.lindenmayer.contentprovider.FractalContentProvider" /> -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.thomas.lindenmayer"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <activity android:name=".HelpActivity"></activity>
     </application>
 
 </manifest>

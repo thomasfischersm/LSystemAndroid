@@ -2,15 +2,13 @@ package com.example.thomas.lindenmayer;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,20 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thomas.lindenmayer.data.DataReader;
-import com.example.thomas.lindenmayer.domain.Fragment;
 import com.example.thomas.lindenmayer.domain.RuleSet;
-import com.example.thomas.lindenmayer.logic.DimensionProcessor;
-import com.example.thomas.lindenmayer.logic.RuleProcessor;
 import com.example.thomas.lindenmayer.widgets.SaveView;
 
 import org.json.JSONException;
@@ -50,7 +43,7 @@ public class RulesActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_rules, menu);
+        inflater.inflate(R.menu.rules_menu, menu);
 
         final MenuItem saveMenuItem = menu.findItem(R.id.action_save);
         final SaveView saveView = (SaveView) saveMenuItem.getActionView();
@@ -79,7 +72,7 @@ public class RulesActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                return false;
+                return true;
             }
         });
         return true;
@@ -117,6 +110,17 @@ public class RulesActivity extends AppCompatActivity {
         }
 
         findViewById(R.id.axiomText).requestFocus();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_help:
+                startActivity(new Intent(this, HelpActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void populateUi() {
