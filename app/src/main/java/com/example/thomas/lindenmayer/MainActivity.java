@@ -138,7 +138,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            mode.setTitle("Delete " + selectedButton.getText());
+            String deleteActionTitle =
+                    String.format(getResources().getString(R.string.delete_action_title), selectedButton.getText());
+            mode.setTitle(deleteActionTitle);
             return false;
         }
 
@@ -149,7 +151,8 @@ public class MainActivity extends AppCompatActivity {
                     try {
                         String name = selectedButton.getText().toString();
                         DataReader.deleteUserRuleSet(getApplicationContext(), name);
-                        Toast toast = Toast.makeText(getApplicationContext(), name + " has been deleted.", Toast.LENGTH_SHORT);
+                        String deleteToastString = String.format(getResources().getString(R.string.delete_toast), name);
+                        Toast toast = Toast.makeText(getApplicationContext(), deleteToastString, Toast.LENGTH_SHORT);
                         toast.show();
                     } catch (IOException|JSONException ex) {
                         ex.printStackTrace();

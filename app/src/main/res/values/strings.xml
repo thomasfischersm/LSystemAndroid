@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Lindenmayer</string>
+    <string name="delete_action_title">Delete %1$s</string>
+    <string name="delete_toast">%1$s has been deleted.</string>
 </resources>
