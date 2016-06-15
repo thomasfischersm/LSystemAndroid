@@ -38,7 +38,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Axiom" />
+                    android:text="@string/rules_activity_axiom_label" />
 
                 <EditText
                     android:id="@+id/axiomText"
@@ -49,7 +49,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Rotation increment (in degrees)" />
+                    android:text="@string/rules_activity_rotation_label" />
 
                 <EditText
                     android:id="@+id/directionIncrementText"
@@ -60,7 +60,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Rules" />
+                    android:text="@string/rules_activity_rules_label" />
 
 
                 <TableLayout
