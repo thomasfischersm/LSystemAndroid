@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:orientation="vertical"
     tools:context="com.example.thomas.lindenmayer.RulesActivity">
 
     <android.support.v7.widget.Toolbar
@@ -30,74 +30,80 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/relativeScrollContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rules_activity_axiom_label" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/axiomText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rules_activity_rotation_label" />
-
-                <EditText
-                    android:id="@+id/directionIncrementText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rules_activity_rules_label" />
-
-
-                <TableLayout
-                    android:id="@+id/rulesTable"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:stretchColumns="2">
-
-                    <TableRow
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:text="@string/rules_activity_axiom_label" />
 
-                        <EditText
-                            android:id="@+id/fromText"
-                            android:layout_width="20dp"
-                            android:layout_height="wrap_content"
-                            android:text="" />
+                    <EditText
+                        android:id="@+id/axiomText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rules_activity_rotation_label" />
+
+                    <EditText
+                        android:id="@+id/directionIncrementText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rules_activity_rules_label" />
 
 
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_forward_black_24dp" />
+                    <TableLayout
+                        android:id="@+id/rulesTable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:stretchColumns="2">
 
-                        <EditText
-                            android:id="@+id/toText"
-
+                        <TableRow
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="" />
-                    </TableRow>
+                            android:layout_height="wrap_content">
 
-                </TableLayout>
-            </LinearLayout>
+                            <EditText
+                                android:id="@+id/fromText"
+                                android:layout_width="20dp"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+
+
+                            <ImageView
+                                android:id="@+id/imageView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_forward_black_24dp" />
+
+                            <EditText
+                                android:id="@+id/toText"
+
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="" />
+                        </TableRow>
+
+                    </TableLayout>
+                </LinearLayout>
+            </RelativeLayout>
         </ScrollView>
 
         <android.support.design.widget.FloatingActionButton

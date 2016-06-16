@@ -1,8 +1,5 @@
 package com.example.thomas.lindenmayer.domain;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-
 /**
  * Created by Thomas on 5/19/2016.
  */
@@ -68,15 +65,13 @@ public class StringFragment implements Fragment {
                     double y = Math.cos(radiansDirection) * turtle.getScaleFactor() + turtle.getCurrentY();
 
                     if (c == 'f') {
-                        Paint paint = new Paint();
-                        paint.setColor(Color.BLACK);
                         // Math.max(0,...) deals with rounding issues where the coordinate could
                         // be slightly negative and be drawn off canvas.
                         float currentX = Math.max(0, (float) turtle.getCurrentX());
                         float currentY = Math.max(0, (float) turtle.getCurrentY());
                         float nextX = Math.max(0, (float) x);
                         float nextY = Math.max(0, (float) y);
-                        turtle.getCanvas().drawLine(currentX, currentY, nextX, nextY, paint);
+                        turtle.getCanvas().drawLine(currentX, currentY, nextX, nextY, turtle.getPaint());
                     }
 
                     turtle.setCurrentX(x);
@@ -95,6 +90,19 @@ public class StringFragment implements Fragment {
                     }
                     break;
             }
+
+            turtle.markProgress();
         }
+    }
+
+    @Override
+    public void drawCached(Turtle turtle) {
+        // Caching at this low level doesn't make sense.
+        draw(turtle);
+    }
+
+    @Override
+    public int getSize() {
+        return rawString.length();
     }
 }

@@ -1,5 +1,8 @@
 package com.example.thomas.lindenmayer.domain;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +15,7 @@ public class CompositeFragment implements Fragment {
     private final List<Fragment> fragments;
 
     private Map<Integer, Dimension> dimensionMap = new HashMap<>();
+    private Map<Integer, Bitmap> drawingCacheMap = new HashMap<>();
 
     public CompositeFragment(List<Fragment> fragments) {
         this.fragments = fragments;
@@ -56,5 +60,45 @@ public class CompositeFragment implements Fragment {
         for (Fragment fragment : fragments) {
             fragment.draw(turtle);
         }
+    }
+
+    @Override
+    public void drawCached(Turtle turtle) {
+        Dimension dimension = dimensionMap.get(turtle.getDirection());
+        Bitmap cachedBitmap = drawingCacheMap.get(turtle.getDirection());
+        if (cachedBitmap == null) {
+            // Create Bitmap to cache drawing.
+            double width = Math.ceil((dimension.getMaxX() - dimension.getMinX()) * turtle.getScaleFactor()) + 2;
+            double height = Math.ceil((dimension.getMaxY() - dimension.getMinY()) * turtle.getScaleFactor()) + 2;
+            cachedBitmap = Bitmap.createBitmap((int) width, (int) height, Bitmap.Config.ARGB_8888);
+            drawingCacheMap.put(turtle.getDirection(), cachedBitmap);
+
+            // Draw to Bitmap.
+            Turtle cachedTurtle = new Turtle(
+                    new Canvas(cachedBitmap),
+                    turtle.getScaleFactor(),
+                    dimension.getMinX(),
+                    dimension.getMinY(),
+                    turtle.getDirection(),
+                    turtle.getDirectionIncrement(),
+                    turtle.getProgressCallback());
+            draw(cachedTurtle);
+        }
+
+        // Draw Bitmap.
+        double startX = turtle.getCurrentX() + (dimension.getMinX() * turtle.getScaleFactor()) + 1;
+        double startY = turtle.getCurrentY() + (dimension.getMinY() * turtle.getScaleFactor()) + 1;
+        turtle.getCanvas().drawBitmap(cachedBitmap, (float) startX, (float) startY, null);
+        turtle.setCurrentX(turtle.getCurrentX() + (dimension.getCurrentX() * turtle.getScaleFactor()));
+        turtle.setCurrentY(turtle.getCurrentY() + (dimension.getCurrentY() * turtle.getScaleFactor()));
+    }
+
+    @Override
+    public int getSize() {
+        int size = 0;
+        for (Fragment f : fragments) {
+            size += f.getSize();
+        }
+        return size;
     }
 }

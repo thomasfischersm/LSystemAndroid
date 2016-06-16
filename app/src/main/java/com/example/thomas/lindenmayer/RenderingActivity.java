@@ -136,6 +136,7 @@ public class RenderingActivity extends AppCompatActivity {
                 iterationCount,
                 shareActionProvider,
                 getCacheDir(),
-                getApplicationContext()).execute();
+                this,
+                true).execute();
     }
 }

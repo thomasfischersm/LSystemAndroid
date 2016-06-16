@@ -2,6 +2,7 @@ package com.example.thomas.lindenmayer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -25,6 +28,8 @@ import android.widget.Toast;
 
 import com.example.thomas.lindenmayer.data.DataReader;
 import com.example.thomas.lindenmayer.domain.RuleSet;
+import com.example.thomas.lindenmayer.widgets.FractalView;
+import com.example.thomas.lindenmayer.widgets.RenderAsyncTask;
 import com.example.thomas.lindenmayer.widgets.SaveView;
 
 import org.json.JSONException;
@@ -37,8 +42,11 @@ public class RulesActivity extends AppCompatActivity {
 
     private static final String LOG_CAT = RulesActivity.class.getSimpleName();
 
+    private final PreviewUpdateWatcher previewUpdateWatcher = new PreviewUpdateWatcher();
+
     private RuleSet intentRuleSet;
     private NeatRowWatcher neatRowWatcher = new NeatRowWatcher();
+    private FractalView fractalView;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,6 +117,11 @@ public class RulesActivity extends AppCompatActivity {
             clearUi();
         }
 
+        TextView axiomText = (TextView) findViewById(R.id.axiomText);
+        axiomText.addTextChangedListener(previewUpdateWatcher);
+        TextView incrementText = (TextView) findViewById(R.id.directionIncrementText);
+        incrementText.addTextChangedListener(previewUpdateWatcher);
+
         findViewById(R.id.axiomText).requestFocus();
     }
 
@@ -164,6 +177,7 @@ public class RulesActivity extends AppCompatActivity {
         matchText.setLayoutParams(matchTextLayoutParams);
         matchText.setText(match);
         matchText.addTextChangedListener(neatRowWatcher);
+        matchText.addTextChangedListener(previewUpdateWatcher);
         row.addView(matchText);
 
         ImageView arrowImage = new ImageView(this);
@@ -182,6 +196,7 @@ public class RulesActivity extends AppCompatActivity {
         replacementText.setLayoutParams(replacementTextLayoutParams);
         replacementText.setText(replacement);
         replacementText.addTextChangedListener(neatRowWatcher);
+        replacementText.addTextChangedListener(previewUpdateWatcher);
         row.addView(replacementText);
 
         TableLayout.LayoutParams tableLayoutParams = new TableLayout.LayoutParams(
@@ -200,22 +215,71 @@ public class RulesActivity extends AppCompatActivity {
     }
 
     private RuleSet createRuleSet() {
-        String axiom = ((TextView) findViewById(R.id.axiomText)).getText().toString();
-        int directionIncrement = Integer.parseInt(((TextView) findViewById(R.id.directionIncrementText)).getText().toString());
-        TableLayout rulesTable = (TableLayout) findViewById(R.id.rulesTable);
+        RuleSet ruleSet = null;
+        try {
+            String axiom = ((TextView) findViewById(R.id.axiomText)).getText().toString();
+            String directionIncrementString = ((TextView) findViewById(R.id.directionIncrementText)).getText().toString();
+            int directionIncrement = Integer.parseInt(directionIncrementString);
+            TableLayout rulesTable = (TableLayout) findViewById(R.id.rulesTable);
 
-        List<RuleSet.Rule> rules = new ArrayList<>();
-        for (int i = 0; i < rulesTable.getChildCount(); i++) {
-            TableRow row = (TableRow) rulesTable.getChildAt(i);
-            EditText matchText = (EditText) row.getChildAt(0);
-            EditText replacementText = (EditText) row.getChildAt(2);
-            RuleSet.Rule rule = new RuleSet.Rule(matchText.getText().toString(), replacementText.getText().toString());
-            rules.add(rule);
+            List<RuleSet.Rule> rules = new ArrayList<>();
+            for (int i = 0; i < rulesTable.getChildCount(); i++) {
+                TableRow row = (TableRow) rulesTable.getChildAt(i);
+                Editable matchText = ((EditText) row.getChildAt(0)).getText();
+                Editable replacementText = ((EditText) row.getChildAt(2)).getText();
+                if ((matchText.length() > 0) && (matchText.length() > 0)) {
+                    RuleSet.Rule rule = new RuleSet.Rule(matchText.toString(), replacementText.toString());
+                    rules.add(rule);
+                }
+            }
+
+            ruleSet = new RuleSet(axiom, rules, directionIncrement);
+        } catch (NumberFormatException ex) {
+            Log.i(LOG_CAT, "Failed to parse string to integer", ex);
+            return null;
         }
 
-        RuleSet ruleSet = new RuleSet(axiom, rules, directionIncrement);
-
         return ruleSet;
+    }
+
+    private void attemptToShowPreview() {
+        // Clear out container.
+        RelativeLayout relativeScrollContainer = (RelativeLayout) findViewById(R.id.relativeScrollContainer);
+        if (fractalView != null) {
+            relativeScrollContainer.removeView(fractalView);
+            fractalView = null;
+        }
+
+        // Check if rules are complete.
+        final RuleSet ruleSet = createRuleSet();
+        if ((ruleSet == null) || !ruleSet.isValid()) {
+            return;
+        }
+
+        // Add the preview to the UI.
+        fractalView = new FractalView(this);
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(180, 180);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        layoutParams.setMargins(10, 0, 10, 10);
+        fractalView.setLayoutParams(layoutParams);
+        fractalView.setBackgroundColor(Color.WHITE);
+        fractalView.setElevation(10);
+        relativeScrollContainer.addView(fractalView);
+
+        // Render the preview.
+        fractalView.post(new Runnable() {
+            @Override
+            public void run() {
+                new RenderAsyncTask(
+                        ruleSet,
+                        fractalView,
+                        2,
+                        null,
+                        null,
+                        RulesActivity.this,
+                        false).execute();
+            }
+        });
     }
 
     private class NeatRowWatcher implements TextWatcher {
@@ -248,6 +312,24 @@ public class RulesActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
+        }
+    }
+
+    private class PreviewUpdateWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Ignore
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // Ignore
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            attemptToShowPreview();
         }
     }
 }

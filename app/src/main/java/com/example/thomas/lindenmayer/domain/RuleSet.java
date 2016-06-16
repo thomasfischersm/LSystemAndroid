@@ -106,6 +106,39 @@ public class RuleSet implements Parcelable {
         }
     }
 
+    public boolean isValid() {
+        if ((axiom == null) || axiom.length() == 0) {
+            return false; // Needs an axiom to start.
+        }
+
+        if ((directionIncrement < 1) || (directionIncrement > 359)) {
+            return false; // Needs to be between 1-359 degrees.
+        }
+
+        if (rules.size() == 0) {
+            return false; // Needs at least one rule.
+        }
+
+        for (Rule rule : rules) {
+            if ((rule.getMatch() == null) || rule.getMatch().isEmpty()
+                    || (rule.getReplacement() == null) || rule.getReplacement().isEmpty()) {
+                continue; // The rule is incomplete.
+            }
+
+            if (rule.getMatch().length() != 1) {
+                continue; // The matching string is invalid.
+            }
+
+            if (!axiom.contains(rule.getMatch())) {
+                continue; // The rule is irrelevant to the axiom.
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     public static class Rule {
         private final String match;
         private final String replacement;

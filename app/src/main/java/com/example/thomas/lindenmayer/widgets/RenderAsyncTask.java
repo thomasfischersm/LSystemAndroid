@@ -1,5 +1,6 @@
 package com.example.thomas.lindenmayer.widgets;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,9 +13,11 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 
+import com.example.thomas.lindenmayer.R;
 import com.example.thomas.lindenmayer.domain.Fragment;
 import com.example.thomas.lindenmayer.domain.RuleSet;
 import com.example.thomas.lindenmayer.logic.DimensionProcessor;
+import com.example.thomas.lindenmayer.logic.EffortEstimator;
 import com.example.thomas.lindenmayer.logic.RuleProcessor;
 
 import java.io.ByteArrayOutputStream;
@@ -25,7 +28,7 @@ import java.io.IOException;
 /**
  * Created by Thomas on 5/20/2016.
  */
-public class RenderAsyncTask extends AsyncTask<Void, Void, Bitmap> {
+public class RenderAsyncTask extends AsyncTask<Void, Integer, Bitmap> {
 
     private static final String LOG_CAT = RenderAsyncTask.class.getSimpleName();
 
@@ -37,6 +40,9 @@ public class RenderAsyncTask extends AsyncTask<Void, Void, Bitmap> {
     private final ShareActionProvider shareActionProvider;
     private final File cacheDir;
     private final Context context;
+    private final boolean enableProgressDialog;
+
+    private ProgressDialog progressDialog;
 
     public RenderAsyncTask(
             RuleSet ruleSet,
@@ -44,7 +50,8 @@ public class RenderAsyncTask extends AsyncTask<Void, Void, Bitmap> {
             int iterationCount,
             ShareActionProvider shareActionProvider,
             File cacheDir,
-            Context context) {
+            Context context,
+            boolean enableProgressDialog) {
 
         this.ruleSet = ruleSet;
         this.fractalView = fractalView;
@@ -52,9 +59,25 @@ public class RenderAsyncTask extends AsyncTask<Void, Void, Bitmap> {
         this.shareActionProvider = shareActionProvider;
         this.cacheDir = cacheDir;
         this.context = context;
+        this.enableProgressDialog = enableProgressDialog;
 
         this.width = fractalView.getWidth();
         this.height = fractalView.getHeight();
+    }
+
+    @Override
+    protected void onPreExecute() {
+        if (enableProgressDialog) {
+            int estimatedComputations = EffortEstimator.estimateIterations(ruleSet, iterationCount);
+
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage(context.getResources().getString(R.string.progress_bar_title));
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressDialog.setCanceledOnTouchOutside(false);
+            progressDialog.setIndeterminate(false);
+            progressDialog.setMax(estimatedComputations);
+            progressDialog.show();
+        }
     }
 
     @Override
@@ -63,18 +86,35 @@ public class RenderAsyncTask extends AsyncTask<Void, Void, Bitmap> {
         Fragment fragment = RuleProcessor.runIterations(ruleSet, iterationCount);
         Log.i(LOG_CAT, "Done computing fragment.");
 
+        long start = System.currentTimeMillis();
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Fragment.Dimension dimension = DimensionProcessor.computeDimension(fragment, width - 3, height - 3, ruleSet.getDirectionIncrement());
         Canvas canvas = new Canvas(bitmap);
-        Fragment.Turtle turtle = new Fragment.Turtle(canvas, dimension, ruleSet.getDirectionIncrement());
+        Fragment.Turtle turtle = new Fragment.Turtle(
+                canvas,
+                dimension,
+                ruleSet.getDirectionIncrement(),
+                new ProgressCallback(fragment.getSize()));
         fragment.draw(turtle);
-        Log.i(LOG_CAT, "Done rendering bitmap.");
+        long end = System.currentTimeMillis();
+        Log.i(LOG_CAT, "Done rendering bitmap (" + (end - start) + "ms).");
 
         return bitmap;
     }
 
     @Override
+    protected void onProgressUpdate(Integer... values) {
+        if (enableProgressDialog) {
+            progressDialog.setProgress(values[0]);
+        }
+    }
+
+    @Override
     protected void onPostExecute(Bitmap bitmap) {
+        if (enableProgressDialog) {
+            progressDialog.hide();
+        }
+
         fractalView.assignBitmap(bitmap, ruleSet.getDirectionIncrement());
         fractalView.invalidate();
 
@@ -118,13 +158,47 @@ public class RenderAsyncTask extends AsyncTask<Void, Void, Bitmap> {
 //        Uri uri = Uri.fromFile(file);
 
         // Create share intent
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, "Check out this cool L-System!");
-        Uri contentUri = FileProvider.getUriForFile(context, "com.example.thomas.lindenmayer", file);
-        intent.putExtra(Intent.EXTRA_STREAM, contentUri);
-        intent.setType("image/png");
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        shareActionProvider.setShareIntent(intent);
+        if (shareActionProvider != null) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_SEND);
+            intent.putExtra(Intent.EXTRA_TEXT, "Check out this cool L-System!");
+            Uri contentUri = FileProvider.getUriForFile(context, "com.example.thomas.lindenmayer", file);
+            intent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            intent.setType("image/png");
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            shareActionProvider.setShareIntent(intent);
+        }
+    }
+
+    public class ProgressCallback {
+
+        private final int progressEstimate;
+
+        private int progress = 0;
+        private int lastUpdate = 0;
+        private boolean progressMaxInitalized = false;
+
+        public ProgressCallback(int progressEstimate) {
+            this.progressEstimate = progressEstimate;
+        }
+
+        public void markProgress() {
+            if (!enableProgressDialog) {
+                return;
+            }
+            
+            progress++;
+
+            if (!progressMaxInitalized) {
+                progressDialog.setMax(progressEstimate);
+                progressMaxInitalized = true;
+            }
+
+            if ((progress - lastUpdate) * 100.0 / progressEstimate > 1) {
+                onProgressUpdate(progress);
+                lastUpdate = progress;
+                Log.i(LOG_CAT, "progress " + progress + " / " + progressEstimate);
+            }
+        }
     }
 }
