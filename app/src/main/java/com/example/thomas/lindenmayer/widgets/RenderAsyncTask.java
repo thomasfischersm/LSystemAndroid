@@ -186,7 +186,7 @@ public class RenderAsyncTask extends AsyncTask<Void, Integer, Bitmap> {
             if (!enableProgressDialog) {
                 return;
             }
-            
+
             progress++;
 
             if (!progressMaxInitalized) {

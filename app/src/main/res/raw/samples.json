@@ -107,6 +107,22 @@
           "replacement": "-xf+yfy+fx-"
         }
       ]
+    },
+    {
+      "name": "Hilbert curve II",
+      "axiom": "x",
+      "directionIncrement": "90",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "x",
+          "replacement": "xfyfx+f+yfxfy-f-xfyfx"
+        },
+        {
+          "match": "y",
+          "replacement": "yfxfy-f-xfyfx+f+yfxfy"
+        }
+      ]
     }
   ]
 }
