@@ -28,8 +28,8 @@ import android.widget.Toast;
 
 import com.example.thomas.lindenmayer.data.DataReader;
 import com.example.thomas.lindenmayer.domain.RuleSet;
+import com.example.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
 import com.example.thomas.lindenmayer.widgets.FractalView;
-import com.example.thomas.lindenmayer.widgets.RenderAsyncTask;
 import com.example.thomas.lindenmayer.widgets.SaveView;
 
 import org.json.JSONException;
@@ -270,7 +270,7 @@ public class RulesActivity extends AppCompatActivity {
         fractalView.post(new Runnable() {
             @Override
             public void run() {
-                new RenderAsyncTask(
+                new BruteForceRenderAsyncTask(
                         ruleSet,
                         fractalView,
                         2,

@@ -16,9 +16,7 @@ import android.util.Log;
 import com.example.thomas.lindenmayer.R;
 import com.example.thomas.lindenmayer.domain.Fragment;
 import com.example.thomas.lindenmayer.domain.RuleSet;
-import com.example.thomas.lindenmayer.logic.DimensionProcessor;
 import com.example.thomas.lindenmayer.logic.EffortEstimator;
-import com.example.thomas.lindenmayer.logic.RuleProcessor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,7 +26,7 @@ import java.io.IOException;
 /**
  * Created by Thomas on 5/20/2016.
  */
-public class RenderAsyncTask extends AsyncTask<Void, Integer, Bitmap> {
+public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<Void, Integer, Bitmap> {
 
     private static final String LOG_CAT = RenderAsyncTask.class.getSimpleName();
 
@@ -83,19 +81,23 @@ public class RenderAsyncTask extends AsyncTask<Void, Integer, Bitmap> {
     @Override
     protected Bitmap doInBackground(Void... params) {
         Log.i(LOG_CAT, "Start computing fragment.");
-        Fragment fragment = RuleProcessor.runIterations(ruleSet, iterationCount);
+//        Fragment fragment = RuleProcessor.runIterations(ruleSet, iterationCount);
+        FRACTAL_REPRESENTATION fractalRepresentation = iterate(ruleSet, iterationCount);
         Log.i(LOG_CAT, "Done computing fragment.");
 
         long start = System.currentTimeMillis();
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Fragment.Dimension dimension = DimensionProcessor.computeDimension(fragment, width - 3, height - 3, ruleSet.getDirectionIncrement());
+//        Fragment.Dimension dimension = DimensionProcessor.computeDimension(fragment, width - 3, height - 3, ruleSet.getDirectionIncrement());
+        Fragment.Dimension dimension = computeDimension(fractalRepresentation, width - 3, height - 3, ruleSet.getDirectionIncrement());
         Canvas canvas = new Canvas(bitmap);
+        ProgressCallback progressCallback = createProgessCallback(fractalRepresentation);
         Fragment.Turtle turtle = new Fragment.Turtle(
                 canvas,
                 dimension,
                 ruleSet.getDirectionIncrement(),
-                new ProgressCallback(fragment.getSize()));
-        fragment.draw(turtle);
+                progressCallback);
+//        fragment.draw(turtle);
+        draw(fractalRepresentation, turtle);
         long end = System.currentTimeMillis();
         Log.i(LOG_CAT, "Done rendering bitmap (" + (end - start) + "ms).");
 
@@ -169,6 +171,21 @@ public class RenderAsyncTask extends AsyncTask<Void, Integer, Bitmap> {
             shareActionProvider.setShareIntent(intent);
         }
     }
+
+    protected abstract FRACTAL_REPRESENTATION iterate(RuleSet ruleSet, int iterationCount);
+
+    protected abstract Fragment.Dimension computeDimension(
+            FRACTAL_REPRESENTATION fractalRepresentation,
+            int width,
+            int height,
+            int directionIncrement);
+
+    protected abstract void draw(
+            FRACTAL_REPRESENTATION fractalRepresentation,
+            Fragment.Turtle turtle);
+
+    protected abstract ProgressCallback createProgessCallback(
+            FRACTAL_REPRESENTATION fractalRepresentation);
 
     public class ProgressCallback {
 

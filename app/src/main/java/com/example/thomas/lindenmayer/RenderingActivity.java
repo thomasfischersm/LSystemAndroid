@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.thomas.lindenmayer.domain.RuleSet;
+import com.example.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
 import com.example.thomas.lindenmayer.widgets.FractalView;
-import com.example.thomas.lindenmayer.widgets.RenderAsyncTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -130,7 +130,7 @@ public class RenderingActivity extends AppCompatActivity {
     }
 
     private void render() {
-        new RenderAsyncTask(
+        new BruteForceRenderAsyncTask(
                 ruleSet,
                 fractalView,
                 iterationCount,
