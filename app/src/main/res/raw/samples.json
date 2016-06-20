@@ -123,6 +123,34 @@
           "replacement": "yfxfy-f-xfyfx+f+yfxfy"
         }
       ]
+    },
+    {
+      "name": "Penrose",
+      "axiom": "+wf--xf---yf--zf",
+      "directionIncrement": "10",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "w",
+          "replacement": "yf++zf----xf[-yf----wf]++"
+        },
+        {
+          "match": "x",
+          "replacement": "+yf--zf[---wf--xf]+"
+        },
+        {
+          "match": "y",
+          "replacement": "-wf++xf[+++yf++zf]-"
+        },
+        {
+          "match": "z",
+          "replacement": "--yf++++wf[+zf++++xf]--xf"
+        },
+        {
+          "match": "f",
+          "replacement": ""
+        }
+      ]
     }
   ]
 }

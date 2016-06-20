@@ -16,7 +16,7 @@
     <string name="help_about_body_text">An L-system or Lindenmayer system is a parallel rewriting system and a type of formal grammar. An L-system consists of an alphabet of symbols that can be used to make strings, a collection of production rules that expand each symbol into some larger string of symbols, an initial &quot;axiom&quot; string from which to begin construction, and a mechanism for translating the generated strings into geometric structures. L-systems were introduced and developed in 1968 by Aristid Lindenmayer, a Hungarian theoretical biologist and botanist at the University of Utrecht. Lindenmayer used L-systems to describe the behaviour of plant cells and to model the growth processes of plant development. L-systems have also been used to model the morphology of a variety of organisms[1] and can be used to generate self-similar fractals such as iterated function systems.</string>
     <string name="help_wikipedia_link">https://en.wikipedia.org/wiki/L-system</string>
     <string name="help_grammar_heading">Supported Grammar</string>
-    <string name="help_grammar_body_text">f: Draw a line.\nF: Move without drawing a line.\n+: Turn right.\n-: Turn left.</string>
+    <string name="help_grammar_body_text">f: Draw a line.\nF: Move without drawing a line.\n+: Turn right.\n-: Turn left.\n[: Save state (position and direction).\n]: Restore state.</string>
     <string name="help_contact_heading">Contact</string>
     <string name="help_contact_body_text">This is my first Android app. Feedback is welcome.\n\nThomas Fischer\nthomas@playposse.com\n\n(C) 2016 Thomas Fischer all rights reserved.</string>
 

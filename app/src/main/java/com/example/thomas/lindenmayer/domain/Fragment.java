@@ -6,6 +6,8 @@ import android.graphics.Paint;
 
 import com.example.thomas.lindenmayer.widgets.RenderAsyncTask;
 
+import java.util.Stack;
+
 /**
  * Created by Thomas on 5/19/2016.
  */
@@ -22,6 +24,9 @@ public interface Fragment {
     public int getSize();
 
     public static class Dimension {
+
+        private final Stack<Turtle.State> stateStack = new Stack<>();
+
         private double minX = 0;
         private double maxX = 0;
         private double minY = 0;
@@ -38,7 +43,15 @@ public interface Fragment {
 
         private boolean computed = false;
 
-        public Dimension(double minX, double maxX, double minY, double maxY, double currentX, double currentY, int direction) {
+        public Dimension(
+                double minX,
+                double maxX,
+                double minY,
+                double maxY,
+                double currentX,
+                double currentY,
+                int direction) {
+
             this.minX = minX;
             this.maxX = maxX;
             this.minY = minY;
@@ -128,6 +141,19 @@ public interface Fragment {
             return minY;
         }
 
+        public void pushState() {
+            stateStack.push(new Turtle.State(currentX, currentY, direction));
+        }
+
+        public void popState() {
+            if (!stateStack.empty()) {
+                Turtle.State state = stateStack.pop();
+                currentX = state.getX();
+                currentY = state.getY();
+                direction = state.getDirection();
+            }
+        }
+
         public void computeScale(int width, int height) {
             double widthRatio = width / (maxX - minX);
             double heightRatio = height / (maxY - minY);
@@ -145,6 +171,7 @@ public interface Fragment {
         private final Canvas canvas;
         private final int directionIncrement;
         private final RenderAsyncTask.ProgressCallback progressCallback;
+        private final Stack<State> stateStack = new Stack<>();
 
         private double currentX;
         private double currentY;
@@ -238,8 +265,45 @@ public interface Fragment {
             return progressCallback;
         }
 
+        public void pushState() {
+            stateStack.push(new State(currentX, currentY, direction));
+        }
+
+        public void popState() {
+            if (!stateStack.empty()) {
+                State state = stateStack.pop();
+                currentX = state.getX();
+                currentY = state.getY();
+                direction = state.getDirection();
+            }
+        }
+
         public void markProgress() {
             progressCallback.markProgress();
+        }
+
+        public static final class State {
+            private double x;
+            private double y;
+            private int direction;
+
+            public State(double x, double y, int direction) {
+                this.x = x;
+                this.y = y;
+                this.direction = direction;
+            }
+
+            public int getDirection() {
+                return direction;
+            }
+
+            public double getX() {
+                return x;
+            }
+
+            public double getY() {
+                return y;
+            }
         }
     }
 }

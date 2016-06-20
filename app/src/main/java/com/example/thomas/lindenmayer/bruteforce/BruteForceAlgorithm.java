@@ -42,31 +42,42 @@ public class BruteForceAlgorithm {
         dimension.setDirection(0);
 
         for (int i = 0; i < str.length(); i++) {
-            char c = str.charAt(i);
-            if ((c == 'f') || (c == 'F')) {
-                double radiansDirection = Math.toRadians(dimension.getDirection());
-                double x = Math.sin(radiansDirection);
-                double y = Math.cos(radiansDirection);
-                dimension.setMinX(Math.min(dimension.getMinX(), dimension.getCurrentX() + x));
-                dimension.setMinY(Math.min(dimension.getMinY(), dimension.getCurrentY() + y));
-                dimension.setMaxX(Math.max(dimension.getMaxX(), dimension.getCurrentX() + x));
-                dimension.setMaxY(Math.max(dimension.getMaxY(), dimension.getCurrentY() + y));
-                dimension.setCurrentX(dimension.getCurrentX() + x);
-                dimension.setCurrentY(dimension.getCurrentY() + y);
-            } else if (c == '+') {
-                int newDirection = dimension.getDirection() + directionIncrement;
-                if (newDirection > 360) {
-                    newDirection -= 360;
-                }
-                dimension.setDirection(newDirection);
-            } else if (c == '-') {
-                int newDirection = dimension.getDirection() - directionIncrement;
-                if (newDirection < 360) {
-                    newDirection += 360;
-                }
-                dimension.setDirection(newDirection);
-            } else {
-                // character doesn't do anything
+            switch (str.charAt(i)) {
+                case 'f':
+                case 'F':
+                    double radiansDirection = Math.toRadians(dimension.getDirection());
+                    double x = Math.sin(radiansDirection);
+                    double y = Math.cos(radiansDirection);
+                    dimension.setMinX(Math.min(dimension.getMinX(), dimension.getCurrentX() + x));
+                    dimension.setMinY(Math.min(dimension.getMinY(), dimension.getCurrentY() + y));
+                    dimension.setMaxX(Math.max(dimension.getMaxX(), dimension.getCurrentX() + x));
+                    dimension.setMaxY(Math.max(dimension.getMaxY(), dimension.getCurrentY() + y));
+                    dimension.setCurrentX(dimension.getCurrentX() + x);
+                    dimension.setCurrentY(dimension.getCurrentY() + y);
+                    break;
+                case '+':
+                    int newDirection = dimension.getDirection() + directionIncrement;
+                    if (newDirection > 360) {
+                        newDirection -= 360;
+                    }
+                    dimension.setDirection(newDirection);
+                    break;
+                case '-':
+                    int newDirection2 = dimension.getDirection() - directionIncrement;
+                    if (newDirection2 < 360) {
+                        newDirection2 += 360;
+                    }
+                    dimension.setDirection(newDirection2);
+                    break;
+                case '[':
+                    dimension.pushState();
+                    break;
+                case ']':
+                    dimension.popState();
+                    break;
+                default:
+                    // character doesn't do anything
+                    break;
             }
         }
 
@@ -123,6 +134,12 @@ public class BruteForceAlgorithm {
                     if (turtle.getDirection() < 0) {
                         turtle.setDirection(turtle.getDirection() + 360);
                     }
+                    break;
+                case '[':
+                    turtle.pushState();
+                    break;
+                case ']':
+                    turtle.popState();
                     break;
             }
 
