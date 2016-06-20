@@ -245,8 +245,10 @@ public class RulesActivity extends AppCompatActivity {
     private void attemptToShowPreview() {
         // Clear out container.
         RelativeLayout relativeScrollContainer = (RelativeLayout) findViewById(R.id.relativeScrollContainer);
+        View previewTextView = findViewById(R.id.previewTextView);
         if (fractalView != null) {
             relativeScrollContainer.removeView(fractalView);
+            previewTextView.setVisibility(View.GONE);
             fractalView = null;
         }
 
@@ -265,6 +267,8 @@ public class RulesActivity extends AppCompatActivity {
         fractalView.setBackgroundColor(Color.WHITE);
         fractalView.setElevation(10);
         relativeScrollContainer.addView(fractalView);
+        previewTextView.setVisibility(View.VISIBLE);
+        previewTextView.bringToFront();
 
         // Render the preview.
         fractalView.post(new Runnable() {

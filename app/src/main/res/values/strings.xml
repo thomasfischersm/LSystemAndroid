@@ -23,6 +23,7 @@
     <string name="rules_activity_axiom_label">Axiom</string>
     <string name="rules_activity_rotation_label">Rotation increment (in degrees)</string>
     <string name="rules_activity_rules_label">Rules</string>
+    <string name="rules_activity_preview">Preview</string>
 
     <string name="progress_bar_title">Counting sheep...</string>
 </resources>
