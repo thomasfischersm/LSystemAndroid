@@ -63,6 +63,17 @@
                 style="@style/sectionHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/help_stochastic_heading" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/help_stochastic_body_text" />
+
+            <TextView
+                style="@style/sectionHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/help_contact_heading" />
 
             <TextView

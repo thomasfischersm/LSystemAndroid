@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.content.FileProvider;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 
@@ -38,6 +39,7 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
     private final ShareActionProvider shareActionProvider;
     private final File cacheDir;
     private final Context context;
+    private final SwipeRefreshLayout swipeRefreshLayout;
     private final boolean enableProgressDialog;
 
     private ProgressDialog progressDialog;
@@ -49,6 +51,7 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
             ShareActionProvider shareActionProvider,
             File cacheDir,
             Context context,
+            SwipeRefreshLayout swipeRefreshLayout,
             boolean enableProgressDialog) {
 
         this.ruleSet = ruleSet;
@@ -57,6 +60,7 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
         this.shareActionProvider = shareActionProvider;
         this.cacheDir = cacheDir;
         this.context = context;
+        this.swipeRefreshLayout = swipeRefreshLayout;
         this.enableProgressDialog = enableProgressDialog;
 
         this.width = fractalView.getWidth();
@@ -119,6 +123,11 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
 
         fractalView.assignBitmap(bitmap, ruleSet.getDirectionIncrement());
         fractalView.invalidate();
+
+        if (swipeRefreshLayout != null) {
+            swipeRefreshLayout.setEnabled(true);
+            swipeRefreshLayout.setRefreshing(false);
+        }
 
         try {
             setShareIntent(bitmap);

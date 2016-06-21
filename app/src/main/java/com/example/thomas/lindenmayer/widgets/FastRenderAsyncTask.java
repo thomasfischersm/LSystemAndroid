@@ -1,6 +1,7 @@
 package com.example.thomas.lindenmayer.widgets;
 
 import android.content.Context;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.ShareActionProvider;
 
 import com.example.thomas.lindenmayer.domain.Fragment;
@@ -37,6 +38,7 @@ public class FastRenderAsyncTask extends RenderAsyncTask<Fragment> {
             ShareActionProvider shareActionProvider,
             File cacheDir,
             Context context,
+            SwipeRefreshLayout swipeRefreshLayout,
             boolean enableProgressDialog) {
 
         super(
@@ -46,6 +48,7 @@ public class FastRenderAsyncTask extends RenderAsyncTask<Fragment> {
                 shareActionProvider,
                 cacheDir,
                 context,
+                swipeRefreshLayout,
                 enableProgressDialog);
     }
 

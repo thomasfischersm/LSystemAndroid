@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
@@ -78,7 +79,8 @@ public class RenderingActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton incrementButton = (FloatingActionButton) findViewById(R.id.incrementIterationButton);
+        FloatingActionButton incrementButton =
+                (FloatingActionButton) findViewById(R.id.incrementIterationButton);
         incrementButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +90,16 @@ public class RenderingActivity extends AppCompatActivity {
                 if (!decrementButton.isShown()) {
                     decrementButton.show();
                 }
+            }
+        });
+
+        SwipeRefreshLayout swipeRefreshLayout =
+                (SwipeRefreshLayout) findViewById(R.id.renderSwipeRefreshLayout);
+        swipeRefreshLayout.setEnabled(false);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                render();
             }
         });
 //
@@ -101,6 +113,9 @@ public class RenderingActivity extends AppCompatActivity {
                 return false;
             case R.id.action_help:
                 startActivity(new Intent(this, HelpActivity.class));
+                return true;
+            case R.id.action_refresh:
+                render();
                 return true;
             default:
                 return false;
@@ -130,6 +145,10 @@ public class RenderingActivity extends AppCompatActivity {
     }
 
     private void render() {
+        SwipeRefreshLayout swipeRefreshLayout =
+                (SwipeRefreshLayout) findViewById(R.id.renderSwipeRefreshLayout);
+        swipeRefreshLayout.setEnabled(false);
+        swipeRefreshLayout.setRefreshing(false); // Don't show the icon. there already is a progress dialog!
         new BruteForceRenderAsyncTask(
                 ruleSet,
                 fractalView,
@@ -137,6 +156,7 @@ public class RenderingActivity extends AppCompatActivity {
                 shareActionProvider,
                 getCacheDir(),
                 this,
+                swipeRefreshLayout,
                 true).execute();
     }
 }

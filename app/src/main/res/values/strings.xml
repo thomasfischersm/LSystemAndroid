@@ -7,6 +7,7 @@
     <string name="delete_menu_title">Delete</string>
     <string name="share_menu_title">Share</string>
     <string name="save_menu_title">Save</string>
+    <string name="refresh_menu_title">Refresh</string>
 
     <string name="home_screen_new_button">New</string>
     <string name="home_screen_user_defined_heading">User defined</string>
@@ -17,6 +18,8 @@
     <string name="help_wikipedia_link">https://en.wikipedia.org/wiki/L-system</string>
     <string name="help_grammar_heading">Supported Grammar</string>
     <string name="help_grammar_body_text">f: Draw a line.\nF: Move without drawing a line.\n+: Turn right.\n-: Turn left.\n[: Save state (position and direction).\n]: Restore state.</string>
+    <string name="help_stochastic_heading">Stochastic Algorithms</string>
+    <string name="help_stochastic_body_text">Lindenmayer Systems are used to render plants. While plants are self-similar, they also grow randomly. The random grows is simulated with stochastic algorithms. More than one replacement rule can match the same character. One of these rules is picked at random. You can draw down on the screen to refresh the drawing. Example: \'f\' -> \'f+f\' and \'f\' -> \'f-f\'. The turtle will go half the time left and half the time right.</string>
     <string name="help_contact_heading">Contact</string>
     <string name="help_contact_body_text">This is my first Android app. Feedback is welcome.\n\nThomas Fischer\nthomas@playposse.com\n\n(C) 2016 Thomas Fischer all rights reserved.</string>
 

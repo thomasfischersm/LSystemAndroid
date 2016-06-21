@@ -7,6 +7,10 @@
         app:showAsAction="ifRoom"
         android:title="@string/share_menu_title"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+    <item
+        android:id="@+id/action_refresh"
+        app:showAsAction="never"
+        android:title="@string/refresh_menu_title"/>
 
     <item
         android:id="@+id/action_help"

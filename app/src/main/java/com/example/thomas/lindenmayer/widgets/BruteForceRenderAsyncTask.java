@@ -1,6 +1,7 @@
 package com.example.thomas.lindenmayer.widgets;
 
 import android.content.Context;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.ShareActionProvider;
 
 import com.example.thomas.lindenmayer.bruteforce.BruteForceAlgorithm;
@@ -24,6 +25,7 @@ public class BruteForceRenderAsyncTask extends RenderAsyncTask<String> {
             ShareActionProvider shareActionProvider,
             File cacheDir,
             Context context,
+            SwipeRefreshLayout swipeRefreshLayout,
             boolean enableProgressDialog) {
 
         super(
@@ -33,6 +35,7 @@ public class BruteForceRenderAsyncTask extends RenderAsyncTask<String> {
                 shareActionProvider,
                 cacheDir,
                 context,
+                swipeRefreshLayout,
                 enableProgressDialog);
     }
 

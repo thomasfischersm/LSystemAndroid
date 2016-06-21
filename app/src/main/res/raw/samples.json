@@ -151,6 +151,22 @@
           "replacement": ""
         }
       ]
+    },
+    {
+      "name": "Random",
+      "axiom": "f",
+      "directionIncrement": "90",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "f+f"
+        },
+        {
+          "match": "f",
+          "replacement": "f-f"
+        }
+      ]
     }
   ]
 }

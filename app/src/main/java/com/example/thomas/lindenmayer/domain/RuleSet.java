@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Thomas on 5/19/2016.
@@ -16,6 +17,7 @@ public class RuleSet implements Parcelable {
     private final String axiom;
     private final List<Rule> rules;
     private final int directionIncrement;
+    private final Random rand = new Random();
 
     private String name;
 
@@ -73,16 +75,31 @@ public class RuleSet implements Parcelable {
     }
 
     public boolean hasRule(String match) {
-        return getRule(match) != null;
-    }
-
-    public Rule getRule(String match) {
         for (Rule rule : rules) {
             if (rule.getMatch().equals(match)) {
-                return rule;
+                return true;
             }
         }
-        return null;
+        return false;
+    }
+
+    /**
+     * Returns the rule that matches the specified string. If there are multiple matching rules,
+     * one is picked at random.
+     */
+    public Rule getRule(String match) {
+        List<Rule> possibleRules = new ArrayList<>();
+        for (Rule rule : rules) {
+            if (rule.getMatch().equals(match)) {
+                possibleRules.add(rule);
+            }
+        }
+
+        if (possibleRules.size() == 0) {
+            return null;
+        } else {
+            return possibleRules.get(rand.nextInt(possibleRules.size()));
+        }
     }
 
     public int getDirectionIncrement() {

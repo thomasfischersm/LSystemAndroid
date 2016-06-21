@@ -281,6 +281,7 @@ public class RulesActivity extends AppCompatActivity {
                         null,
                         null,
                         RulesActivity.this,
+                        null,
                         false).execute();
             }
         });
