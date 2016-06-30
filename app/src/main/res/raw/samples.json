@@ -167,6 +167,18 @@
           "replacement": "f-f"
         }
       ]
+    },
+    {
+      "name": "Sickness",
+      "axiom": "f",
+      "directionIncrement": "10",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "[ff]-f"
+        }
+      ]
     }
   ]
 }

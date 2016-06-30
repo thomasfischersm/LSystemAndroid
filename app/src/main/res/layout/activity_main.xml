@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.thomas.lindenmayer.MainActivity">
+    tools:context="com.playposse.thomas.lindenmayer.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/mainToolbar"
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="20dp"
-                android:text="@string/home_screen_samples_heading" />
+                android:text="@string/home_screen_user_defined_heading" />
 
             <LinearLayout
                 android:id="@+id/userDefinedLayout"

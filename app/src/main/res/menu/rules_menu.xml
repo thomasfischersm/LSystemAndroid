@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_save_black_24dp"
         android:title="@string/save_menu_title"
         app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="com.example.thomas.lindenmayer.widgets.SaveView" />
+        app:actionViewClass="com.playposse.thomas.lindenmayer.widgets.SaveView" />
 
     <item
         android:id="@+id/action_help"

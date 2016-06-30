@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.thomas.lindenmayer">
+    package="com.playposse.thomas.lindenmayer">
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.playposse.thomas.lindenmayer.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,19 +16,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RulesActivity"
-            android:parentActivityName=".MainActivity"
+            android:name="com.playposse.thomas.lindenmayer.RulesActivity"
+            android:parentActivityName="com.playposse.thomas.lindenmayer.MainActivity"
             android:launchMode="singleTop" />
         <activity
-            android:name=".RenderingActivity"
+            android:name="com.playposse.thomas.lindenmayer.RenderingActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".RulesActivity" />
-        <!-- <provider -->
-        <!-- android:authorities="com.example.thomas.lindenmayer" -->
-        <!-- android:name="com.example.thomas.lindenmayer.contentprovider.FractalContentProvider" /> -->
+            android:parentActivityName="com.playposse.thomas.lindenmayer.RulesActivity" />
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.example.thomas.lindenmayer"
+            android:authorities="com.playposse.thomas.lindenmayer"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -36,7 +33,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".HelpActivity"></activity>
+        <activity android:name="com.playposse.thomas.lindenmayer.HelpActivity"></activity>
     </application>
 
 </manifest>
