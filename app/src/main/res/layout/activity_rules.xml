@@ -60,6 +60,7 @@
                         android:id="@+id/axiomText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions"
                         android:text="" />
 
                     <TextView
@@ -71,6 +72,7 @@
                         android:id="@+id/directionIncrementText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="number"
                         android:text="" />
 
                     <TextView

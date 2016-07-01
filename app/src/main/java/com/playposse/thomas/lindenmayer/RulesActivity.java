@@ -9,6 +9,8 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -183,6 +185,8 @@ public class RulesActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         matchText.setLayoutParams(matchTextLayoutParams);
         matchText.setText(match);
+        matchText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        matchText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
         matchText.addTextChangedListener(neatRowWatcher);
         matchText.addTextChangedListener(previewUpdateWatcher);
         row.addView(matchText);
@@ -202,6 +206,7 @@ public class RulesActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         replacementText.setLayoutParams(replacementTextLayoutParams);
         replacementText.setText(replacement);
+        replacementText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         replacementText.addTextChangedListener(neatRowWatcher);
         replacementText.addTextChangedListener(previewUpdateWatcher);
         row.addView(replacementText);
