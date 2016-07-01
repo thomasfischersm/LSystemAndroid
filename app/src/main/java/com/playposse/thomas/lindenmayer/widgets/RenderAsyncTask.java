@@ -129,10 +129,12 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
             swipeRefreshLayout.setRefreshing(false);
         }
 
-        try {
-            setShareIntent(bitmap);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        if (shareActionProvider != null) {
+            try {
+                setShareIntent(bitmap);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
 
         Log.i(LOG_CAT, "Caused view to redraw.");

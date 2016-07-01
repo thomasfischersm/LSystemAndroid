@@ -27,6 +27,12 @@
     <string name="rules_activity_rotation_label">Rotation increment (in degrees)</string>
     <string name="rules_activity_rules_label">Rules</string>
     <string name="rules_activity_preview">Preview</string>
+    <string name="rules_activity_angle_error">Please, enter an angle between 1 and 359 degrees.</string>
+    <string name="rules_activity_required_value_error">Please, enter a value.</string>
+    <string name="rules_activity_overwrite_warning_title">Confirm</string>
+    <string name="rules_activity_overwrite_warning_message">A rule set with that name already exists. Do you want to continue?</string>
+    <string name="rules_activity_overwrite_warning_positive_button">Continue</string>
+    <string name="rules_activity_overwrite_warning_negative_button">Cancel</string>
 
     <string name="progress_bar_title">Counting sheep...</string>
 </resources>

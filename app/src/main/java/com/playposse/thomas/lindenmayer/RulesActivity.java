@@ -1,11 +1,13 @@
 package com.playposse.thomas.lindenmayer;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -61,14 +63,17 @@ public class RulesActivity extends AppCompatActivity {
             @Override
             public void onSave(String fileName) {
                 try {
-                    saveRuleSet(fileName);
-                    saveMenuItem.collapseActionView();
-                    Toast toast = Toast.makeText(getApplicationContext(), fileName + " saved.", Toast.LENGTH_SHORT);
-                    toast.show();
-                    InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    inputManager.hideSoftInputFromWindow(findViewById(R.id.axiomText).getWindowToken(), 0);
+                    if (!validate()) {
+                        return;
+                    }
+
+                    if (DataReader.doesUserRuleSetExist(getApplicationContext(), fileName)) {
+                        showOverwriteWarningBeforeSaving(fileName, saveMenuItem);
+                    } else {
+                        saveRuleSetAndCollapseInput(fileName, saveMenuItem);
+                    }
                 } catch (IOException | JSONException ex) {
-                    ex.printStackTrace();
+                    Log.e(LOG_CAT, "Failed to save rule set.", ex);
                 }
             }
         });
@@ -76,6 +81,10 @@ public class RulesActivity extends AppCompatActivity {
         MenuItemCompat.setOnActionExpandListener(saveMenuItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
+                if (!validate()) {
+                    return false;
+                }
+
                 if (intentRuleSet != null) {
                     String filename = intentRuleSet.getName();
                     if (filename != null) {
@@ -93,12 +102,71 @@ public class RulesActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Shows a dialog asking the user to confirm overwriting an existing {@link RuleSet}.
+     */
+    private void showOverwriteWarningBeforeSaving(
+            final String fileName,
+            final MenuItem saveMenuItem) {
+
+        // Retrieve strings.
+        String titleStr = getResources().getString(R.string.rules_activity_overwrite_warning_title);
+        String messageStr =
+                getResources().getString(R.string.rules_activity_overwrite_warning_message);
+        String positiveButtonStr =
+                getResources().getString(R.string.rules_activity_overwrite_warning_positive_button);
+        String negativeButtonStr =
+                getResources().getString(R.string.rules_activity_overwrite_warning_negative_button);
+
+        // Build dialog.
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setTitle(titleStr);
+        alertBuilder.setMessage(messageStr);
+        alertBuilder.setPositiveButton(positiveButtonStr, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    saveRuleSetAndCollapseInput(fileName, saveMenuItem);
+                } catch (IOException|JSONException ex) {
+                    Log.e(LOG_CAT, "Failed to save rule set.", ex);
+                }
+                dialog.dismiss();
+            }
+        });
+        alertBuilder.setNegativeButton(negativeButtonStr, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing. Let the user pick another file name.
+                dialog.dismiss();
+            }
+        });
+
+        alertBuilder.create().show();
+    }
+
+    /**
+     * Handles all the UI management of saving and defers the actual saving to
+     * {@link #saveRuleSet(String)}.
+     */
+    private void saveRuleSetAndCollapseInput(String fileName, MenuItem saveMenuItem)
+            throws IOException, JSONException {
+
+        saveRuleSet(fileName);
+        saveMenuItem.collapseActionView();
+        Toast toast = Toast.makeText(getApplicationContext(), fileName + " saved.", Toast.LENGTH_SHORT);
+        toast.show();
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(findViewById(R.id.axiomText).getWindowToken(), 0);
+    }
+
+    /**
+     * Does the actual saving of the {@link RuleSet}.
+     */
     private void saveRuleSet(String fileName) throws IOException, JSONException {
         RuleSet ruleSet = createRuleSet();
 
         ruleSet.setName(fileName);
         DataReader.saveUserRuleSets(this, ruleSet);
-
     }
 
     @Override
@@ -129,6 +197,7 @@ public class RulesActivity extends AppCompatActivity {
         TextView axiomText = (TextView) findViewById(R.id.axiomText);
         axiomText.addTextChangedListener(previewUpdateWatcher);
         TextView incrementText = (TextView) findViewById(R.id.directionIncrementText);
+        incrementText.addTextChangedListener(new AngleWatcher());
         incrementText.addTextChangedListener(previewUpdateWatcher);
 
         findViewById(R.id.axiomText).requestFocus();
@@ -219,6 +288,10 @@ public class RulesActivity extends AppCompatActivity {
     }
 
     private void render() {
+        if (!validate()) {
+            return;
+        }
+
         RuleSet ruleSet = createRuleSet();
 
         Intent intent = new Intent(this, RenderingActivity.class);
@@ -239,7 +312,7 @@ public class RulesActivity extends AppCompatActivity {
                 TableRow row = (TableRow) rulesTable.getChildAt(i);
                 Editable matchText = ((EditText) row.getChildAt(0)).getText();
                 Editable replacementText = ((EditText) row.getChildAt(2)).getText();
-                if ((matchText.length() > 0) && (matchText.length() > 0)) {
+                if ((matchText.length() > 0) && (replacementText.length() > 0)) {
                     RuleSet.Rule rule = new RuleSet.Rule(matchText.toString(), replacementText.toString());
                     rules.add(rule);
                 }
@@ -299,6 +372,63 @@ public class RulesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Check that the rule set is complete for rendering and saving. Show errors if necessary.
+     */
+    private boolean validate() {
+        boolean valid = true;
+        String requiredError =
+                getResources().getString(R.string.rules_activity_required_value_error);
+
+        // Validate axiom.
+        EditText axiomText = (EditText) findViewById(R.id.axiomText);
+        if (axiomText.getText().length() == 0) {
+            axiomText.setError(requiredError);
+            valid = false;
+        }
+
+        // Validate direction change.
+        valid = valid && validateDirectionIncrement();
+
+        // Validate rules.
+        TableLayout rulesTable = (TableLayout) findViewById(R.id.rulesTable);
+        List<RuleSet.Rule> rules = new ArrayList<>();
+        for (int i = 0; i < rulesTable.getChildCount(); i++) {
+            TableRow row = (TableRow) rulesTable.getChildAt(i);
+            EditText matchText = (EditText) row.getChildAt(0);
+            EditText replacementText = (EditText) row.getChildAt(2);
+            if ((matchText.length() == 0) && (replacementText.length() > 0)) {
+                matchText.setError(requiredError);
+                valid = false;
+            }
+        }
+
+        return valid;
+    }
+
+    private boolean validateDirectionIncrement() {
+        EditText directionIncrementText = (EditText) findViewById(R.id.directionIncrementText);
+
+        // Validate direction increment.
+        boolean valid = true;
+        try {
+            String str = directionIncrementText.getText().toString();
+            int number = 0;
+            number = Integer.parseInt(str);
+            valid = (number > 0) && (number < 359);
+        } catch (NumberFormatException ex) {
+            valid = false;
+        }
+
+        // Show error if necessary.
+        if (!valid) {
+            String errorStr = getResources().getString(R.string.rules_activity_angle_error);
+            directionIncrementText.setError(errorStr);
+        }
+
+        return valid;
+    }
+
     private class NeatRowWatcher implements TextWatcher {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -336,17 +466,39 @@ public class RulesActivity extends AppCompatActivity {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            // Ignore
+            // Ignore.
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // Ignore
+            // Ignore.
         }
 
         @Override
         public void afterTextChanged(Editable s) {
             attemptToShowPreview();
+        }
+    }
+
+    /**
+     * TextWatcher for the direction change input. This watcher adds an error to the
+     * {@link EditText} if the entered number is outside of the range (1 -> 359).
+     */
+    private class AngleWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Ignore.
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // Ignore.
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            validateDirectionIncrement();
         }
     }
 }

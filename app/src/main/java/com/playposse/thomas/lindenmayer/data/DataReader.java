@@ -42,13 +42,17 @@ public class DataReader {
     public static final String MATCH_NODE_NAME = "match";
     public static final String REPLACEMENT_NODE_NAME = "replacement";
 
-    public static List<RuleSet> readSampleRuleSets(Resources resources) throws IOException, JSONException {
+    public static List<RuleSet> readSampleRuleSets(Resources resources)
+            throws IOException, JSONException {
+
         String jsonString = readResource(resources, R.raw.samples);
 
         return parseJson(jsonString);
     }
 
-    public static List<RuleSet> readUserRuleSets(Context context) throws JSONException, IOException {
+    public static List<RuleSet> readUserRuleSets(Context context)
+            throws JSONException, IOException {
+
         try {
             return  parseJson(readUserFile(context));
         } catch (FileNotFoundException e) {
@@ -57,7 +61,9 @@ public class DataReader {
         }
     }
 
-    public static void saveUserRuleSets(Context context, RuleSet ruleSet) throws IOException, JSONException {
+    public static void saveUserRuleSets(Context context, RuleSet ruleSet)
+            throws IOException, JSONException {
+
         List<RuleSet> ruleSets = readUserRuleSets(context);
 
         boolean found = false;
@@ -77,7 +83,9 @@ public class DataReader {
         writeUserRuleSets(context, ruleSets);
     }
 
-    public static void deleteUserRuleSet(Context context, String name) throws IOException, JSONException {
+    public static void deleteUserRuleSet(Context context, String name)
+            throws IOException, JSONException {
+
         List<RuleSet> ruleSets = readUserRuleSets(context);
 
         for (int i = 0; i < ruleSets.size(); i++) {
@@ -90,6 +98,17 @@ public class DataReader {
         }
 
         writeUserRuleSets(context, ruleSets);
+    }
+
+    public static boolean doesUserRuleSetExist(Context context, String name)
+            throws IOException, JSONException {
+
+        for (RuleSet ruleSet : readUserRuleSets(context)) {
+            if (ruleSet.getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @NonNull
