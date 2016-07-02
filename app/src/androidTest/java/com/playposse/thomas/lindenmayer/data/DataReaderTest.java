@@ -78,18 +78,19 @@ public class DataReaderTest {
         // Ensure that all samples are installed.
         Context context = InstrumentationRegistry.getTargetContext();
         List<RuleSet> ruleSets = DataReader.readSampleRuleSets(context.getResources());
-        assertEquals(12, ruleSets.size());
+        assertEquals(13, ruleSets.size());
         Assert.assertEquals("Box", ruleSets.get(0).getName());
         Assert.assertEquals("Box fractal", ruleSets.get(1).getName());
         Assert.assertEquals("Crystal", ruleSets.get(2).getName());
         Assert.assertEquals("Dragon Curve", ruleSets.get(3).getName());
-        Assert.assertEquals("Hexagonal gosper", ruleSets.get(4).getName());
-        Assert.assertEquals("Hilbert curve I", ruleSets.get(5).getName());
-        Assert.assertEquals("Hilbert curve II", ruleSets.get(6).getName());
-        Assert.assertEquals("Koch Curve", ruleSets.get(7).getName());
-        Assert.assertEquals("Penrose", ruleSets.get(8).getName());
-        Assert.assertEquals("Random", ruleSets.get(9).getName());
-        Assert.assertEquals("Rings", ruleSets.get(10).getName());
-        Assert.assertEquals("Sickness", ruleSets.get(11).getName());
+        Assert.assertEquals("Fractal plant", ruleSets.get(4).getName());
+        Assert.assertEquals("Hexagonal gosper", ruleSets.get(5).getName());
+        Assert.assertEquals("Hilbert curve I", ruleSets.get(6).getName());
+        Assert.assertEquals("Hilbert curve II", ruleSets.get(7).getName());
+        Assert.assertEquals("Koch Curve", ruleSets.get(8).getName());
+        Assert.assertEquals("Penrose", ruleSets.get(9).getName());
+        Assert.assertEquals("Random", ruleSets.get(10).getName());
+        Assert.assertEquals("Rings", ruleSets.get(11).getName());
+        Assert.assertEquals("Sickness", ruleSets.get(12).getName());
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,6 +25,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String LOG_CAT = RulesActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +43,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        try {
-            populateRuleSets();
-        } catch (IOException | JSONException ex) {
-            ex.printStackTrace();
-        }
+        Log.i(LOG_CAT, "MainActivity.onCreate finished");
     }
 
     @Override
@@ -52,6 +51,21 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // Sometimes onCreate isn't called after the user returns from editing (and saving) a new
+        // rule set. So, the onResume method has to rebuild to show any potentially new rule sets.
+        try {
+            populateRuleSets();
+        } catch (IOException | JSONException ex) {
+            ex.printStackTrace();
+        }
+
+        Log.i(LOG_CAT, "Resume has been called.");
     }
 
     @Override
@@ -68,11 +82,13 @@ public class MainActivity extends AppCompatActivity {
     private void populateRuleSets() throws IOException, JSONException {
         List<RuleSet> userDefinedRuleSets = DataReader.readUserRuleSets(this);
         LinearLayout userDefinedLayout = (LinearLayout) findViewById(R.id.userDefinedLayout);
-        userDefinedLayout.removeAllViewsInLayout();
+        userDefinedLayout.removeAllViewsInLayout(); Log.i(LOG_CAT, "Got user rules: " + userDefinedRuleSets.size());
         if (userDefinedRuleSets.size() == 0) {
             userDefinedLayout.setVisibility(View.GONE);
             findViewById(R.id.userDefinedLabel).setVisibility((View.GONE));
         } else {
+            userDefinedLayout.setVisibility(View.VISIBLE);
+            findViewById(R.id.userDefinedLabel).setVisibility((View.VISIBLE));
             addRulesToView(userDefinedRuleSets, userDefinedLayout, true);
         }
 

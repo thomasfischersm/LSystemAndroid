@@ -255,6 +255,8 @@ public class RulesActivity extends AppCompatActivity {
         matchText.setLayoutParams(matchTextLayoutParams);
         matchText.setText(match);
         matchText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        matchText.setContentDescription(
+                getResources().getString(R.string.rules_activity_match_content_description));
         matchText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
         matchText.addTextChangedListener(neatRowWatcher);
         matchText.addTextChangedListener(previewUpdateWatcher);
@@ -276,6 +278,8 @@ public class RulesActivity extends AppCompatActivity {
         replacementText.setLayoutParams(replacementTextLayoutParams);
         replacementText.setText(replacement);
         replacementText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        replacementText.setContentDescription(
+                getResources().getString(R.string.rules_activity_replacement_content_description));
         replacementText.addTextChangedListener(neatRowWatcher);
         replacementText.addTextChangedListener(previewUpdateWatcher);
         row.addView(replacementText);
@@ -312,7 +316,7 @@ public class RulesActivity extends AppCompatActivity {
                 TableRow row = (TableRow) rulesTable.getChildAt(i);
                 Editable matchText = ((EditText) row.getChildAt(0)).getText();
                 Editable replacementText = ((EditText) row.getChildAt(2)).getText();
-                if ((matchText.length() > 0) && (replacementText.length() > 0)) {
+                if (matchText.length() > 0) {
                     RuleSet.Rule rule = new RuleSet.Rule(matchText.toString(), replacementText.toString());
                     rules.add(rule);
                 }

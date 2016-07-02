@@ -81,6 +81,7 @@ public class DataReader {
         }
 
         writeUserRuleSets(context, ruleSets);
+        Log.i(LOG_CAT, "Successfully saved user rule sets.");
     }
 
     public static void deleteUserRuleSet(Context context, String name)

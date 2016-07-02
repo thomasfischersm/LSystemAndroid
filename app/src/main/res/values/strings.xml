@@ -27,6 +27,8 @@
     <string name="rules_activity_rotation_label">Rotation increment (in degrees)</string>
     <string name="rules_activity_rules_label">Rules</string>
     <string name="rules_activity_preview">Preview</string>
+    <string name="rules_activity_match_content_description">Match this character.</string>
+    <string name="rules_activity_replacement_content_description">Replace with this string.</string>
     <string name="rules_activity_angle_error">Please, enter an angle between 1 and 359 degrees.</string>
     <string name="rules_activity_required_value_error">Please, enter a value.</string>
     <string name="rules_activity_overwrite_warning_title">Confirm</string>

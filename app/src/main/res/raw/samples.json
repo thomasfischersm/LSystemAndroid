@@ -179,6 +179,22 @@
           "replacement": "[ff]-f"
         }
       ]
+    },
+    {
+      "name": "Fractal plant",
+      "axiom": "-------x",
+      "directionIncrement": "25",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "x",
+          "replacement": "f−[[x]+x]+f[+fx]−x"
+        },
+        {
+          "match": "f",
+          "replacement": "ff"
+        }
+      ]
     }
   ]
 }
