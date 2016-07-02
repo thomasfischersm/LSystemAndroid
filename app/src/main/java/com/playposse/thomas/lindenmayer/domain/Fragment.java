@@ -38,8 +38,6 @@ public interface Fragment {
         private double currentY = 0;
 
         private double scaleFactor = 0;
-        private double startX = 0;
-        private double startY = 0;
 
         private boolean computed = false;
 
@@ -64,25 +62,12 @@ public interface Fragment {
         public Dimension() {
         }
 
-        public double getStartY() {
-            if (!computed) {
-                throw new RuntimeException("Forgot to call compute!");
-            }
-            return startY;
-        }
 
         public double getScaleFactor() {
             if (!computed) {
                 throw new RuntimeException("Forgot to call compute!");
             }
             return scaleFactor;
-        }
-
-        public double getStartX() {
-            if (!computed) {
-                throw new RuntimeException("Forgot to call compute!");
-            }
-            return startX;
         }
 
         public int getDirection() {
@@ -158,10 +143,6 @@ public interface Fragment {
             double widthRatio = width / (maxX - minX);
             double heightRatio = height / (maxY - minY);
             scaleFactor = Math.min(widthRatio, heightRatio);
-
-            startX = (minX + maxX) / 2 * scaleFactor;
-            startY = (minY + maxY) / 2 * scaleFactor;
-
             computed = true;
         }
     }

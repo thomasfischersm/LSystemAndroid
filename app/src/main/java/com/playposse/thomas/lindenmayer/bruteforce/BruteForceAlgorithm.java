@@ -84,21 +84,6 @@ public class BruteForceAlgorithm {
         dimension.computeScale(canvasWidth, canvasHeight);
         return dimension;
     }
-//
-//    public static void paint(
-//            Canvas canvas,
-//            RenderAsyncTask.ProgressCallback progressCallback,
-//            String str,
-//            RuleSet ruleSet,
-//            Fragment.Dimension dimension) {
-//
-//        Fragment.Turtle turtle = new Fragment.Turtle(
-//                canvas,
-//                dimension,
-//                ruleSet.getDirectionIncrement(),
-//                progressCallback);
-//        paint(str, turtle);
-//    }
 
     public static void paint(String str, Fragment.Turtle turtle) {
         for (int i = 0; i < str.length(); i++) {

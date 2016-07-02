@@ -19,10 +19,16 @@ public class EffortEstimator {
         for (RuleSet.Rule rule : ruleSet.getRules()) {
             int matchInAxiomCount = countOccurrences(ruleSet.getAxiom(), rule.getMatch().charAt(0));
             int matchInRuleCount = countOccurrences(rule.getReplacement(), rule.getMatch().charAt(0));
-            int singleSubstitutionGrowth = rule.getReplacement().length();
+            int singleSubstitutionGrowth = rule.getReplacement().length() - 1;
             int axiomGrowth = matchInAxiomCount * singleSubstitutionGrowth;
             int ruleGrowth = matchInRuleCount * singleSubstitutionGrowth;
-            count += axiomGrowth + (iterations - 1) * ruleGrowth * matchInAxiomCount;
+
+            count += axiomGrowth;
+            if (iterations > 1) {
+                for (int i = 1; i < iterations; i++) {
+                    count += singleSubstitutionGrowth * Math.pow(matchInRuleCount, i);
+                }
+            }
         }
 
         return count;
