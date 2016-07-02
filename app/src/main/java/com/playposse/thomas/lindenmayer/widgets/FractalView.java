@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.View;
 
-import com.playposse.thomas.lindenmayer.domain.Fragment;
+import com.playposse.thomas.lindenmayer.domain.Dimension;
 
 /**
  * Created by Thomas on 5/19/2016.
@@ -17,7 +17,7 @@ public class FractalView extends View {
 
     private Bitmap bitmap;
     private int directionIncrement;
-    private Fragment.Dimension dimension;
+    private Dimension dimension;
 
     public FractalView(Context context) {
         super(context);

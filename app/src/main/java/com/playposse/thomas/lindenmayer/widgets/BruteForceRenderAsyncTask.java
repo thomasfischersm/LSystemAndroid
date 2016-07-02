@@ -4,9 +4,10 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.ShareActionProvider;
 
-import com.playposse.thomas.lindenmayer.bruteforce.BruteForceAlgorithm;
-import com.playposse.thomas.lindenmayer.domain.Fragment;
+import com.playposse.thomas.lindenmayer.domain.Dimension;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
+import com.playposse.thomas.lindenmayer.domain.Turtle;
+import com.playposse.thomas.lindenmayer.logic.BruteForceAlgorithm;
 
 import java.io.File;
 
@@ -45,7 +46,7 @@ public class BruteForceRenderAsyncTask extends RenderAsyncTask<String> {
     }
 
     @Override
-    protected Fragment.Dimension computeDimension(
+    protected Dimension computeDimension(
             String str,
             int canvasWidth,
             int canvasHeight,
@@ -59,7 +60,7 @@ public class BruteForceRenderAsyncTask extends RenderAsyncTask<String> {
     }
 
     @Override
-    protected void draw(String str, Fragment.Turtle turtle) {
+    protected void draw(String str, Turtle turtle) {
         BruteForceAlgorithm.paint(str, turtle);
     }
 

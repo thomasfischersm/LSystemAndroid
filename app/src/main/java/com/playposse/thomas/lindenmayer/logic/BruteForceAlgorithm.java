@@ -1,7 +1,8 @@
-package com.playposse.thomas.lindenmayer.bruteforce;
+package com.playposse.thomas.lindenmayer.logic;
 
-import com.playposse.thomas.lindenmayer.domain.Fragment;
+import com.playposse.thomas.lindenmayer.domain.Dimension;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
+import com.playposse.thomas.lindenmayer.domain.Turtle;
 
 /**
  * Created by Thomas on 6/20/2016.
@@ -32,13 +33,13 @@ public class BruteForceAlgorithm {
         return sb.toString();
     }
 
-    public static Fragment.Dimension computeDimension(
+    public static Dimension computeDimension(
             String str,
             int canvasWidth,
             int canvasHeight,
             int directionIncrement) {
 
-        Fragment.Dimension dimension = new Fragment.Dimension();
+        Dimension dimension = new Dimension();
         dimension.setDirection(0);
 
         for (int i = 0; i < str.length(); i++) {
@@ -85,7 +86,7 @@ public class BruteForceAlgorithm {
         return dimension;
     }
 
-    public static void paint(String str, Fragment.Turtle turtle) {
+    public static void paint(String str, Turtle turtle) {
         for (int i = 0; i < str.length(); i++) {
             char c = str.charAt(i);
             switch (c) {

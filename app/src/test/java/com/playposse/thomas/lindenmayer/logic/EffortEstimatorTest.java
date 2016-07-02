@@ -1,6 +1,5 @@
 package com.playposse.thomas.lindenmayer.logic;
 
-import com.playposse.thomas.lindenmayer.bruteforce.BruteForceAlgorithm;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.domain.test.RuleSetTestUtil;
 

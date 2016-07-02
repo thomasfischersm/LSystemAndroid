@@ -1,7 +1,7 @@
-package com.playposse.thomas.lindenmayer.bruteforce;
+package com.playposse.thomas.lindenmayer.logic;
 
 
-import com.playposse.thomas.lindenmayer.domain.Fragment;
+import com.playposse.thomas.lindenmayer.domain.Dimension;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.domain.test.RuleSetTestUtil;
 
@@ -49,7 +49,7 @@ public class BruteForceAlgorithmTest {
             double scaleFactor,
             String str) {
 
-        Fragment.Dimension dimension = BruteForceAlgorithm.computeDimension(str, 100, 100, 90);
+        Dimension dimension = BruteForceAlgorithm.computeDimension(str, 100, 100, 90);
 
         assertEquals("minX is wrong for " + str, minX, dimension.getMinX());
         assertEquals("maxX is wrong for " + str, maxX, dimension.getMaxX());

@@ -15,8 +15,9 @@ import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 
 import com.playposse.thomas.lindenmayer.R;
-import com.playposse.thomas.lindenmayer.domain.Fragment;
+import com.playposse.thomas.lindenmayer.domain.Dimension;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
+import com.playposse.thomas.lindenmayer.domain.Turtle;
 import com.playposse.thomas.lindenmayer.logic.EffortEstimator;
 
 import java.io.ByteArrayOutputStream;
@@ -85,22 +86,19 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
     @Override
     protected Bitmap doInBackground(Void... params) {
         Log.i(LOG_CAT, "Start computing fragment.");
-//        Fragment fragment = RuleProcessor.runIterations(ruleSet, iterationCount);
         FRACTAL_REPRESENTATION fractalRepresentation = iterate(ruleSet, iterationCount);
         Log.i(LOG_CAT, "Done computing fragment.");
 
         long start = System.currentTimeMillis();
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-//        Fragment.Dimension dimension = DimensionProcessor.computeDimension(fragment, width - 3, height - 3, ruleSet.getDirectionIncrement());
-        Fragment.Dimension dimension = computeDimension(fractalRepresentation, width - 3, height - 3, ruleSet.getDirectionIncrement());
+        Dimension dimension = computeDimension(fractalRepresentation, width - 3, height - 3, ruleSet.getDirectionIncrement());
         Canvas canvas = new Canvas(bitmap);
         ProgressCallback progressCallback = createProgessCallback(fractalRepresentation);
-        Fragment.Turtle turtle = new Fragment.Turtle(
+        Turtle turtle = new Turtle(
                 canvas,
                 dimension,
                 ruleSet.getDirectionIncrement(),
                 progressCallback);
-//        fragment.draw(turtle);
         draw(fractalRepresentation, turtle);
         long end = System.currentTimeMillis();
         Log.i(LOG_CAT, "Done rendering bitmap (" + (end - start) + "ms).");
@@ -185,7 +183,7 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
 
     protected abstract FRACTAL_REPRESENTATION iterate(RuleSet ruleSet, int iterationCount);
 
-    protected abstract Fragment.Dimension computeDimension(
+    protected abstract Dimension computeDimension(
             FRACTAL_REPRESENTATION fractalRepresentation,
             int width,
             int height,
@@ -193,7 +191,7 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
 
     protected abstract void draw(
             FRACTAL_REPRESENTATION fractalRepresentation,
-            Fragment.Turtle turtle);
+            Turtle turtle);
 
     protected abstract ProgressCallback createProgessCallback(
             FRACTAL_REPRESENTATION fractalRepresentation);
