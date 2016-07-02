@@ -1,6 +1,7 @@
 package com.playposse.thomas.lindenmayer;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +35,15 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
         setSupportActionBar(mainToolbar);
+
+        Button tutorialButton = (Button) findViewById(R.id.tutorialButton);
+        tutorialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(
+                        new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtu.be/bruY40g_S2w")));
+            }
+        });
 
         Button newButton = (Button) findViewById(R.id.newButton);
         newButton.setOnClickListener(new View.OnClickListener() {

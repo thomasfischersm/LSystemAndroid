@@ -9,6 +9,7 @@
     <string name="save_menu_title">Save</string>
     <string name="refresh_menu_title">Refresh</string>
 
+    <string name="home_screen_tutorial_button">Video tutorial</string>
     <string name="home_screen_new_button">New</string>
     <string name="home_screen_user_defined_heading">User defined</string>
     <string name="home_screen_samples_heading">Samples</string>
