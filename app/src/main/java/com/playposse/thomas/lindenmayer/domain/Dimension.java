@@ -3,128 +3,119 @@ package com.playposse.thomas.lindenmayer.domain;
 import java.util.Stack;
 
 /**
- * Created by Thomas on 7/1/2016.
+ * Dimensions of the rendered fractal. There is a two step progress. A {@link Builder} draws every
+ * line with a length of 1. When the {@link Dimension} itself is build, the size of the
+ * {@link Builder} is scaled to the available size on the screen.
+ *
+ * <p>The {@link Builder} provides the algorithm with a type of turtle to figure out the dimensions
+ * of the rendering.
+ *
+ * <p>The {@link Dimension} provides the measurements for the widget to actually draw to the
+ * screen.
  */
 public class Dimension {
 
-    private final Stack<Turtle.State> stateStack = new Stack<>();
+    private final double scaleFactor;
+    private final double startX;
+    private final double startY;
 
-    private double minX = 0;
-    private double maxX = 0;
-    private double minY = 0;
-    private double maxY = 0;
-
-    private int direction = 0;
-
-    private double currentX = 0;
-    private double currentY = 0;
-
-    private double scaleFactor = 0;
-
-    private boolean computed = false;
-
-    public Dimension(
-            double minX,
-            double maxX,
-            double minY,
-            double maxY,
-            double currentX,
-            double currentY,
-            int direction) {
-
-        this.minX = minX;
-        this.maxX = maxX;
-        this.minY = minY;
-        this.maxY = maxY;
-        this.currentX = currentX;
-        this.currentY = currentY;
-        this.direction = direction;
+    private Dimension(double scaleFactor, double startX, double startY) {
+        this.scaleFactor = scaleFactor;
+        this.startX = startX;
+        this.startY = startY;
     }
-
-    public Dimension() {
-    }
-
 
     public double getScaleFactor() {
-        if (!computed) {
-            throw new RuntimeException("Forgot to call compute!");
-        }
         return scaleFactor;
     }
 
-    public int getDirection() {
-        return direction;
+    public double getStartX() {
+        return startX;
     }
 
-    public double getCurrentX() {
-        return currentX;
+    public double getStartY() {
+        return startY;
     }
 
-    public double getCurrentY() {
-        return currentY;
+    public static Builder createBuilder() {
+        return new Builder();
     }
 
-    public void setCurrentX(double currentX) {
-        this.currentX = currentX;
-    }
+    /**
+     * Builder that allows the algorithm to move around an infinite drawing plane.
+     */
+    public static final class Builder {
+        private final Stack<Turtle.State> stateStack = new Stack<>();
 
-    public void setCurrentY(double currentY) {
-        this.currentY = currentY;
-    }
+        private double minX = 0;
+        private double maxX = 0;
+        private double minY = 0;
+        private double maxY = 0;
 
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
+        private int direction = 0;
 
-    public void setMaxX(double maxX) {
-        this.maxX = maxX;
-    }
+        private double currentX = 0;
+        private double currentY = 0;
 
-    public void setMaxY(double maxY) {
-        this.maxY = maxY;
-    }
-
-    public void setMinX(double minX) {
-        this.minX = minX;
-    }
-
-    public void setMinY(double minY) {
-        this.minY = minY;
-    }
-
-    public double getMaxX() {
-        return maxX;
-    }
-
-    public double getMaxY() {
-        return maxY;
-    }
-
-    public double getMinX() {
-        return minX;
-    }
-
-    public double getMinY() {
-        return minY;
-    }
-
-    public void pushState() {
-        stateStack.push(new Turtle.State(currentX, currentY, direction));
-    }
-
-    public void popState() {
-        if (!stateStack.empty()) {
-            Turtle.State state = stateStack.pop();
-            currentX = state.getX();
-            currentY = state.getY();
-            direction = state.getDirection();
+        public int getDirection() {
+            return direction;
         }
-    }
 
-    public void computeScale(int width, int height) {
-        double widthRatio = width / (maxX - minX);
-        double heightRatio = height / (maxY - minY);
-        scaleFactor = Math.min(widthRatio, heightRatio);
-        computed = true;
+        public void setDirection(int direction) {
+            this.direction = direction;
+        }
+
+        public double getCurrentX() {
+            return currentX;
+        }
+
+        public double getCurrentY() {
+            return currentY;
+        }
+
+        public void moveToPosition(double x, double y) {
+            minX = Math.min(minX, x);
+            minY = Math.min(minY, y);
+            maxX = Math.max(maxX, x);
+            maxY = Math.max(maxY, y);
+            currentX = x;
+            currentY = y;
+        }
+
+        public void pushState() {
+            stateStack.push(new Turtle.State(currentX, currentY, direction));
+        }
+
+        public void popState() {
+            if (!stateStack.empty()) {
+                Turtle.State state = stateStack.pop();
+                currentX = state.getX();
+                currentY = state.getY();
+                direction = state.getDirection();
+            }
+        }
+
+        /**
+         * Scales the infinite drawing pane to the limited available screen real estate.
+         */
+        public Dimension build(double width, double height) {
+            double widthRatio = width / (maxX - minX);
+            double heightRatio = height / (maxY - minY);
+            double scaleFactor = Math.min(widthRatio, heightRatio);
+
+            // Handle division by zero cases.
+            if ((widthRatio == Double.POSITIVE_INFINITY)
+                    && (heightRatio == Double.POSITIVE_INFINITY)) {
+                return new Dimension(1, 0, 0);
+            } else if (widthRatio == Double.POSITIVE_INFINITY) {
+                scaleFactor = heightRatio;
+            } else if (heightRatio == Double.POSITIVE_INFINITY) {
+                scaleFactor = widthRatio;
+            }
+
+            double startX = 0 - minX * scaleFactor;
+            double startY = 0 - minY * scaleFactor;
+            return new Dimension(scaleFactor, startX, startY);
+        }
     }
 }

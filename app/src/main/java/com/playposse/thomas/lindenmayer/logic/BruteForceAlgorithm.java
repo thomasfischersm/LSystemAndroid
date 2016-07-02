@@ -39,42 +39,37 @@ public class BruteForceAlgorithm {
             int canvasHeight,
             int directionIncrement) {
 
-        Dimension dimension = new Dimension();
-        dimension.setDirection(0);
+        Dimension.Builder dimensionBuilder = Dimension.createBuilder();
+        dimensionBuilder.setDirection(0);
 
         for (int i = 0; i < str.length(); i++) {
             switch (str.charAt(i)) {
                 case 'f':
                 case 'F':
-                    double radiansDirection = Math.toRadians(dimension.getDirection());
-                    double x = Math.sin(radiansDirection);
-                    double y = Math.cos(radiansDirection);
-                    dimension.setMinX(Math.min(dimension.getMinX(), dimension.getCurrentX() + x));
-                    dimension.setMinY(Math.min(dimension.getMinY(), dimension.getCurrentY() + y));
-                    dimension.setMaxX(Math.max(dimension.getMaxX(), dimension.getCurrentX() + x));
-                    dimension.setMaxY(Math.max(dimension.getMaxY(), dimension.getCurrentY() + y));
-                    dimension.setCurrentX(dimension.getCurrentX() + x);
-                    dimension.setCurrentY(dimension.getCurrentY() + y);
+                    double radiansDirection = Math.toRadians(dimensionBuilder.getDirection());
+                    double x = dimensionBuilder.getCurrentX() + Math.sin(radiansDirection);
+                    double y = dimensionBuilder.getCurrentY() + Math.cos(radiansDirection);
+                    dimensionBuilder.moveToPosition(x, y);
                     break;
                 case '+':
-                    int newDirection = dimension.getDirection() + directionIncrement;
+                    int newDirection = dimensionBuilder.getDirection() + directionIncrement;
                     if (newDirection > 360) {
                         newDirection -= 360;
                     }
-                    dimension.setDirection(newDirection);
+                    dimensionBuilder.setDirection(newDirection);
                     break;
                 case '-':
-                    int newDirection2 = dimension.getDirection() - directionIncrement;
+                    int newDirection2 = dimensionBuilder.getDirection() - directionIncrement;
                     if (newDirection2 < 360) {
                         newDirection2 += 360;
                     }
-                    dimension.setDirection(newDirection2);
+                    dimensionBuilder.setDirection(newDirection2);
                     break;
                 case '[':
-                    dimension.pushState();
+                    dimensionBuilder.pushState();
                     break;
                 case ']':
-                    dimension.popState();
+                    dimensionBuilder.popState();
                     break;
                 default:
                     // character doesn't do anything
@@ -82,8 +77,7 @@ public class BruteForceAlgorithm {
             }
         }
 
-        dimension.computeScale(canvasWidth, canvasHeight);
-        return dimension;
+        return dimensionBuilder.build(canvasWidth, canvasHeight);
     }
 
     public static void paint(String str, Turtle turtle) {

@@ -36,8 +36,8 @@ public class Turtle {
 
         scaleFactor = dimension.getScaleFactor();
         direction = 0;
-        currentX = 0 - dimension.getMinX() * scaleFactor;
-        currentY = 0 - dimension.getMinY() * scaleFactor;
+        currentX = dimension.getStartX();
+        currentY = dimension.getStartY();
         paint = new Paint();
         paint.setColor(Color.BLACK);
     }
