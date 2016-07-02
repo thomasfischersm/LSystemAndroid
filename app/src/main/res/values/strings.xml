@@ -38,4 +38,5 @@
     <string name="rules_activity_overwrite_warning_negative_button">Cancel</string>
 
     <string name="progress_bar_title">Counting sheep...</string>
+    <string name="stochastic_toast">Detected stochastic rule set. Swipe down to render another version.</string>
 </resources>

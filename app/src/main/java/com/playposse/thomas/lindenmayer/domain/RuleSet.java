@@ -156,6 +156,22 @@ public class RuleSet implements Parcelable {
         return false;
     }
 
+    /**
+     * Checks if any match has multiple rules.
+     */
+    public boolean isStochastic() {
+        List<Rule> possibleRules = new ArrayList<>();
+        List<String> matches = new ArrayList<>();
+        for (Rule rule : rules) {
+            if (matches.contains(rule.getMatch())) {
+                return true;
+            } else {
+                matches.add(rule.getMatch());
+            }
+        }
+        return false;
+    }
+
     public static class Rule {
         private final String match;
         private final String replacement;

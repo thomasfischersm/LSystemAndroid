@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
@@ -102,9 +103,13 @@ public class RenderingActivity extends AppCompatActivity {
                 render();
             }
         });
-//
-//        render();
+
+        if (ruleSet.isStochastic()) {
+            Toast.makeText(this, R.string.stochastic_toast, Toast.LENGTH_LONG)
+                    .show();
+        }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
