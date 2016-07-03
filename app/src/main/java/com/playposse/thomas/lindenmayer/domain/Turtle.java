@@ -3,6 +3,7 @@ package com.playposse.thomas.lindenmayer.domain;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.playposse.thomas.lindenmayer.widgets.RenderAsyncTask;
 
@@ -12,6 +13,8 @@ import java.util.Stack;
  * Created by Thomas on 7/1/2016.
  */
 public class Turtle {
+
+    private static final String LOG_CAT = Turtle.class.getSimpleName();
 
     private final Canvas canvas;
     private final int directionIncrement;
@@ -23,6 +26,7 @@ public class Turtle {
     private double scaleFactor;
     private int direction;
     private Paint paint;
+    private int colorIndex;
 
     public Turtle(
             Canvas canvas,
@@ -39,6 +43,7 @@ public class Turtle {
         currentX = dimension.getStartX();
         currentY = dimension.getStartY();
         paint = new Paint();
+        colorIndex = 0;
         paint.setColor(Color.BLACK);
     }
 
@@ -94,10 +99,6 @@ public class Turtle {
         return scaleFactor;
     }
 
-    public void setScaleFactor(double scaleFactor) {
-        this.scaleFactor = scaleFactor;
-    }
-
     public int getDirectionIncrement() {
         return directionIncrement;
     }
@@ -125,6 +126,25 @@ public class Turtle {
 
     public void markProgress() {
         progressCallback.markProgress();
+    }
+
+    public void incrementColor() {
+        if (colorIndex == ColorPalette.COLORS.length - 1) {
+            colorIndex = 0;
+        } else {
+            colorIndex++;
+        }
+        paint = ColorPalette.COLORS[colorIndex];
+        Log.i(LOG_CAT, "Changed color to " + paint.getColor() + " i " + colorIndex);
+    }
+
+    public void decrementColor() {
+        if (colorIndex == 0) {
+            colorIndex = ColorPalette.COLORS.length - 1;
+        } else {
+            colorIndex--;
+        }
+        paint = ColorPalette.COLORS[colorIndex];
     }
 
     public static final class State {

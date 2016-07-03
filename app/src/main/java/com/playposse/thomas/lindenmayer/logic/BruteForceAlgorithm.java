@@ -71,6 +71,12 @@ public class BruteForceAlgorithm {
                 case ']':
                     dimensionBuilder.popState();
                     break;
+                case '|':
+                    if (dimensionBuilder.getDirection() < 180) {
+                        dimensionBuilder.setDirection(dimensionBuilder.getDirection() + 180);
+                    } else {
+                        dimensionBuilder.setDirection(dimensionBuilder.getDirection() - 180);
+                    }
                 default:
                     // character doesn't do anything
                     break;
@@ -120,6 +126,21 @@ public class BruteForceAlgorithm {
                     break;
                 case ']':
                     turtle.popState();
+                    break;
+                case '|':
+                    if (turtle.getDirection() < 180) {
+                        turtle.setDirection(turtle.getDirection() + 180);
+                    } else {
+                        turtle.setDirection(turtle.getDirection() - 180);
+                    }
+                case '>':
+                    turtle.incrementColor();
+                    break;
+                case '<':
+                    turtle.decrementColor();
+                    break;
+                default:
+                    // Don't do anything
                     break;
             }
 

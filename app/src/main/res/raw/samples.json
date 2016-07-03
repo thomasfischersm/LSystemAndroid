@@ -181,7 +181,7 @@
       ]
     },
     {
-      "name": "Fractal plant",
+      "name": "Fractal plant I",
       "axiom": "-------x",
       "directionIncrement": "25",
       "defaultIterationCount": "4",
@@ -193,6 +193,38 @@
         {
           "match": "f",
           "replacement": "ff"
+        }
+      ]
+    },
+    {
+      "name": "Fractal plant II",
+      "axiom": "|x",
+      "directionIncrement": "26",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "x",
+          "replacement": "f[+x][-x]fx"
+        },
+        {
+          "match": "f",
+          "replacement": "ff"
+        }
+      ]
+    },
+    {
+      "name": "Islands and Lakes",
+      "axiom": "f+f+f+f",
+      "directionIncrement": "90",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "f+F-ff+f+ff+fF+ff-F+ff-f-ff-fF-fff"
+        },
+        {
+          "match": "F",
+          "replacement": "FFFFFF"
         }
       ]
     }
