@@ -114,9 +114,9 @@ public class RulesActivity extends AppCompatActivity {
         String messageStr =
                 getResources().getString(R.string.rules_activity_overwrite_warning_message);
         String positiveButtonStr =
-                getResources().getString(R.string.rules_activity_overwrite_warning_positive_button);
+                getResources().getString(R.string.dialog_continue_button);
         String negativeButtonStr =
-                getResources().getString(R.string.rules_activity_overwrite_warning_negative_button);
+                getResources().getString(R.string.dialog_cancel_button);
 
         // Build dialog.
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
@@ -208,6 +208,9 @@ public class RulesActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_help:
                 startActivity(new Intent(this, HelpActivity.class));
+                return true;
+            case R.id.action_send_feedback:
+                CommonMenuActions.sendFeedbackAction(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

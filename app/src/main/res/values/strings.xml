@@ -8,6 +8,8 @@
     <string name="share_menu_title">Share</string>
     <string name="save_menu_title">Save</string>
     <string name="refresh_menu_title">Refresh</string>
+    <string name="send_feedback_menu_title">Send feedback</string>
+    <string name="send_us_your_best_menu_title">Send us your best</string>
 
     <string name="home_screen_tutorial_button">Video tutorial</string>
     <string name="home_screen_new_button">New</string>
@@ -38,9 +40,22 @@
     <string name="rules_activity_required_value_error">Please, enter a value.</string>
     <string name="rules_activity_overwrite_warning_title">Confirm</string>
     <string name="rules_activity_overwrite_warning_message">A rule set with that name already exists. Do you want to continue?</string>
-    <string name="rules_activity_overwrite_warning_positive_button">Continue</string>
-    <string name="rules_activity_overwrite_warning_negative_button">Cancel</string>
 
     <string name="progress_bar_title">Counting sheep...</string>
     <string name="stochastic_toast">Detected stochastic rule set. Swipe down to render another version.</string>
+
+    <string name="feedback_dialog_title">Send us feedback!</string>
+    <string name="feedback_dialog_message">An e-mail will be opened where you can send me feedback.</string>
+    <string name="feedback_email_recipient">thomas@playposse.com</string>
+    <string name="feedback_email_subject">Feedback About Engine \"L\" Android App</string>
+    <string name="feedback_email_body">Please, send me your feedback. This is my first Android application. I care about hearing from you.</string>
+
+    <string name="send_us_your_best_dialog_title">Send us your best rule set!</string>
+    <string name="send_us_your_best_dialog_message">Did you find a really cool rule set? Send it to me. I might include it in the next version.</string>
+    <string name="send_us_your_best_email_recipient">thomas@playposse.com</string>
+    <string name="send_us_your_best_email_subject">I found a really cool rule set!</string>
+    <string name="send_us_your_best_email_body">Okay, you got us already curious and excited to see what you found. Be sure to include the encoded rule set below. Pro tip: Think of a rad name for it!</string>
+
+    <string name="dialog_continue_button">Continue</string>
+    <string name="dialog_cancel_button">Cancel</string>
 </resources>

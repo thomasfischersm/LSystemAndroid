@@ -13,6 +13,16 @@
         android:title="@string/refresh_menu_title"/>
 
     <item
+        android:id="@+id/action_send_feedback"
+        android:title="@string/send_feedback_menu_title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_send_us_your_best"
+        android:title="@string/send_us_your_best_menu_title"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_help"
         android:title="@string/help_menu_title"
         app:showAsAction="never" />

@@ -10,6 +10,11 @@
         app:actionViewClass="com.playposse.thomas.lindenmayer.widgets.SaveView" />
 
     <item
+        android:id="@+id/action_send_feedback"
+        android:title="@string/send_feedback_menu_title"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_help"
         android:title="@string/help_menu_title"
         app:showAsAction="never" />

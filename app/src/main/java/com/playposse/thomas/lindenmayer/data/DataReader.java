@@ -185,7 +185,7 @@ public class DataReader {
         }
     }
 
-    private static String generateJson(List<RuleSet> ruleSets) throws JSONException {
+    public static String generateJson(List<RuleSet> ruleSets) throws JSONException {
         JSONObject rootNode = new JSONObject();
 
         JSONArray samplesNode = new JSONArray();

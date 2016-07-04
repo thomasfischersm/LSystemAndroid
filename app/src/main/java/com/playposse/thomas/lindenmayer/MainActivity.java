@@ -84,6 +84,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_help:
                 startActivity(new Intent(this, HelpActivity.class));
                 return true;
+            case R.id.action_send_feedback:
+                CommonMenuActions.sendFeedbackAction(this);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

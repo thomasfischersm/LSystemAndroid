@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,10 +23,14 @@ import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
 import com.playposse.thomas.lindenmayer.widgets.FractalView;
 
+import org.json.JSONException;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class RenderingActivity extends AppCompatActivity {
+
+    private static final String LOG_CAT = RenderingActivity.class.getSimpleName();
 
     private RuleSet ruleSet;
     private int iterationCount = 1;
@@ -122,6 +127,15 @@ public class RenderingActivity extends AppCompatActivity {
             case R.id.action_refresh:
                 render();
                 return true;
+            case R.id.action_send_feedback:
+                CommonMenuActions.sendFeedbackAction(this);
+                return true;
+            case R.id.action_send_us_your_best:
+                try {
+                    CommonMenuActions.sendUsYourBest(this, ruleSet);
+                } catch (JSONException ex) {
+                    Log.e(LOG_CAT, "Failed to execute menu action 'send us your best'", ex);
+                }
             default:
                 return false;
         }
