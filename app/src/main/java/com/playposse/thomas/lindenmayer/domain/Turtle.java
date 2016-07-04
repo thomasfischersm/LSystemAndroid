@@ -10,7 +10,8 @@ import com.playposse.thomas.lindenmayer.widgets.RenderAsyncTask;
 import java.util.Stack;
 
 /**
- * Created by Thomas on 7/1/2016.
+ * A classical turtle for drawing that keeps track of the current position, direction, color, stroke
+ * width, and so on.
  */
 public class Turtle {
 
@@ -27,6 +28,7 @@ public class Turtle {
     private int direction;
     private Paint paint;
     private int colorIndex;
+    private int strokeWidth;
 
     public Turtle(
             Canvas canvas,
@@ -45,26 +47,7 @@ public class Turtle {
         paint = new Paint();
         colorIndex = 0;
         paint.setColor(Color.BLACK);
-    }
-
-    public Turtle(
-            Canvas canvas,
-            double scaleFactor,
-            double minX,
-            double minY,
-            int direction,
-            int directionIncrement,
-            RenderAsyncTask.ProgressCallback progressCallback) {
-
-        this.canvas = canvas;
-        this.directionIncrement = directionIncrement;
-        this.progressCallback = progressCallback;
-        this.scaleFactor = scaleFactor;
-        this.direction = direction;
-        currentX = 0 - minX * scaleFactor;
-        currentY = 0 - minY * scaleFactor;
-        paint = new Paint();
-        paint.setColor(Color.BLACK);
+        strokeWidth = 1;
     }
 
     public Canvas getCanvas() {
@@ -112,7 +95,7 @@ public class Turtle {
     }
 
     public void pushState() {
-        stateStack.push(new State(currentX, currentY, direction));
+        stateStack.push(new State(currentX, currentY, direction, colorIndex, strokeWidth));
     }
 
     public void popState() {
@@ -121,6 +104,9 @@ public class Turtle {
             currentX = state.getX();
             currentY = state.getY();
             direction = state.getDirection();
+            colorIndex = state.getColorIndex();
+            strokeWidth = state.getStrokeWidth();
+            recreatePaint();
         }
     }
 
@@ -134,7 +120,7 @@ public class Turtle {
         } else {
             colorIndex++;
         }
-        paint = ColorPalette.COLORS[colorIndex];
+        recreatePaint();
         Log.i(LOG_CAT, "Changed color to " + paint.getColor() + " i " + colorIndex);
     }
 
@@ -144,18 +130,45 @@ public class Turtle {
         } else {
             colorIndex--;
         }
-        paint = ColorPalette.COLORS[colorIndex];
+        recreatePaint();
+    }
+
+    public void setColorIndex(int colorIndex) {
+        this.colorIndex = colorIndex % ColorPalette.COLORS.length;
+        recreatePaint();
+    }
+
+    public void incrementStrokeWidth() {
+        strokeWidth++;
+        recreatePaint();
+    }
+
+    public void decrementStrokeWidth() {
+        if (strokeWidth > 0) {
+            strokeWidth--;
+            recreatePaint();
+        }
+    }
+
+    private void recreatePaint() {
+        paint = new Paint();
+        paint.setColor(ColorPalette.COLORS[colorIndex]);
+        paint.setStrokeWidth(strokeWidth);
     }
 
     public static final class State {
         private double x;
         private double y;
         private int direction;
+        private int colorIndex;
+        private int strokeWidth;
 
-        public State(double x, double y, int direction) {
+        public State(double x, double y, int direction, int colorIndex, int strokeWidth) {
             this.x = x;
             this.y = y;
             this.direction = direction;
+            this.colorIndex = colorIndex;
+            this.strokeWidth = strokeWidth;
         }
 
         public int getDirection() {
@@ -168,6 +181,14 @@ public class Turtle {
 
         public double getY() {
             return y;
+        }
+
+        public int getColorIndex() {
+            return colorIndex;
+        }
+
+        public int getStrokeWidth() {
+            return strokeWidth;
         }
     }
 }

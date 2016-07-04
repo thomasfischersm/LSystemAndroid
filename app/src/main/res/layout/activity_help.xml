@@ -63,6 +63,20 @@
                 style="@style/sectionHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/help_color_palette_heading" />
+
+            <GridView
+                android:id="@+id/colorPaletteGrid"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:paddingTop="10dp"
+                android:columnWidth="30dp"
+                android:numColumns="10" />
+
+            <TextView
+                style="@style/sectionHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="@string/help_stochastic_heading" />
 
             <TextView

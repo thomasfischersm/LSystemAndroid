@@ -77,6 +77,7 @@ public class BruteForceAlgorithm {
                     } else {
                         dimensionBuilder.setDirection(dimensionBuilder.getDirection() - 180);
                     }
+                    break;
                 default:
                     // character doesn't do anything
                     break;
@@ -139,6 +140,31 @@ public class BruteForceAlgorithm {
                 case '<':
                     turtle.decrementColor();
                     break;
+                case '{':
+                    turtle.incrementStrokeWidth();
+                    break;
+                case '}':
+                    turtle.decrementStrokeWidth();
+                    break;
+                case 'c':
+                    int firstDigit = -1;
+                    if (i + 1 < str.length()) {
+                        firstDigit = tryParse(str.charAt(i + 1));
+                    }
+                    int secondDigit = -1;
+                    if (i + 2 < str.length()) {
+                        secondDigit = tryParse(str.charAt(i + 2));
+                    }
+                    if ((firstDigit >= 0) && (secondDigit >= 0)) {
+                        turtle.setColorIndex(firstDigit * 10 + secondDigit);
+                        i += 2;
+                    } else if (firstDigit >= 0) {
+                        turtle.setColorIndex(firstDigit);
+                        i++;
+                    } else {
+                        // The user hasn't entered a proper color index. Ignore this.
+                    }
+                    break;
                 default:
                     // Don't do anything
                     break;
@@ -146,5 +172,14 @@ public class BruteForceAlgorithm {
 
             turtle.markProgress();
         }
+    }
+
+    private static int tryParse(char c) {
+        try {
+            return Integer.parseInt("" + c);
+        } catch (NumberFormatException ex) {
+            // Failure is handled at the end of the method anyway.
+        }
+        return -1;
     }
 }

@@ -83,7 +83,7 @@ public class Dimension {
         }
 
         public void pushState() {
-            stateStack.push(new Turtle.State(currentX, currentY, direction));
+            stateStack.push(new Turtle.State(currentX, currentY, direction, -1, -1));
         }
 
         public void popState() {

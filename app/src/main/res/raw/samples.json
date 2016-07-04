@@ -227,6 +227,58 @@
           "replacement": "FFFFFF"
         }
       ]
+    },
+    {
+      "name": "Fractal plant III",
+      "axiom": "|yc8afx",
+      "directionIncrement": "25",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "x",
+          "replacement": "c8a[+yfx][-yfx]"
+        },
+        {
+          "match": "x",
+          "replacement": "c8a[+fx][fx][-fx]"
+        },
+        {
+          "match": "f",
+          "replacement": "{ff}"
+        },
+        {
+          "match": "y",
+          "replacement": "[z]"
+        },
+        {
+          "match": "z",
+          "replacement": "c8a[+fx]"
+        },
+        {
+          "match": "z",
+          "replacement": "c8a[-fx]"
+        },
+        {
+          "match": "z",
+          "replacement": ""
+        },
+        {
+          "match": "a",
+          "replacement": "c9b"
+        },
+        {
+          "match": "b",
+          "replacement": "c10d"
+        },
+        {
+          "match": "d",
+          "replacement": "c11e"
+        },
+        {
+          "match": "e",
+          "replacement": "c3"
+        }
+      ]
     }
   ]
 }

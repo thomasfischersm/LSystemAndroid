@@ -1,39 +1,32 @@
 package com.playposse.thomas.lindenmayer.domain;
 
 import android.graphics.Color;
-import android.graphics.Paint;
 
 /**
  * A list of colors to cycle through when rendering.
  */
 public class ColorPalette {
 
-    public static final Paint[] COLORS = new Paint[]{
-            createPaint("#000000"),
-            createPaint("#607D8B"),
-            createPaint("#9E9E9E"),
-            createPaint("#795548"),
-            createPaint("#FF5722"),
-            createPaint("#FF9800"),
-            createPaint("#FFC107"),
-            createPaint("#FFEB3B"),
-            createPaint("#CDDC39"),
-            createPaint("#8BC34A"),
-            createPaint("#4CAF50"),
-            createPaint("#009688"),
-            createPaint("#00BCD4"),
-            createPaint("#03A9F4"),
-            createPaint("#2196F3"),
-            createPaint("#3F51B5"),
-            createPaint("#673AB7"),
-            createPaint("#9C27B0"),
-            createPaint("#E91E63"),
-            createPaint("#F44336"),
+    public static final int[] COLORS = new int[]{
+            Color.parseColor("#000000"),
+            Color.parseColor("#607D8B"),
+            Color.parseColor("#9E9E9E"),
+            Color.parseColor("#795548"),
+            Color.parseColor("#FF5722"),
+            Color.parseColor("#FF9800"),
+            Color.parseColor("#FFC107"),
+            Color.parseColor("#FFEB3B"),
+            Color.parseColor("#CDDC39"),
+            Color.parseColor("#8BC34A"),
+            Color.parseColor("#4CAF50"),
+            Color.parseColor("#009688"),
+            Color.parseColor("#00BCD4"),
+            Color.parseColor("#03A9F4"),
+            Color.parseColor("#2196F3"),
+            Color.parseColor("#3F51B5"),
+            Color.parseColor("#673AB7"),
+            Color.parseColor("#9C27B0"),
+            Color.parseColor("#E91E63"),
+            Color.parseColor("#F44336"),
     };
-    
-    private static Paint createPaint(String color) {
-        Paint paint = new Paint();
-        paint.setColor(Color.parseColor(color));
-        return paint;
-    }
 }
