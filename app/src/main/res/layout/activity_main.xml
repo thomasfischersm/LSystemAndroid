@@ -26,16 +26,29 @@
 
 
             <Button
-                android:id="@+id/tutorialButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_screen_tutorial_button" />
-
-            <Button
                 android:id="@+id/newButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/home_screen_new_button" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:text="@string/home_screen_help_heading" />
+
+            <Button
+                android:id="@+id/videoTutorialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/home_screen_video_tutorial_button" />
+
+            <Button
+                android:id="@+id/turtleTutorialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/home_screen_turtle_tutorial_button"/>
 
             <TextView
                 android:id="@+id/userDefinedLabel"

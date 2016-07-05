@@ -11,8 +11,10 @@
     <string name="send_feedback_menu_title">Send feedback</string>
     <string name="send_us_your_best_menu_title">Send us your best</string>
 
-    <string name="home_screen_tutorial_button">Video tutorial</string>
     <string name="home_screen_new_button">New</string>
+    <string name="home_screen_help_heading">Help</string>
+    <string name="home_screen_video_tutorial_button">Video tutorial</string>
+    <string name="home_screen_turtle_tutorial_button">Turtle graphics tutorial</string>
     <string name="home_screen_user_defined_heading">User defined</string>
     <string name="home_screen_samples_heading">Samples</string>
 
@@ -58,4 +60,19 @@
 
     <string name="dialog_continue_button">Continue</string>
     <string name="dialog_cancel_button">Cancel</string>
+
+    <string name="turtle_trainer_dialog_Title">Turtle Trainer</string>
+    <string name="turtle_Trainer_Dialog_message">In this interactive screen, you will learn by experimenting how letters are translated to drawing.</string>
+    <string name="turtle_tutorial_f_button">f: Draw line.</string>
+    <string name="turtle_tutorial_invisible_f_button">F: Move invisibly.</string>
+    <string name="turtle_tutorial_plus_button">+: Turn left.</string>
+    <string name="turtle_tutorial_minus_button">-: Turn right.</string>
+    <string name="turtle_tutorial_increase_stroke_width_button">{: Fatter line.</string>
+    <string name="turtle_tutorial_decrease_stroke_width_button">}: Thinner line.</string>
+    <string name="turtle_tutorial_next_color_button"><![CDATA[<: Next color.]]></string>
+    <string name="turtle_tutorial_previous_button"><![CDATA[>: Previous color.]]></string>
+    <string name="turtle_tutorial_red_button">c18: Red.</string>
+    <string name="turtle_tutorial_green_button">c10: Green.</string>
+    <string name="turtle_tutorial_black_button">C0: Black</string>
+    <string name="turtle_tutorial_turn_around_button">|: Turn around.</string>
 </resources>

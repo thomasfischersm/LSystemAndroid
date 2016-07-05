@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
         setSupportActionBar(mainToolbar);
 
-        Button tutorialButton = (Button) findViewById(R.id.tutorialButton);
-        tutorialButton.setOnClickListener(new View.OnClickListener() {
+        Button videoTutorialButton = (Button) findViewById(R.id.videoTutorialButton);
+        videoTutorialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(
@@ -52,6 +52,15 @@ public class MainActivity extends AppCompatActivity {
                 openRulesActivity();
             }
         });
+
+        Button turtleTutorialButton = (Button) findViewById(R.id.turtleTutorialButton);
+        turtleTutorialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, TurtleTrainingActivity.class));
+            }
+        });
+
 
         Log.i(LOG_CAT, "MainActivity.onCreate finished");
     }

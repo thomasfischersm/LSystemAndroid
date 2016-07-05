@@ -3,6 +3,7 @@ package com.playposse.thomas.lindenmayer.widgets;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
@@ -21,6 +22,24 @@ public class FractalView extends View {
 
     public FractalView(Context context) {
         super(context);
+
+        setDrawingCacheEnabled(true);
+    }
+//
+//    public FractalView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+//        super(context, attrs, defStyleAttr, defStyleRes);
+//
+//        setDrawingCacheEnabled(true);
+//    }
+
+    public FractalView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+
+        setDrawingCacheEnabled(true);
+    }
+
+    public FractalView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
 
         setDrawingCacheEnabled(true);
     }

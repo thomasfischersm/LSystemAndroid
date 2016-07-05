@@ -7,8 +7,9 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.playposse.thomas.lindenmayer.data.AppPreferences;
+
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,14 +36,25 @@ public class RuleFlowBehaviorTest {
     private static String REPLACEMENT = "f-f++f-f";
 
     @Rule
-    public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<MainActivity> activityRule =
+            new ActivityTestRule<MainActivity>(MainActivity.class) {
+                @Override
+                protected void beforeActivityLaunched() {
+                    // Ensure that no file with user defined rules is left over.
+                    Context context = InstrumentationRegistry.getTargetContext();
+                    context.deleteFile("userDefinedRuleSets.json");
 
-    @Before
-    public void setUp() {
-        // Ensure that no file with user defined rules is left over.
-        Context context = InstrumentationRegistry.getTargetContext();
-        context.deleteFile("userDefinedRuleSets.json");
-    }
+                    // Reset shared preferences.
+                    InstrumentationRegistry.getContext().getSharedPreferences(
+                            AppPreferences.SHARED_PREFERENCES_NAME,
+                            Context.MODE_PRIVATE)
+                            .edit()
+                            .clear()
+                            .commit();
+
+                    super.beforeActivityLaunched();
+                }
+            };
 
     @After
     public void cleanup() {
