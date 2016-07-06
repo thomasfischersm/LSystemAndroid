@@ -85,10 +85,10 @@ public class DataReaderTest {
         Assert.assertEquals("Dragon Curve", ruleSets.get(3).getName());
         Assert.assertEquals("Fractal plant I", ruleSets.get(4).getName());
         Assert.assertEquals("Fractal plant II", ruleSets.get(5).getName());
-        Assert.assertEquals("Hexagonal gosper", ruleSets.get(6).getName());
-        Assert.assertEquals("Hilbert curve I", ruleSets.get(7).getName());
-        Assert.assertEquals("Hilbert curve II", ruleSets.get(8).getName());
-        Assert.assertEquals("Hilbert curve III", ruleSets.get(9).getName());
+        Assert.assertEquals("Fractal plant III", ruleSets.get(6).getName());
+        Assert.assertEquals("Hexagonal gosper", ruleSets.get(7).getName());
+        Assert.assertEquals("Hilbert curve I", ruleSets.get(8).getName());
+        Assert.assertEquals("Hilbert curve II", ruleSets.get(9).getName());
         Assert.assertEquals("Islands and Lakes", ruleSets.get(10).getName());
         Assert.assertEquals("Koch Curve", ruleSets.get(11).getName());
         Assert.assertEquals("Penrose", ruleSets.get(12).getName());
