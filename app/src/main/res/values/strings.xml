@@ -61,7 +61,7 @@
     <string name="dialog_continue_button">Continue</string>
     <string name="dialog_cancel_button">Cancel</string>
 
-    <string name="turtle_trainer_dialog_Title">Turtle Trainer</string>
+    <string name="turtle_trainer_dialog_title">Turtle Trainer</string>
     <string name="turtle_Trainer_Dialog_message">In this interactive screen, you will learn by experimenting how letters are translated to drawing.</string>
     <string name="turtle_tutorial_f_button">f: Draw line.</string>
     <string name="turtle_tutorial_invisible_f_button">F: Move invisibly.</string>

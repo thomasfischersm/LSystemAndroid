@@ -4,10 +4,9 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.filters.LargeTest;
-import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.playposse.thomas.lindenmayer.data.AppPreferences;
+import com.playposse.thomas.lindenmayer.test.ActivityTestRuleWithReset;
 
 import org.junit.After;
 import org.junit.Rule;
@@ -24,6 +23,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -36,25 +36,8 @@ public class RuleFlowBehaviorTest {
     private static String REPLACEMENT = "f-f++f-f";
 
     @Rule
-    public ActivityTestRule<MainActivity> activityRule =
-            new ActivityTestRule<MainActivity>(MainActivity.class) {
-                @Override
-                protected void beforeActivityLaunched() {
-                    // Ensure that no file with user defined rules is left over.
-                    Context context = InstrumentationRegistry.getTargetContext();
-                    context.deleteFile("userDefinedRuleSets.json");
-
-                    // Reset shared preferences.
-                    InstrumentationRegistry.getContext().getSharedPreferences(
-                            AppPreferences.SHARED_PREFERENCES_NAME,
-                            Context.MODE_PRIVATE)
-                            .edit()
-                            .clear()
-                            .commit();
-
-                    super.beforeActivityLaunched();
-                }
-            };
+    public ActivityTestRuleWithReset<MainActivity> activityRule =
+            new ActivityTestRuleWithReset<MainActivity>(MainActivity.class);
 
     @After
     public void cleanup() {
@@ -66,8 +49,8 @@ public class RuleFlowBehaviorTest {
     @Test
     public void createAndSaveRule() {
         // No user defined rules should exist because we should have a clean setup.
-//        onView(withId(R.id.userDefinedLabel))
-//                .check(matches(not(isDisplayed())));
+        onView(withId(R.id.userDefinedLabel))
+                .check(matches(not(isDisplayed())));
 
         // Navigate to RuleActivity.
         onView(withId(R.id.newButton))
@@ -93,8 +76,8 @@ public class RuleFlowBehaviorTest {
 
         // Verify the new rule on the MainActivity.
         Espresso.pressBack();
-//        onView(withId(R.id.userDefinedLabel))
-//                .check(matches(isDisplayed()));
+        onView(withId(R.id.userDefinedLabel))
+                .check(matches(isDisplayed()));
         onView(withText(RULE_SET_NAME))
                 .perform(click());
         onView(withId(R.id.axiomText))

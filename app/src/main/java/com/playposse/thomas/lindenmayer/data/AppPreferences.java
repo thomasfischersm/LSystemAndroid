@@ -7,7 +7,7 @@ import android.content.Context;
  */
 public class AppPreferences {
 
-    public static final String SHARED_PREFERENCES_NAME = "ourPreferences";
+    private static final String SHARED_PREFERENCES_NAME = "ourPreferences";
 
     private static final String SHOW_TURTLE_TUTORIAL_DIALOG = "showTurtleTutorialDialog";
 
@@ -22,4 +22,10 @@ public class AppPreferences {
                 .putBoolean(SHOW_TURTLE_TUTORIAL_DIALOG, value)
                 .commit();
     }
+
+    public static void reset(Context context) {
+        context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .clear()
+                .commit();    }
 }
