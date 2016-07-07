@@ -1,4 +1,4 @@
-package com.playposse.thomas.lindenmayer.test;
+package com.playposse.thomas.lindenmayer;
 
 import android.app.Activity;
 import android.content.Context;
