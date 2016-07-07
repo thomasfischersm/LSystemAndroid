@@ -70,7 +70,7 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
 
     @Override
     protected void onPreExecute() {
-        if (enableProgressDialog) {
+        if (enableProgressDialog && !isCancelled()) {
             int estimatedComputations = EffortEstimator.estimateIterations(ruleSet, iterationCount);
 
             progressDialog = new ProgressDialog(context);
@@ -108,7 +108,7 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
 
     @Override
     protected void onProgressUpdate(Integer... values) {
-        if (enableProgressDialog) {
+        if (enableProgressDialog && !isCancelled()) {
             progressDialog.setProgress(values[0]);
         }
     }
@@ -119,23 +119,25 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
             progressDialog.hide();
         }
 
-        fractalView.assignBitmap(bitmap, ruleSet.getDirectionIncrement());
-        fractalView.invalidate();
+        if (!isCancelled()) {
+            fractalView.assignBitmap(bitmap, ruleSet.getDirectionIncrement());
+            fractalView.invalidate();
 
-        if (swipeRefreshLayout != null) {
-            swipeRefreshLayout.setEnabled(true);
-            swipeRefreshLayout.setRefreshing(false);
-        }
-
-        if (shareActionProvider != null) {
-            try {
-                setShareIntent(bitmap);
-            } catch (IOException ex) {
-                ex.printStackTrace();
+            if (swipeRefreshLayout != null) {
+                swipeRefreshLayout.setEnabled(true);
+                swipeRefreshLayout.setRefreshing(false);
             }
-        }
 
-        Log.i(LOG_CAT, "Caused view to redraw.");
+            if (shareActionProvider != null) {
+                try {
+                    setShareIntent(bitmap);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            Log.i(LOG_CAT, "Caused view to redraw.");
+        }
     }
 
     private void setShareIntent(Bitmap screenBitmap) throws IOException {

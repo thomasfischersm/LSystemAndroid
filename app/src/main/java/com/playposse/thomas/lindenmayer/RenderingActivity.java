@@ -36,6 +36,7 @@ public class RenderingActivity extends AppCompatActivity {
     private int iterationCount = 1;
     private ShareActionProvider shareActionProvider;
     private FractalView fractalView;
+    private BruteForceRenderAsyncTask asyncTask;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,6 +142,13 @@ public class RenderingActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+
+    }
+
     private void setShareIntent() {
         // Convert to PNG.
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
@@ -168,7 +176,11 @@ public class RenderingActivity extends AppCompatActivity {
                 (SwipeRefreshLayout) findViewById(R.id.renderSwipeRefreshLayout);
         swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.setRefreshing(false); // Don't show the icon. there already is a progress dialog!
-        new BruteForceRenderAsyncTask(
+
+        if ((asyncTask != null) && (!asyncTask.isCancelled())) {
+            asyncTask.cancel(true);
+        }
+        asyncTask = new BruteForceRenderAsyncTask(
                 ruleSet,
                 fractalView,
                 iterationCount,
@@ -176,6 +188,7 @@ public class RenderingActivity extends AppCompatActivity {
                 getCacheDir(),
                 this,
                 swipeRefreshLayout,
-                true).execute();
+                true);
+        asyncTask.execute();
     }
 }
