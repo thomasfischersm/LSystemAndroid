@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,9 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, TurtleTrainingActivity.class));
             }
         });
-
-
-        Log.i(LOG_CAT, "MainActivity.onCreate finished");
     }
 
     @Override
@@ -83,8 +79,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException | JSONException ex) {
             ex.printStackTrace();
         }
-
-        Log.i(LOG_CAT, "Resume has been called.");
     }
 
     @Override
@@ -104,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private void populateRuleSets() throws IOException, JSONException {
         List<RuleSet> userDefinedRuleSets = DataReader.readUserRuleSets(this);
         LinearLayout userDefinedLayout = (LinearLayout) findViewById(R.id.userDefinedLayout);
-        userDefinedLayout.removeAllViewsInLayout(); Log.i(LOG_CAT, "Got user rules: " + userDefinedRuleSets.size());
+        userDefinedLayout.removeAllViewsInLayout();
         if (userDefinedRuleSets.size() == 0) {
             userDefinedLayout.setVisibility(View.GONE);
             findViewById(R.id.userDefinedLabel).setVisibility((View.GONE));

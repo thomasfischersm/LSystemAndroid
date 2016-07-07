@@ -3,7 +3,6 @@ package com.playposse.thomas.lindenmayer.domain;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 
 import com.playposse.thomas.lindenmayer.widgets.RenderAsyncTask;
 
@@ -121,7 +120,6 @@ public class Turtle {
             colorIndex++;
         }
         recreatePaint();
-        Log.i(LOG_CAT, "Changed color to " + paint.getColor() + " i " + colorIndex);
     }
 
     public void decrementColor() {

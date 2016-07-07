@@ -12,7 +12,6 @@ import android.os.AsyncTask;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.ShareActionProvider;
-import android.util.Log;
 
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.domain.Dimension;
@@ -85,9 +84,7 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
 
     @Override
     protected Bitmap doInBackground(Void... params) {
-        Log.i(LOG_CAT, "Start computing fragment.");
         FRACTAL_REPRESENTATION fractalRepresentation = iterate(ruleSet, iterationCount);
-        Log.i(LOG_CAT, "Done computing fragment.");
 
         long start = System.currentTimeMillis();
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -101,7 +98,6 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
                 progressCallback);
         draw(fractalRepresentation, turtle);
         long end = System.currentTimeMillis();
-        Log.i(LOG_CAT, "Done rendering bitmap (" + (end - start) + "ms).");
 
         return bitmap;
     }
@@ -135,8 +131,6 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
                     ex.printStackTrace();
                 }
             }
-
-            Log.i(LOG_CAT, "Caused view to redraw.");
         }
     }
 
@@ -225,7 +219,6 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
             if ((progress - lastUpdate) * 100.0 / progressEstimate > 1) {
                 onProgressUpdate(progress);
                 lastUpdate = progress;
-                Log.i(LOG_CAT, "progress " + progress + " / " + progressEstimate);
             }
         }
     }

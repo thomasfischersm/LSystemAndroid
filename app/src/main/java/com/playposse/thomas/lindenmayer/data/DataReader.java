@@ -81,7 +81,6 @@ public class DataReader {
         }
 
         writeUserRuleSets(context, ruleSets);
-        Log.i(LOG_CAT, "Successfully saved user rule sets.");
     }
 
     public static void deleteUserRuleSet(Context context, String name)
@@ -136,7 +135,7 @@ public class DataReader {
 
                 ruleSets.add(new RuleSet(axiom, directionIncrement, name, rules));
             } catch(JSONException ex) {
-                Log.i(LOG_CAT, "Failed to parse JSON with saved rule sets.", ex);
+                Log.e(LOG_CAT, "Failed to parse JSON with saved rule sets.", ex);
             }
         }
 
@@ -173,7 +172,6 @@ public class DataReader {
 
     private static void writeUserRuleSets(Context context, List<RuleSet> ruleSets) throws IOException, JSONException {
         String jsonString = generateJson(ruleSets);
-        Log.i(LOG_CAT, "Generated user JSON string: " + jsonString);
 
         FileOutputStream outputStream = context.openFileOutput(USER_FILE_NAME, Context.MODE_PRIVATE);
         try {

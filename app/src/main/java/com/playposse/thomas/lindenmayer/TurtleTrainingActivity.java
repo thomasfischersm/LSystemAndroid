@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -98,9 +97,7 @@ public class TurtleTrainingActivity extends AppCompatActivity {
     }
 
     private void showDialogIfNecessary() {
-        Log.i(LOG_CAT, "preference check: " + AppPreferences.getShowTurtleTutorialDialog(this));
         if (AppPreferences.getShowTurtleTutorialDialog(this)) {
-            Log.i(LOG_CAT, "Going to show dialog.");
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             dialogBuilder.setTitle(R.string.turtle_trainer_dialog_title);
             dialogBuilder.setMessage(R.string.turtle_Trainer_Dialog_message);

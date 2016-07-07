@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.playposse.thomas.lindenmayer.domain.Dimension;
@@ -52,8 +51,6 @@ public class FractalView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Log.i(LOG_CAT, "FractalView is redrawing");
-
         if (bitmap == null) {
             // Wait for fragment computation to be complete.
             return;

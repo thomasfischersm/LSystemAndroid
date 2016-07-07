@@ -327,7 +327,8 @@ public class RulesActivity extends AppCompatActivity {
 
             ruleSet = new RuleSet(axiom, rules, directionIncrement);
         } catch (NumberFormatException ex) {
-            Log.i(LOG_CAT, "Failed to parse string to integer", ex);
+            // This method is called to attempt creating a RuleSet. Getting a bad number
+            // simply means that the RuleSet is incomplete.
             return null;
         }
 
