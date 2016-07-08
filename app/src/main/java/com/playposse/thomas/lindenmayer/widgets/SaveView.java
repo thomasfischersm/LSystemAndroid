@@ -15,7 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Thomas on 5/20/2016.
+ * A simple layout that goes into the task bar to allow the user to enter the file name before
+ * saving a {@link com.playposse.thomas.lindenmayer.domain.RuleSet}.
  */
 public class SaveView extends LinearLayout {
 

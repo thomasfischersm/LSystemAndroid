@@ -9,7 +9,9 @@ import android.view.View;
 import com.playposse.thomas.lindenmayer.domain.Dimension;
 
 /**
- * Created by Thomas on 5/19/2016.
+ * A {@link View} that can draw a Lindenmayer system. The {@link FractalView} doesn't do the
+ * rendering itself actually. Rather, it depends on the {@link RenderAsyncTask} to do the
+ * work and give this class the {@link Bitmap} with the L-system.
  */
 public class FractalView extends View {
 
@@ -24,12 +26,6 @@ public class FractalView extends View {
 
         setDrawingCacheEnabled(true);
     }
-//
-//    public FractalView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-//        super(context, attrs, defStyleAttr, defStyleRes);
-//
-//        setDrawingCacheEnabled(true);
-//    }
 
     public FractalView(Context context, AttributeSet attrs) {
         super(context, attrs);

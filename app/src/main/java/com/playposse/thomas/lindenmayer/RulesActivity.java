@@ -42,6 +42,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An {@link android.app.Activity} that allows the user to enter a
+ * {@link com.playposse.thomas.lindenmayer.domain.RuleSet}.
+ */
 public class RulesActivity extends AppCompatActivity {
 
     private static final String LOG_CAT = RulesActivity.class.getSimpleName();

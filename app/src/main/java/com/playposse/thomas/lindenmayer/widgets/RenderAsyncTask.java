@@ -25,7 +25,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by Thomas on 5/20/2016.
+ * An {@link AsyncTask} that does the rendering of the Lindenmayer System in the background.
+ * Optionally, it can display a progress dialog. Typically, only the
+ * {@link com.playposse.thomas.lindenmayer.RenderingActivity} uses the progress dialog because it
+ * only renders complex enough iterations.
  */
 public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<Void, Integer, Bitmap> {
 

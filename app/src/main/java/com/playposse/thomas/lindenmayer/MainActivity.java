@@ -23,6 +23,9 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * An {@link android.app.Activity} that provides the entry point into the application.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_CAT = MainActivity.class.getSimpleName();

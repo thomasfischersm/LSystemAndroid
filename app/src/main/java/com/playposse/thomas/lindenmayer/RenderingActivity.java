@@ -28,6 +28,9 @@ import org.json.JSONException;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
+/**
+ * An {@link android.app.Activity} that shows the render Lindenmayer System.
+ */
 public class RenderingActivity extends AppCompatActivity {
 
     private static final String LOG_CAT = RenderingActivity.class.getSimpleName();

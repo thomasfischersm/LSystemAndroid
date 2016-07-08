@@ -8,6 +8,9 @@ import android.widget.GridView;
 
 import com.playposse.thomas.lindenmayer.widgets.ColorPaletteAdapter;
 
+/**
+ * An {@link android.app.Activity} that shows general help.
+ */
 public class HelpActivity extends AppCompatActivity {
 
     @Override

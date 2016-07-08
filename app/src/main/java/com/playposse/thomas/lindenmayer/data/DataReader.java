@@ -26,7 +26,8 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by Thomas on 5/20/2016.
+ * Utility that provides access to stored {@link RuleSet}s (examples and user defined ones. They
+ * are stored as JSON on the device.
  */
 public class DataReader {
 

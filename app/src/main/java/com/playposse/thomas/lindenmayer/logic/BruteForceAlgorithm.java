@@ -5,7 +5,14 @@ import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.domain.Turtle;
 
 /**
- * Created by Thomas on 6/20/2016.
+ * The algorithm that does the string re-writing, screen dimension calculation, and actual drawing.
+ *
+ * <p>Note: A previous version (still available in GitHub) used an optimized version. It
+ * recognized that the Lindenmayer system is self similar. Say a simple system starts with a
+ *  few f's and has only one rule to replace these f's. If the dimension of the first original f
+ *  after all the iterations were calculated, no other original f's needed to be sized anymore. For
+ *  unknown reason that optimization actually slowed down the processing. Plus, the approach
+ *  wouldn't work with stochastic rule sets and state saving instructions anway.
  */
 public class BruteForceAlgorithm {
 

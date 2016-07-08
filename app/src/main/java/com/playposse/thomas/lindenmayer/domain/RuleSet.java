@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by Thomas on 5/19/2016.
+ * Data class that describes the parameters for a Lindenmayer System.
  */
 public class RuleSet implements Parcelable {
 
