@@ -47,6 +47,7 @@ public class Turtle {
         colorIndex = 0;
         paint.setColor(Color.BLACK);
         strokeWidth = 1;
+        paint.setStrokeWidth(strokeWidth);
     }
 
     public Canvas getCanvas() {

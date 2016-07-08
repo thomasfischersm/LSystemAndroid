@@ -65,7 +65,7 @@ public class BruteForceRenderAsyncTask extends RenderAsyncTask<String> {
     }
 
     @Override
-    protected ProgressCallback createProgessCallback(String str) {
+    public ProgressCallback createProgessCallback(String str) {
         return new ProgressCallback(str.length());
     }
 }

@@ -134,6 +134,7 @@ public class BruteForceAlgorithm {
                     } else {
                         turtle.setDirection(turtle.getDirection() - 180);
                     }
+                    break;
                 case '>':
                     turtle.incrementColor();
                     break;

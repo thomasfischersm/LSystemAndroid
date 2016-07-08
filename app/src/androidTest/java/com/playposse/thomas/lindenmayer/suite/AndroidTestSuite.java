@@ -4,6 +4,7 @@ import com.playposse.thomas.lindenmayer.ApplicationTest;
 import com.playposse.thomas.lindenmayer.RuleFlowBehaviorTest;
 import com.playposse.thomas.lindenmayer.TurtleTrainingBehavioralTest;
 import com.playposse.thomas.lindenmayer.data.DataReaderTest;
+import com.playposse.thomas.lindenmayer.logic.BruteForceAlgorithmInstrumentedTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -13,6 +14,7 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        BruteForceAlgorithmInstrumentedTest.class,
         DataReaderTest.class,
         ApplicationTest.class,
         RuleFlowBehaviorTest.class,
