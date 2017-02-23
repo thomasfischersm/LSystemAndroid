@@ -11,7 +11,7 @@ import com.playposse.thomas.lindenmayer.widgets.ColorPaletteAdapter;
 /**
  * An {@link android.app.Activity} that shows general help.
  */
-public class HelpActivity extends AppCompatActivity {
+public class HelpActivity extends ParentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

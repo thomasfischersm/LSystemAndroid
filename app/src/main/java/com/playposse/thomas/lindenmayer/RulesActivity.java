@@ -30,6 +30,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.playposse.thomas.lindenmayer.data.DataReader;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
@@ -46,7 +48,7 @@ import java.util.List;
  * An {@link android.app.Activity} that allows the user to enter a
  * {@link com.playposse.thomas.lindenmayer.domain.RuleSet}.
  */
-public class RulesActivity extends AppCompatActivity {
+public class RulesActivity extends ParentActivity {
 
     private static final String LOG_CAT = RulesActivity.class.getSimpleName();
 
@@ -171,6 +173,8 @@ public class RulesActivity extends AppCompatActivity {
 
         ruleSet.setName(fileName);
         DataReader.saveUserRuleSets(this, ruleSet);
+
+        AnalyticsUtil.sendEvent(getApplication(), "Action", "SaveRuleSet");
     }
 
     @Override

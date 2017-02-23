@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * An {@link android.app.Activity} that provides the entry point into the application.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ParentActivity {
 
     private static final String LOG_CAT = MainActivity.class.getSimpleName();
 

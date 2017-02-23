@@ -31,7 +31,7 @@ import java.io.File;
 /**
  * An {@link android.app.Activity} that shows the render Lindenmayer System.
  */
-public class RenderingActivity extends AppCompatActivity {
+public class RenderingActivity extends ParentActivity {
 
     private static final String LOG_CAT = RenderingActivity.class.getSimpleName();
 
@@ -81,6 +81,7 @@ public class RenderingActivity extends AppCompatActivity {
                     iterationCount = 1;
                 } else {
                     render();
+                    AnalyticsUtil.sendEvent(getApplication(), "Action", "DecrementIteration");
                 }
 
                 if (iterationCount == 1) {
@@ -96,6 +97,7 @@ public class RenderingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 iterationCount++;
                 render();
+                AnalyticsUtil.sendEvent(getApplication(), "Action", "IncrementIteration");
 
                 if (!decrementButton.isShown()) {
                     decrementButton.show();

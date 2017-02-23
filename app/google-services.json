@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "1024303724225",
+    "project_id": "l-system-engine"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1024303724225:android:1c5936079aa0b7ce",
+        "android_client_info": {
+          "package_name": "com.playposse.thomas.lindenmayer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASA30qfYYC3XThwDb9NPJdATIH0p0tZaE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-92561975-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
