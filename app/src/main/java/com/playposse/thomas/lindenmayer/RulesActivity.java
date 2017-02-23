@@ -224,14 +224,20 @@ public class RulesActivity extends AppCompatActivity {
     private void populateUi() {
         TextView axiomText = (TextView) findViewById(R.id.axiomText);
         TextView incrementText = (TextView) findViewById(R.id.directionIncrementText);
-        TableLayout rulesTable = (TableLayout) findViewById(R.id.rulesTable);
 
         axiomText.setText(intentRuleSet.getAxiom());
         incrementText.setText("" + intentRuleSet.getDirectionIncrement());
 
+        rebuildRulesTable(intentRuleSet);
+    }
+
+    private void rebuildRulesTable(RuleSet ruleSet) {
+        TableLayout rulesTable = (TableLayout) findViewById(R.id.rulesTable);
         rulesTable.removeAllViewsInLayout();
-        for (RuleSet.Rule rule : intentRuleSet.getRules()) {
-            addRow(rulesTable, rule.getMatch(), rule.getReplacement());
+        if ((ruleSet != null) && (ruleSet.getRules() != null)) {
+            for (RuleSet.Rule rule : ruleSet.getRules()) {
+                addRow(rulesTable, rule.getMatch(), rule.getReplacement());
+            }
         }
 
         addRow(rulesTable, "", "");
@@ -440,6 +446,29 @@ public class RulesActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        RuleSet savedRuleSet = savedInstanceState.getParcelable(RuleSet.EXTRA_RULE_SET);
+        rebuildRulesTable(savedRuleSet);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        RuleSet ruleSet = createRuleSet();
+        if (ruleSet == null) {
+            // Invalid RuleSets are not saved. As a quick little cheat, let's set the angle.
+            TextView incrementText = (TextView) findViewById(R.id.directionIncrementText);
+            incrementText.setText("90");
+            ruleSet = createRuleSet();
+        }
+
+        outState.putParcelable(RuleSet.EXTRA_RULE_SET, ruleSet);
     }
 
     private class NeatRowWatcher implements TextWatcher {
