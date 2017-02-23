@@ -257,9 +257,10 @@ public class RulesActivity extends AppCompatActivity {
 
         EditText matchText = new EditText(this);
         TableRow.LayoutParams matchTextLayoutParams = new TableRow.LayoutParams(
-                40,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         matchText.setLayoutParams(matchTextLayoutParams);
+        matchText.setEms(1);
         matchText.setText(match);
         matchText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         matchText.setContentDescription(
