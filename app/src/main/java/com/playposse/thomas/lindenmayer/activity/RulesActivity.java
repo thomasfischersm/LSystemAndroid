@@ -29,6 +29,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.playposse.thomas.lindenmayer.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.CommonMenuActions;
 import com.playposse.thomas.lindenmayer.HelpActivity;
@@ -199,6 +201,7 @@ public class RulesActivity extends ParentActivity {
         if (getIntent().hasExtra(RuleSet.EXTRA_RULE_SET)) {
             intentRuleSet = getIntent().getParcelableExtra(RuleSet.EXTRA_RULE_SET);
             populateUi();
+            logContentViewToFabric(intentRuleSet);
         } else {
             intentRuleSet = null;
             clearUi();
@@ -475,6 +478,13 @@ public class RulesActivity extends ParentActivity {
         }
 
         outState.putParcelable(RuleSet.EXTRA_RULE_SET, ruleSet);
+    }
+
+    private void logContentViewToFabric(RuleSet intentRuleSet) {
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentName("Viewed L-System rule")
+                .putContentType("L-system view")
+                .putContentId(intentRuleSet.getName()));
     }
 
     private class NeatRowWatcher implements TextWatcher {
