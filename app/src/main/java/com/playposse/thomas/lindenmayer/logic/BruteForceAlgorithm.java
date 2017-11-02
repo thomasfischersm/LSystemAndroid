@@ -111,7 +111,7 @@ public class BruteForceAlgorithm {
                         float currentY = Math.max(0, (float) turtle.getCurrentY());
                         float nextX = Math.max(0, (float) x);
                         float nextY = Math.max(0, (float) y);
-                        turtle.getCanvas().drawLine(currentX, currentY, nextX, nextY, turtle.getPaint());
+                        turtle.drawLine(currentX, currentY, nextX, nextY, turtle.getPaint());
                     }
 
                     turtle.setCurrentX(x);

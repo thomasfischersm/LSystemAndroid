@@ -50,7 +50,7 @@ public class Turtle {
         paint.setStrokeWidth(strokeWidth);
     }
 
-    public Canvas getCanvas() {
+    private Canvas getCanvas() {
         return canvas;
     }
 
@@ -88,6 +88,14 @@ public class Turtle {
 
     public Paint getPaint() {
         return paint;
+    }
+
+    protected int getCurrentStrokeWidth() {
+        return strokeWidth;
+    }
+
+    protected int getCurrentColor() {
+        return ColorPalette.COLORS[colorIndex];
     }
 
     public RenderAsyncTask.ProgressCallback getProgressCallback() {
@@ -149,10 +157,14 @@ public class Turtle {
         }
     }
 
-    private void recreatePaint() {
+    protected void recreatePaint() {
         paint = new Paint();
         paint.setColor(ColorPalette.COLORS[colorIndex]);
         paint.setStrokeWidth(strokeWidth);
+    }
+
+    public void drawLine(float fromX, float fromY, float toX, float toY, Paint paint) {
+        canvas.drawLine(fromX, fromY, toX, toY, paint);
     }
 
     public static final class State {
