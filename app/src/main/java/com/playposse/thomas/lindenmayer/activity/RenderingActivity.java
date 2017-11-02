@@ -1,4 +1,4 @@
-package com.playposse.thomas.lindenmayer;
+package com.playposse.thomas.lindenmayer.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -19,6 +18,10 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.playposse.thomas.lindenmayer.AnalyticsUtil;
+import com.playposse.thomas.lindenmayer.CommonMenuActions;
+import com.playposse.thomas.lindenmayer.HelpActivity;
+import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
 import com.playposse.thomas.lindenmayer.widgets.FractalView;
@@ -56,6 +59,7 @@ public class RenderingActivity extends ParentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_rendering);
 
         Intent intent = getIntent();

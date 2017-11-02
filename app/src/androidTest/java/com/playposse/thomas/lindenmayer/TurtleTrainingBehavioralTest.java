@@ -4,6 +4,9 @@ import android.support.test.espresso.Espresso;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.playposse.thomas.lindenmayer.activity.MainActivity;
+import com.playposse.thomas.lindenmayer.activity.TurtleTrainingActivity;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,10 +1,9 @@
-package com.playposse.thomas.lindenmayer;
+package com.playposse.thomas.lindenmayer.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.playposse.thomas.lindenmayer.CommonMenuActions;
+import com.playposse.thomas.lindenmayer.HelpActivity;
+import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.data.AppPreferences;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
@@ -34,6 +36,7 @@ public class TurtleTrainingActivity extends ParentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_turtle_training);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.turtleTutorialToolbar);

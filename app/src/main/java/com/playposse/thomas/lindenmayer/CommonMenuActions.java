@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Helper class that contains menu actions that are shared among all activities.
  */
-final class CommonMenuActions {
+public final class CommonMenuActions {
 
     public static void sendFeedbackAction(Context context) {
         showInfoDialogAndSendEmail(

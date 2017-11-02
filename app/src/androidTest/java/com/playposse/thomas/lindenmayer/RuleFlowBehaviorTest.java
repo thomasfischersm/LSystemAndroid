@@ -6,6 +6,8 @@ import android.support.test.espresso.Espresso;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.playposse.thomas.lindenmayer.activity.MainActivity;
+
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;

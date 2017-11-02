@@ -1,4 +1,4 @@
-package com.playposse.thomas.lindenmayer;
+package com.playposse.thomas.lindenmayer.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -30,8 +29,10 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import com.playposse.thomas.lindenmayer.AnalyticsUtil;
+import com.playposse.thomas.lindenmayer.CommonMenuActions;
+import com.playposse.thomas.lindenmayer.HelpActivity;
+import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.data.DataReader;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
@@ -180,6 +181,7 @@ public class RulesActivity extends ParentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_rules);
 
         Toolbar rulesToolbar = (Toolbar) findViewById(R.id.rulesToolbar);

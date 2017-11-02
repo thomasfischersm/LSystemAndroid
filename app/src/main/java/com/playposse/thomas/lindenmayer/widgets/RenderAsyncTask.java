@@ -14,6 +14,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.ShareActionProvider;
 
 import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.activity.RenderingActivity;
 import com.playposse.thomas.lindenmayer.domain.Dimension;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.domain.Turtle;
@@ -27,7 +28,7 @@ import java.io.IOException;
 /**
  * An {@link AsyncTask} that does the rendering of the Lindenmayer System in the background.
  * Optionally, it can display a progress dialog. Typically, only the
- * {@link com.playposse.thomas.lindenmayer.RenderingActivity} uses the progress dialog because it
+ * {@link RenderingActivity} uses the progress dialog because it
  * only renders complex enough iterations.
  */
 public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<Void, Integer, Bitmap> {

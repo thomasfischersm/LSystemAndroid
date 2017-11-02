@@ -6,7 +6,7 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.playposse.thomas.lindenmayer.RulesActivity">
+    tools:context="com.playposse.thomas.lindenmayer.activity.RulesActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/rulesToolbar"

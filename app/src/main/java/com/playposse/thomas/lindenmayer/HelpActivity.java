@@ -1,11 +1,11 @@
 package com.playposse.thomas.lindenmayer;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.GridView;
 
+import com.playposse.thomas.lindenmayer.activity.ParentActivity;
 import com.playposse.thomas.lindenmayer.widgets.ColorPaletteAdapter;
 
 /**

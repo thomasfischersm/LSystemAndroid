@@ -17,6 +17,11 @@
             android:name="com.google.android.gms.analytics.globalConfigResource"
             android:resource="@xml/analytics_global_config" />
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5e6d81f10c3b91abdbb377d69ca013c8a8fecb3e"
+            />
+
         <!-- Optionally, register AnalyticsReceiver and AnalyticsService to support background
      dispatching on non-Google Play devices -->
         <receiver
@@ -42,7 +47,7 @@
         </receiver>
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,17 +55,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RulesActivity"
+            android:name=".activity.RulesActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".RenderingActivity"
+            android:name=".activity.RenderingActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".RulesActivity" />
+            android:parentActivityName=".activity.RulesActivity" />
         <activity
-            android:name=".TurtleTrainingActivity"
+            android:name=".activity.TurtleTrainingActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

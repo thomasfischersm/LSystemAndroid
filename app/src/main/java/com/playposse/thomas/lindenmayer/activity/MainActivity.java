@@ -1,9 +1,8 @@
-package com.playposse.thomas.lindenmayer;
+package com.playposse.thomas.lindenmayer.activity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -15,6 +14,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.playposse.thomas.lindenmayer.CommonMenuActions;
+import com.playposse.thomas.lindenmayer.HelpActivity;
+import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.data.DataReader;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 
@@ -33,6 +35,7 @@ public class MainActivity extends ParentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         Toolbar mainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
