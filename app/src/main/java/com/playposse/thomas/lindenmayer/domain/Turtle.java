@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.playposse.thomas.lindenmayer.widgets.RenderAsyncTask;
+import com.playposse.thomas.lindenmayer.widgets.ProgressCallback;
 
 import java.util.Stack;
 
@@ -18,7 +18,7 @@ public class Turtle {
 
     private final Canvas canvas;
     private final int directionIncrement;
-    private final RenderAsyncTask.ProgressCallback progressCallback;
+    private final ProgressCallback progressCallback;
     private final Stack<State> stateStack = new Stack<>();
 
     private double currentX;
@@ -33,7 +33,7 @@ public class Turtle {
             Canvas canvas,
             Dimension dimension,
             int directionIncrement,
-            RenderAsyncTask.ProgressCallback progressCallback) {
+            ProgressCallback progressCallback) {
 
         this.canvas = canvas;
         this.directionIncrement = directionIncrement;
@@ -98,7 +98,7 @@ public class Turtle {
         return ColorPalette.COLORS[colorIndex];
     }
 
-    public RenderAsyncTask.ProgressCallback getProgressCallback() {
+    public ProgressCallback getProgressCallback() {
         return progressCallback;
     }
 
@@ -119,7 +119,9 @@ public class Turtle {
     }
 
     public void markProgress() {
-        progressCallback.markProgress();
+        if (progressCallback != null) {
+            progressCallback.markProgress();
+        }
     }
 
     public void incrementColor() {

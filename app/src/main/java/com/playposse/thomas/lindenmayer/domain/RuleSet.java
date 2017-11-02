@@ -3,6 +3,8 @@ package com.playposse.thomas.lindenmayer.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.common.base.Objects;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -172,6 +174,11 @@ public class RuleSet implements Parcelable {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(axiom, rules, directionIncrement, name);
+    }
+
     public static class Rule {
         private final String match;
         private final String replacement;
@@ -187,6 +194,11 @@ public class RuleSet implements Parcelable {
 
         public String getReplacement() {
             return replacement;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(match, replacement);
         }
     }
 }

@@ -34,7 +34,7 @@ public class BruteForceAlgorithmInstrumentedTest {
 
         Dimension dimension = BruteForceAlgorithm.computeDimension(str, canvasWidth, canvasHeight, angleIncrement);
         FractalView fractalView = new FractalView(InstrumentationRegistry.getContext());
-        RenderAsyncTask<String>.ProgressCallback progessCallback =
+        RenderAsyncTask.ProgressCallbackImpl progessCallback =
                 new BruteForceRenderAsyncTask(null, fractalView, 0, null, null, null, null, false)
                         .createProgessCallback(str);
         RecordingCanvas canvas = new RecordingCanvas();

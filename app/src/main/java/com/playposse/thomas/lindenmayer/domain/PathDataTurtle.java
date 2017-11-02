@@ -3,8 +3,6 @@ package com.playposse.thomas.lindenmayer.domain;
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.support.graphics.drawable.VectorDrawableCompat;
 
 import com.playposse.thomas.lindenmayer.widgets.RenderAsyncTask;
 
@@ -41,7 +39,7 @@ public class PathDataTurtle extends Turtle {
             Canvas canvas,
             Dimension dimension,
             int directionIncrement,
-            RenderAsyncTask.ProgressCallback progressCallback,
+            RenderAsyncTask.ProgressCallbackImpl progressCallback,
             int width,
             int height) {
 
@@ -101,8 +99,8 @@ public class PathDataTurtle extends Turtle {
         return pathDataBuilder.toString();
     }
 
-    public Drawable getDrawable() {
-        VectorDrawableCompat.createFromStream(asdf,asdf);
-
-    }
+//    public Drawable getDrawable() {
+////        VectorDrawableCompat.createFromStream(asdf,asdf);
+//
+//    }
 }

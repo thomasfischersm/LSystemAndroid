@@ -94,7 +94,7 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Dimension dimension = computeDimension(fractalRepresentation, width - 3, height - 3, ruleSet.getDirectionIncrement());
         Canvas canvas = new Canvas(bitmap);
-        ProgressCallback progressCallback = createProgessCallback(fractalRepresentation);
+        ProgressCallbackImpl progressCallback = createProgessCallback(fractalRepresentation);
         Turtle turtle = new Turtle(
                 canvas,
                 dimension,
@@ -193,10 +193,10 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
             FRACTAL_REPRESENTATION fractalRepresentation,
             Turtle turtle);
 
-    protected abstract ProgressCallback createProgessCallback(
+    protected abstract ProgressCallbackImpl createProgessCallback(
             FRACTAL_REPRESENTATION fractalRepresentation);
 
-    public class ProgressCallback {
+    public class ProgressCallbackImpl implements ProgressCallback {
 
         private final int progressEstimate;
 
@@ -204,10 +204,11 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
         private int lastUpdate = 0;
         private boolean progressMaxInitalized = false;
 
-        public ProgressCallback(int progressEstimate) {
+        public ProgressCallbackImpl(int progressEstimate) {
             this.progressEstimate = progressEstimate;
         }
 
+        @Override
         public void markProgress() {
             if (!enableProgressDialog) {
                 return;
