@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ShareEvent;
 import com.playposse.thomas.lindenmayer.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.CommonMenuActions;
 import com.playposse.thomas.lindenmayer.HelpActivity;
@@ -34,9 +36,15 @@ import java.io.File;
 /**
  * An {@link android.app.Activity} that shows the render Lindenmayer System.
  */
-public class RenderingActivity extends ParentActivity {
+public class RenderingActivity
+        extends ParentActivity
+        implements ShareActionProvider.OnShareTargetSelectedListener {
 
     private static final String LOG_CAT = RenderingActivity.class.getSimpleName();
+
+    private static final String UNKNOWN_METHOD = "unknown";
+    private static final String UNKNOWN_RULE_SET = "unknown";
+    private static final String RULE_SET_NAME_EXTRA = "ruleSetName";
 
     private RuleSet ruleSet;
     private int iterationCount = 1;
@@ -50,6 +58,7 @@ public class RenderingActivity extends ParentActivity {
 
         MenuItem item = menu.findItem(R.id.action_share);
         shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        shareActionProvider.setOnShareTargetSelectedListener(this);
 
         render();
 
@@ -177,6 +186,9 @@ public class RenderingActivity extends ParentActivity {
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, "");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
+        if ((ruleSet != null) && (ruleSet.getName() != null)) {
+            intent.putExtra(RULE_SET_NAME_EXTRA, ruleSet.getName());
+        }
         shareActionProvider.setShareIntent(intent);
     }
 
@@ -199,5 +211,33 @@ public class RenderingActivity extends ParentActivity {
                 swipeRefreshLayout,
                 true);
         asyncTask.execute();
+    }
+
+    /**
+     * Notify Fabric that a rule set has been shared.
+     */
+    @Override
+    public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
+        final String method;
+        if (intent.getComponent() != null) {
+            method = intent.getComponent().getPackageName();
+        } else {
+            method = UNKNOWN_METHOD;
+        }
+
+        final String ruleSetName;
+        if (intent.hasExtra(RULE_SET_NAME_EXTRA)) {
+            ruleSetName = intent.getStringExtra(RULE_SET_NAME_EXTRA);
+        } else {
+            ruleSetName = UNKNOWN_RULE_SET;
+        }
+
+        Answers.getInstance().logShare(new ShareEvent()
+                .putMethod(method)
+                .putContentName("Share l-system")
+                .putContentType("l-system")
+                .putContentId(ruleSetName));
+
+        return false;
     }
 }
