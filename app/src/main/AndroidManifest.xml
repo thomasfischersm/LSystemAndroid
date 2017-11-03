@@ -52,6 +52,9 @@
             android:authorities="com.playposse.thomas.lindenmayer.provider"
             android:exported="false"/>
 
+        <service
+            android:name=".service.ImportRuleSetsService"
+            android:exported="false"/>
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>

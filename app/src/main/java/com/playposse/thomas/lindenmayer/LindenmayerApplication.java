@@ -1,9 +1,12 @@
 package com.playposse.thomas.lindenmayer;
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerDatabaseHelper;
+import com.playposse.thomas.lindenmayer.service.ImportRuleSetsService;
 
 /**
  * An instance of {@link Application} that helps with Google analytics.
@@ -11,6 +14,19 @@ import com.google.android.gms.analytics.Tracker;
 public class LindenmayerApplication extends Application {
 
     private Tracker tracker;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        // TODO: Remove this for the release
+        if (BuildConfig.DEBUG) {
+            getApplicationContext().deleteDatabase(LindenmayerDatabaseHelper.DB_NAME);
+        }
+
+        // Check if anything needs to be imported.
+        startService(new Intent(getApplicationContext(), ImportRuleSetsService.class));
+    }
 
     /**
      * Gets the default {@link Tracker} for this {@link Application}.

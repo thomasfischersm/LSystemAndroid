@@ -29,11 +29,11 @@ public class LindenmayerContentContract {
 
         public static final String PATH = "ruleSet";
         public static final Uri CONTENT_URI = createContentUri(PATH);
-        public static final String TABLE_NAME = "ruleSet";
+        public static final String TABLE_NAME = "rule_set_table";
 
         public static final String ID_COLUMN = _ID;
         public static final String NAME_COLUMN = "name";
-        public static final String RULE_SET_COLUMN = "ruleSet";
+        public static final String RULE_SET_COLUMN = "rule_set";
         public static final String TYPE_COLUMN = "type";
 
         public static final int SAMPLE_TYPE = 1;
@@ -47,10 +47,10 @@ public class LindenmayerContentContract {
                 TYPE_COLUMN};
 
         static final String SQL_CREATE_TABLE =
-                "CREATE TABLE recipe "
+                "CREATE TABLE rule_set_table "
                         + "(_id INTEGER PRIMARY KEY, "
                         + "name TEXT, "
-                        + "ruleSet TEXT, "
+                        + "rule_set TEXT, "
                         + "type INTEGER)";
     }
 }

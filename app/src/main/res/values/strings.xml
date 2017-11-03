@@ -75,4 +75,7 @@
     <string name="turtle_tutorial_green_button">c10: Green.</string>
     <string name="turtle_tutorial_black_button">C0: Black</string>
     <string name="turtle_tutorial_turn_around_button">|: Turn around.</string>
+
+    <!-- Toasts -->
+    <string name="rule_set_import_failed">Importing the rule sets failed :(</string>
 </resources>
