@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.playposse.thomas.lindenmayer">
+          package="com.playposse.thomas.lindenmayer">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".LindenmayerApplication"
@@ -15,7 +15,7 @@
 
         <meta-data
             android:name="com.google.android.gms.analytics.globalConfigResource"
-            android:resource="@xml/analytics_global_config" />
+            android:resource="@xml/analytics_global_config"/>
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -28,13 +28,13 @@
             android:name="com.google.android.gms.analytics.AnalyticsReceiver"
             android:enabled="true">
             <intent-filter>
-                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
+                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH"/>
             </intent-filter>
         </receiver>
         <service
             android:name="com.google.android.gms.analytics.AnalyticsService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"/>
 
         <!-- Optionally, register CampaignTrackingReceiver and CampaignTrackingService to enable
              installation campaign reporting -->
@@ -42,30 +42,36 @@
             android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
             </intent-filter>
         </receiver>
-        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService"/>
+
+        <provider
+            android:name=".contentprovider.LindenmayerContentProvider"
+            android:authorities="com.playposse.thomas.lindenmayer.provider"
+            android:exported="false"/>
+
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.RulesActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".activity.MainActivity" />
+            android:parentActivityName=".activity.MainActivity"/>
         <activity
             android:name=".activity.RenderingActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".activity.RulesActivity" />
+            android:parentActivityName=".activity.RulesActivity"/>
         <activity
             android:name=".activity.TurtleTrainingActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".activity.MainActivity" />
+            android:parentActivityName=".activity.MainActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -74,10 +80,10 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
+                android:resource="@xml/file_paths"/>
         </provider>
 
-        <activity android:name=".HelpActivity" />
+        <activity android:name=".HelpActivity"/>
     </application>
 
 </manifest>
