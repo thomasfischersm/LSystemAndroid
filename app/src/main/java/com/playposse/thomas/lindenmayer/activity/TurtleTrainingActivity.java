@@ -1,7 +1,6 @@
 package com.playposse.thomas.lindenmayer.activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -9,13 +8,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.playposse.thomas.lindenmayer.CommonMenuActions;
-import com.playposse.thomas.lindenmayer.HelpActivity;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.data.AppPreferences;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
@@ -83,20 +79,6 @@ public class TurtleTrainingActivity extends ParentActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.turtle_tutorial_menu, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_help:
-                startActivity(new Intent(this, HelpActivity.class));
-                return true;
-            case R.id.action_send_feedback:
-                CommonMenuActions.sendFeedbackAction(this);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     private void showDialogIfNecessary() {

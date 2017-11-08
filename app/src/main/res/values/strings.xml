@@ -78,4 +78,20 @@
 
     <!-- Toasts -->
     <string name="rule_set_import_failed">Importing the rule sets failed :(</string>
+
+    <!-- Navigation drawer -->
+    <string name="navigation_header_content_description">Ornamental header graphics</string>
+    <string name="drawer_open">Navigation drawer opens</string>
+    <string name="drawer_close">Navigation drawer closes</string>
+
+    <!-- Navigation menu -->
+    <string name="introduction_menu_group">Introduction</string>
+    <string name="video_tutorial_menu_item">Video tutorial</string>
+    <string name="turtle_tutorial_menu_item">Turtle graphics tutorial</string>
+    <string name="new_rule_set_menu_item">New</string>
+    <string name="rule_sets_menu_group">Rule Sets</string>
+    <string name="samples_menu_item">Samples</string>
+    <string name="my_rule_sets_menu_item">My library</string>
+    <string name="public_rule_sets_menu_item">Public library</string>
+
 </resources>

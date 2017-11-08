@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="@string/introduction_menu_group">
+        <menu>
+            <item android:title="@string/video_tutorial_menu_item"/>
+            <item android:title="@string/turtle_tutorial_menu_item" />
+        </menu>
+    </item>
+
+    <item android:title="@string/new_rule_set_menu_item" />
+
+    <item android:title="@string/rule_sets_menu_group">
+        <menu>
+            <item android:title="@string/samples_menu_item"/>
+            <item android:title="@string/my_rule_sets_menu_item"/>
+            <item android:title="@string/public_rule_sets_menu_item"/>
+        </menu>
+    </item>
+</menu>

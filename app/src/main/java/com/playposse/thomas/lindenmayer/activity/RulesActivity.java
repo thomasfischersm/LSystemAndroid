@@ -33,7 +33,6 @@ import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
 import com.playposse.thomas.lindenmayer.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.CommonMenuActions;
-import com.playposse.thomas.lindenmayer.HelpActivity;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.data.DataReader;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
@@ -214,20 +213,6 @@ public class RulesActivity extends ParentActivity {
         incrementText.addTextChangedListener(previewUpdateWatcher);
 
         findViewById(R.id.axiomText).requestFocus();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_help:
-                startActivity(new Intent(this, HelpActivity.class));
-                return true;
-            case R.id.action_send_feedback:
-                CommonMenuActions.sendFeedbackAction(this);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     private void populateUi() {

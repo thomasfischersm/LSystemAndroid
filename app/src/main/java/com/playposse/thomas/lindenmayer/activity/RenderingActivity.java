@@ -22,7 +22,6 @@ import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ShareEvent;
 import com.playposse.thomas.lindenmayer.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.CommonMenuActions;
-import com.playposse.thomas.lindenmayer.HelpActivity;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
@@ -136,18 +135,13 @@ public class RenderingActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (super.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         switch (item.getItemId()) {
-            case R.id.action_share:
-                setShareIntent();
-                return false;
-            case R.id.action_help:
-                startActivity(new Intent(this, HelpActivity.class));
-                return true;
             case R.id.action_refresh:
                 render();
-                return true;
-            case R.id.action_send_feedback:
-                CommonMenuActions.sendFeedbackAction(this);
                 return true;
             case R.id.action_send_us_your_best:
                 try {

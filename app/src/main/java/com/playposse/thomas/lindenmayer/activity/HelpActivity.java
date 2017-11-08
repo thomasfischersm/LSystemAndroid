@@ -1,11 +1,10 @@
-package com.playposse.thomas.lindenmayer;
+package com.playposse.thomas.lindenmayer.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.widget.GridView;
 
-import com.playposse.thomas.lindenmayer.activity.ParentActivity;
+import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.widgets.ColorPaletteAdapter;
 
 /**
@@ -24,16 +23,5 @@ public class HelpActivity extends ParentActivity {
 
         GridView colorPaletteGridView = (GridView) findViewById(R.id.colorPaletteGrid);
         colorPaletteGridView.setAdapter(new ColorPaletteAdapter(this));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

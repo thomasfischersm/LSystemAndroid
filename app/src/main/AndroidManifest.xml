@@ -86,7 +86,7 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
-        <activity android:name=".HelpActivity"/>
+        <activity android:name=".activity.HelpActivity"/>
     </application>
 
 </manifest>
