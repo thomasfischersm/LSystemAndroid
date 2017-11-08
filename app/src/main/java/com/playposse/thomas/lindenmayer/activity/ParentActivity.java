@@ -68,7 +68,7 @@ public abstract class ParentActivity extends AppCompatActivity {
         ImageView navigationHeaderImageView =
                 navigationView.getHeaderView(0).findViewById(R.id.navigation_header_image_view);
         GlideApp.with(this)
-                .load(R.drawable.navigation_banner04)
+                .load(R.drawable.navigation_banner)
                 .into(navigationHeaderImageView);
 
         Fabric.with(this, new Crashlytics());
