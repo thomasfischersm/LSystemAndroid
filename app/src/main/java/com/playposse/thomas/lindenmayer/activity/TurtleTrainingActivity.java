@@ -1,24 +1,10 @@
 package com.playposse.thomas.lindenmayer.activity;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.playposse.thomas.lindenmayer.R;
-import com.playposse.thomas.lindenmayer.data.AppPreferences;
-import com.playposse.thomas.lindenmayer.domain.RuleSet;
-import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
-import com.playposse.thomas.lindenmayer.widgets.FractalView;
-
-import java.util.ArrayList;
 
 /**
  * An activity that trains the user to use turtle graphics. The upper half of the screen is the
@@ -33,44 +19,7 @@ public class TurtleTrainingActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_turtle_training);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.turtleTutorialToolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        addButtonClickHandler(R.id.drawLineButton, "f");
-        addButtonClickHandler(R.id.invisibleLineButton, "F");
-        addButtonClickHandler(R.id.plusButton, "+");
-        addButtonClickHandler(R.id.minusButton, "-");
-        addButtonClickHandler(R.id.nextColorButton, "<");
-        addButtonClickHandler(R.id.previousColorButton, ">");
-        addButtonClickHandler(R.id.increaseStrokeWidthButton, "{");
-        addButtonClickHandler(R.id.decreaseStrokeWidthButton, "}");
-        addButtonClickHandler(R.id.redButton, "c18");
-        addButtonClickHandler(R.id.greenButton, "c10");
-        addButtonClickHandler(R.id.blackButton, "c0");
-        addButtonClickHandler(R.id.turnAroundButton, "|");
-
-        EditText turtleInstructionsText = (EditText) findViewById(R.id.turtleInstructionsEditText);
-        turtleInstructionsText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Nothing to do.
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Nothing to do.
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                redrawFractal();
-            }
-        });
-
-        showDialogIfNecessary();
+        addContentFragment(new TurtleTrainingFragment());
     }
 
 
@@ -81,43 +30,4 @@ public class TurtleTrainingActivity extends ParentActivity {
         return true;
     }
 
-    private void showDialogIfNecessary() {
-        if (AppPreferences.getShowTurtleTutorialDialog(this)) {
-            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-            dialogBuilder.setTitle(R.string.turtle_trainer_dialog_title);
-            dialogBuilder.setMessage(R.string.turtle_Trainer_Dialog_message);
-            dialogBuilder.setPositiveButton(R.string.dialog_continue_button, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                    AppPreferences.setShowTurtleTutorialDialog(TurtleTrainingActivity.this, false);
-                }
-            });
-            dialogBuilder.show();
-        }
-    }
-
-    private void addButtonClickHandler(int viewId, final String str) {
-        Button button = (Button) findViewById(viewId);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText turtleInstructionsText =
-                        (EditText) findViewById(R.id.turtleInstructionsEditText);
-                turtleInstructionsText.getText().append(str);
-            }
-        });
-    }
-
-    private void redrawFractal() {
-        EditText turtleInstructionsText = (EditText) findViewById(R.id.turtleInstructionsEditText);
-        String axiom = turtleInstructionsText.getText().toString();
-
-        RuleSet ruleSet = new RuleSet(axiom, new ArrayList<RuleSet.Rule>(), 60);
-
-        FractalView fractalView = (FractalView) findViewById(R.id.turtlePlayArea);
-        new BruteForceRenderAsyncTask(ruleSet, fractalView, 1, null, null, this, null, false)
-                .execute();
-    }
 }
-// Learn by experimenting how letters are translated to drawing.

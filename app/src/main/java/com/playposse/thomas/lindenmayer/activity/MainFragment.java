@@ -1,7 +1,6 @@
 package com.playposse.thomas.lindenmayer.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -56,8 +55,7 @@ public class MainFragment extends Fragment {
         videoTutorialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(
-                        new Intent(Intent.ACTION_VIEW, Uri.parse("https://youtu.be/bruY40g_S2w")));
+                ActivityNavigator.startVideoTutorialActivity(getActivity());
             }
         });
 

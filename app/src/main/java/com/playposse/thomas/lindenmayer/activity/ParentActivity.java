@@ -160,6 +160,12 @@ public abstract class ParentActivity extends AppCompatActivity {
             case R.id.action_send_feedback:
                 CommonMenuActions.sendFeedbackAction(this);
                 return true;
+            case R.id.action_video_tutorial:
+                ActivityNavigator.startVideoTutorialActivity(this);
+                return true;
+            case R.id.action_turtle_tutorial:
+                ActivityNavigator.startTurtleTrainingActivity(this);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

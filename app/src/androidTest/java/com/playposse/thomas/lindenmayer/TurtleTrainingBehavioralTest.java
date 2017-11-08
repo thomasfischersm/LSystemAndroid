@@ -47,13 +47,13 @@ public class TurtleTrainingBehavioralTest {
                 .perform(click());
 
         // Draw a few things.
-        clickDrawButtonsAndAssert(R.id.drawLineButton, "f");
-        clickDrawButtonsAndAssert(R.id.increaseStrokeWidthButton, "f{");
-        clickDrawButtonsAndAssert(R.id.plusButton, "f{+");
-        clickDrawButtonsAndAssert(R.id.nextColorButton, "f{+<");
-        clickDrawButtonsAndAssert(R.id.drawLineButton, "f{+<f");
-        clickDrawButtonsAndAssert(R.id.invisibleLineButton, "f{+<fF");
-        clickDrawButtonsAndAssert(R.id.drawLineButton, "f{+<fFf");
+        clickDrawButtonsAndAssert(R.id.draw_line_button, "f");
+        clickDrawButtonsAndAssert(R.id.increase_stroke_width_button, "f{");
+        clickDrawButtonsAndAssert(R.id.plus_button, "f{+");
+        clickDrawButtonsAndAssert(R.id.next_color_button, "f{+<");
+        clickDrawButtonsAndAssert(R.id.draw_line_button, "f{+<f");
+        clickDrawButtonsAndAssert(R.id.invisible_line_button, "f{+<fF");
+        clickDrawButtonsAndAssert(R.id.draw_line_button, "f{+<fFf");
 
         // Navigate back and ensure that the dialog no longer shows.
         Espresso.pressBack();
@@ -66,7 +66,7 @@ public class TurtleTrainingBehavioralTest {
     private void clickDrawButtonsAndAssert(int buttonId, String axiom) {
         onView(withId(buttonId))
                 .perform(click());
-        onView(withId(R.id.turtleInstructionsEditText))
+        onView(withId(R.id.turtle_instructions_edit_text))
                 .check(matches(withText(axiom)));
     }
 }
