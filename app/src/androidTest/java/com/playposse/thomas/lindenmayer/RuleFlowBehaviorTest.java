@@ -49,11 +49,11 @@ public class RuleFlowBehaviorTest {
     @Test
     public void createAndSaveRule() {
         // No user defined rules should exist because we should have a clean setup.
-        onView(withId(R.id.userDefinedLabel))
+        onView(withId(R.id.user_defined_label))
                 .check(matches(not(isDisplayed())));
 
         // Navigate to RuleActivity.
-        onView(withId(R.id.newButton))
+        onView(withId(R.id.new_button))
                 .perform(click());
 
         // Create a minimal rule.
@@ -76,7 +76,7 @@ public class RuleFlowBehaviorTest {
 
         // Verify the new rule on the MainActivity.
         Espresso.pressBack();
-        onView(withId(R.id.userDefinedLabel))
+        onView(withId(R.id.user_defined_label))
                 .check(matches(isDisplayed()));
         onView(withText(RULE_SET_NAME))
                 .perform(click());

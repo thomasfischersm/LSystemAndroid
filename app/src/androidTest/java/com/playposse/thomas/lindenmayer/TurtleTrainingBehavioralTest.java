@@ -35,7 +35,7 @@ public class TurtleTrainingBehavioralTest {
     @Test
     public void smokeTest() {
         // Navigate to turtle tutorial activity.
-        onView(withId(R.id.turtleTutorialButton))
+        onView(withId(R.id.turtle_tutorial_button))
                 .perform(click());
 
         // Verify and dismiss dialog.
@@ -57,7 +57,7 @@ public class TurtleTrainingBehavioralTest {
 
         // Navigate back and ensure that the dialog no longer shows.
         Espresso.pressBack();
-        onView(withId(R.id.turtleTutorialButton))
+        onView(withId(R.id.turtle_tutorial_button))
                 .perform(click());
         onView(withText(R.string.turtle_trainer_dialog_title))
                 .check(doesNotExist());

@@ -35,12 +35,12 @@ import butterknife.ButterKnife;
  */
 public class MainFragment extends Fragment {
 
-    @BindView(R.id.videoTutorialButton) Button videoTutorialButton;
-    @BindView(R.id.newButton) Button newButton;
-    @BindView(R.id.turtleTutorialButton) Button turtleTutorialButton;
-    @BindView(R.id.userDefinedLayout) LinearLayout userDefinedLayout;
-    @BindView(R.id.userDefinedLabel) TextView userDefinedLabel;
-    @BindView(R.id.sampleLayout) LinearLayout samplesLayout;
+    @BindView(R.id.video_tutorial_button) Button videoTutorialButton;
+    @BindView(R.id.new_button) Button newButton;
+    @BindView(R.id.turtle_tutorial_button) Button turtleTutorialButton;
+    @BindView(R.id.user_defined_layout) LinearLayout userDefinedLayout;
+    @BindView(R.id.user_defined_label) TextView userDefinedLabel;
+    @BindView(R.id.sample_layout) LinearLayout samplesLayout;
 
     @Nullable
     @Override
