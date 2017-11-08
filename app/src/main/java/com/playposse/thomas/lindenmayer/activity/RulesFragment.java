@@ -1,0 +1,415 @@
+package com.playposse.thomas.lindenmayer.activity;
+
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
+import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.domain.RuleSet;
+import com.playposse.thomas.lindenmayer.util.StringUtil;
+import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
+import com.playposse.thomas.lindenmayer.widgets.FractalView;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * The content {@link Fragment} for the {@link RulesActivity}.
+ */
+public class RulesFragment extends Fragment {
+
+    @BindView(R.id.go_button) FloatingActionButton goButton;
+    @BindView(R.id.axiom_text_view) TextView axiomTextView;
+    @BindView(R.id.direction_increment_text_view) TextView incrementTextView;
+    @BindView(R.id.relative_scroll_container) RelativeLayout relativeScrollContainer;
+    @BindView(R.id.rules_table_layout)TableLayout rulesTableLayout;
+    @BindView(R.id.preview_text_view) TextView previewTextView;
+
+    private final PreviewUpdateWatcher previewUpdateWatcher = new PreviewUpdateWatcher();
+
+    private RuleSet intentRuleSet;
+    private NeatRowWatcher neatRowWatcher = new NeatRowWatcher();
+    private FractalView fractalView;
+
+
+    @Nullable
+    @Override
+    public View onCreateView(
+            @NonNull LayoutInflater inflater,
+            @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.fragment_rules, container, false);
+
+        ButterKnife.bind(this, rootView);
+
+        goButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                render();
+            }
+        });
+
+        if (getActivity().getIntent().hasExtra(RuleSet.EXTRA_RULE_SET)) {
+            intentRuleSet = getActivity().getIntent().getParcelableExtra(RuleSet.EXTRA_RULE_SET);
+            populateUi();
+            logContentViewToFabric(intentRuleSet);
+        } else {
+            intentRuleSet = null;
+            clearUi();
+        }
+
+        axiomTextView.addTextChangedListener(previewUpdateWatcher);
+        axiomTextView.requestFocus();
+
+        incrementTextView.addTextChangedListener(new AngleWatcher());
+        incrementTextView.addTextChangedListener(previewUpdateWatcher);
+
+
+        return rootView;
+    }
+
+    private void populateUi() {
+        axiomTextView.setText(intentRuleSet.getAxiom());
+        incrementTextView.setText("" + intentRuleSet.getDirectionIncrement());
+
+        rebuildRulesTable(intentRuleSet);
+    }
+
+    private void rebuildRulesTable(RuleSet ruleSet) {
+        rulesTableLayout.removeAllViewsInLayout();
+        if ((ruleSet != null) && (ruleSet.getRules() != null)) {
+            for (RuleSet.Rule rule : ruleSet.getRules()) {
+                addRow(rulesTableLayout, rule.getMatch(), rule.getReplacement());
+            }
+        }
+
+        addRow(rulesTableLayout, "", "");
+    }
+
+    private void clearUi() {
+        axiomTextView.setText("");
+        incrementTextView.setText("");
+        rulesTableLayout.removeAllViewsInLayout();
+        addRow(rulesTableLayout, "", "");
+    }
+
+    private TableRow addRow(TableLayout rulesTable, String match, String replacement) {
+        TableRow row = new TableRow(getActivity());
+        TableRow.LayoutParams rowLayoutParams = new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT);
+        row.setLayoutParams(rowLayoutParams);
+
+        EditText matchText = new EditText(getActivity());
+        TableRow.LayoutParams matchTextLayoutParams = new TableRow.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        matchText.setLayoutParams(matchTextLayoutParams);
+        matchText.setEms(1);
+        matchText.setText(match);
+        matchText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        matchText.setContentDescription(
+                getResources().getString(R.string.rules_activity_match_content_description));
+        matchText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
+        matchText.addTextChangedListener(neatRowWatcher);
+        matchText.addTextChangedListener(previewUpdateWatcher);
+        row.addView(matchText);
+
+        ImageView arrowImage = new ImageView(getActivity());
+        TableRow.LayoutParams arrowImageLayoutParams = new TableRow.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        arrowImageLayoutParams.gravity = Gravity.CENTER;
+        arrowImage.setLayoutParams(arrowImageLayoutParams);
+        arrowImage.setImageResource(R.drawable.ic_forward_black_24dp);
+        row.addView(arrowImage);
+
+        EditText replacementText = new EditText(getActivity());
+        TableRow.LayoutParams replacementTextLayoutParams = new TableRow.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        replacementText.setLayoutParams(replacementTextLayoutParams);
+        replacementText.setText(replacement);
+        replacementText.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        replacementText.setContentDescription(
+                getResources().getString(R.string.rules_activity_replacement_content_description));
+        replacementText.addTextChangedListener(neatRowWatcher);
+        replacementText.addTextChangedListener(previewUpdateWatcher);
+        row.addView(replacementText);
+
+        TableLayout.LayoutParams tableLayoutParams = new TableLayout.LayoutParams(
+                TableLayout.LayoutParams.MATCH_PARENT,
+                TableLayout.LayoutParams.WRAP_CONTENT);
+        rulesTable.addView(row, tableLayoutParams);
+        return row;
+    }
+
+    private void render() {
+        if (!validate()) {
+            return;
+        }
+
+        RuleSet ruleSet = createRuleSet();
+
+        ActivityNavigator.startRenderActivity(getActivity(), ruleSet);
+    }
+
+    protected RuleSet createRuleSet() {
+        RuleSet ruleSet = null;
+        try {
+            String axiom = axiomTextView.getText().toString();
+            String directionIncrementString = incrementTextView.getText().toString();
+            int directionIncrement = Integer.parseInt(directionIncrementString);
+
+            List<RuleSet.Rule> rules = new ArrayList<>();
+            for (int i = 0; i < rulesTableLayout.getChildCount(); i++) {
+                TableRow row = (TableRow) rulesTableLayout.getChildAt(i);
+                Editable matchText = ((EditText) row.getChildAt(0)).getText();
+                Editable replacementText = ((EditText) row.getChildAt(2)).getText();
+                if (matchText.length() > 0) {
+                    RuleSet.Rule rule = new RuleSet.Rule(matchText.toString(), replacementText.toString());
+                    rules.add(rule);
+                }
+            }
+
+            ruleSet = new RuleSet(axiom, rules, directionIncrement);
+        } catch (NumberFormatException ex) {
+            // This method is called to attempt creating a RuleSet. Getting a bad number
+            // simply means that the RuleSet is incomplete.
+            return null;
+        }
+
+        return ruleSet;
+    }
+
+    private void attemptToShowPreview() {
+        // Clear out container.
+        if (fractalView != null) {
+            relativeScrollContainer.removeView(fractalView);
+            previewTextView.setVisibility(View.GONE);
+            fractalView = null;
+        }
+
+        // Check if rules are complete.
+        final RuleSet ruleSet = createRuleSet();
+        if ((ruleSet == null) || !ruleSet.isValid()) {
+            return;
+        }
+
+        // Add the preview to the UI.
+        fractalView = new FractalView(getActivity());
+        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(180, 180);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        layoutParams.setMargins(10, 0, 10, 10);
+        fractalView.setLayoutParams(layoutParams);
+        fractalView.setBackgroundColor(Color.WHITE);
+        fractalView.setElevation(10);
+        relativeScrollContainer.addView(fractalView);
+        previewTextView.setVisibility(View.VISIBLE);
+        previewTextView.bringToFront();
+
+        // Render the preview.
+        fractalView.post(new Runnable() {
+            @Override
+            public void run() {
+                new BruteForceRenderAsyncTask(
+                        ruleSet,
+                        fractalView,
+                        2,
+                        null,
+                        null,
+                        getActivity(),
+                        null,
+                        false).execute();
+            }
+        });
+    }
+
+    /**
+     * Check that the rule set is complete for rendering and saving. Show errors if necessary.
+     */
+    protected boolean validate() {
+        boolean valid = true;
+        String requiredError =
+                getResources().getString(R.string.rules_activity_required_value_error);
+
+        // Validate axiom.
+        if (axiomTextView.getText().length() == 0) {
+            axiomTextView.setError(requiredError);
+            valid = false;
+        }
+
+        // Validate direction change.
+        valid = valid && validateDirectionIncrement();
+
+        // Validate rules.
+        for (int i = 0; i < rulesTableLayout.getChildCount(); i++) {
+            TableRow row = (TableRow) rulesTableLayout.getChildAt(i);
+            EditText matchText = (EditText) row.getChildAt(0);
+            EditText replacementText = (EditText) row.getChildAt(2);
+            if ((matchText.length() == 0) && (replacementText.length() > 0)) {
+                matchText.setError(requiredError);
+                valid = false;
+            }
+        }
+
+        return valid;
+    }
+
+    private boolean validateDirectionIncrement() {
+
+        // Validate direction increment.
+        boolean valid = true;
+        try {
+            String str = incrementTextView.getText().toString();
+            int number = 0;
+            number = Integer.parseInt(str);
+            valid = (number > 0) && (number < 359);
+        } catch (NumberFormatException ex) {
+            valid = false;
+        }
+
+        // Show error if necessary.
+        if (!valid) {
+            String errorStr = getResources().getString(R.string.rules_activity_angle_error);
+            incrementTextView.setError(errorStr);
+        }
+
+        return valid;
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if ((savedInstanceState != null)
+                && savedInstanceState.containsKey(RuleSet.EXTRA_RULE_SET)) {
+            RuleSet savedRuleSet = savedInstanceState.getParcelable(RuleSet.EXTRA_RULE_SET);
+            rebuildRulesTable(savedRuleSet);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        RuleSet ruleSet = createRuleSet();
+        if (ruleSet == null) {
+            // Invalid RuleSets are not saved. As a quick little cheat, let's set the angle.
+            incrementTextView.setText("90");
+            ruleSet = createRuleSet();
+        }
+
+        outState.putParcelable(RuleSet.EXTRA_RULE_SET, ruleSet);
+    }
+
+    private void logContentViewToFabric(RuleSet intentRuleSet) {
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentName("Viewed L-System rule")
+                .putContentType("L-system view")
+                .putContentId(intentRuleSet.getName()));
+    }
+
+    public String getRuleSetName() {
+        if ((intentRuleSet != null) && (!StringUtil.isEmpty(intentRuleSet.getName()))) {
+            return intentRuleSet.getName();
+        } else {
+            return null;
+        }
+    }
+
+    private class NeatRowWatcher implements TextWatcher {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            for (int i = rulesTableLayout.getChildCount() - 1; i >= 0; i--) {
+                TableRow row = (TableRow) rulesTableLayout.getChildAt(i);
+                EditText matchText = (EditText) row.getChildAt(0);
+                EditText replacementText = (EditText) row.getChildAt(2);
+                boolean isEmpty =
+                        matchText.getText().toString().isEmpty()
+                                && replacementText.getText().toString().isEmpty();
+
+                if (i != rulesTableLayout.getChildCount() - 1) {
+                    if (isEmpty) {
+                        rulesTableLayout.removeView(row);
+                    }
+                } else {
+                    if (!isEmpty) {
+                        addRow(rulesTableLayout, "", "");
+                    }
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    }
+
+    private class PreviewUpdateWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Ignore.
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // Ignore.
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            attemptToShowPreview();
+        }
+    }
+
+    /**
+     * TextWatcher for the direction change input. This watcher adds an error to the
+     * {@link EditText} if the entered number is outside of the range (1 -> 359).
+     */
+    private class AngleWatcher implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Ignore.
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // Ignore.
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            validateDirectionIncrement();
+        }
+    }
+}

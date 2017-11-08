@@ -36,7 +36,7 @@ import io.fabric.sdk.android.Fabric;
 /**
  * An abstract activity that extends {@link AppCompatActivity} to add analytics tracking.
  */
-public abstract class ParentActivity extends AppCompatActivity {
+public abstract class ParentActivity<F extends Fragment> extends AppCompatActivity {
 
     private static final String MAIN_FRAGMENT_TAG = "mainFragment";
 
@@ -169,5 +169,10 @@ public abstract class ParentActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    protected F getContentFragment() {
+        return (F) getSupportFragmentManager().findFragmentByTag(MAIN_FRAGMENT_TAG);
     }
 }

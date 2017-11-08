@@ -57,9 +57,9 @@ public class RuleFlowBehaviorTest {
                 .perform(click());
 
         // Create a minimal rule.
-        onView(withId(R.id.axiomText))
+        onView(withId(R.id.axiom_text_view))
                 .perform(typeText(AXIOM));
-        onView(withId(R.id.directionIncrementText))
+        onView(withId(R.id.direction_increment_text_view))
                 .perform(typeText("" + DIRECTION_INCREMENT));
         onView(withContentDescription(R.string.rules_activity_match_content_description))
                 .perform((typeText(MATCH)));
@@ -80,9 +80,9 @@ public class RuleFlowBehaviorTest {
                 .check(matches(isDisplayed()));
         onView(withText(RULE_SET_NAME))
                 .perform(click());
-        onView(withId(R.id.axiomText))
+        onView(withId(R.id.axiom_text_view))
                 .check(matches(withText(AXIOM)));
-        onView(withId(R.id.directionIncrementText))
+        onView(withId(R.id.direction_increment_text_view))
                 .check(matches(withText("" + DIRECTION_INCREMENT)));
     }
 
@@ -97,7 +97,7 @@ public class RuleFlowBehaviorTest {
         openHelpActivityAndReturn();
 
         // Check help accessible in RenderingActivity.
-        onView(withId(R.id.goButton))
+        onView(withId(R.id.go_button))
                 .perform(click());
         openHelpActivityAndReturn();
     }
@@ -115,7 +115,7 @@ public class RuleFlowBehaviorTest {
     public void renderSampleRuleSet() {
         onView(withText("Crystal"))
                 .perform(scrollTo(), click());
-        onView(withId(R.id.goButton))
+        onView(withId(R.id.go_button))
                 .perform(click());
         onView(withId(R.id.incrementIterationButton))
                 .perform(click());

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.playposse.thomas.lindenmayer.domain.RuleSet;
+
 /**
  * A central class that manages navigation between activities.
  */
@@ -17,5 +19,11 @@ public class ActivityNavigator {
 
     public static void startTurtleTrainingActivity(Context context) {
         context.startActivity(new Intent(context, TurtleTrainingActivity.class));
+    }
+
+    public static void startRenderActivity(Context context, RuleSet ruleSet) {
+        Intent intent = new Intent(context, RenderingActivity.class);
+        intent.putExtra(RuleSet.EXTRA_RULE_SET, ruleSet);
+        context.startActivity(intent);
     }
 }
