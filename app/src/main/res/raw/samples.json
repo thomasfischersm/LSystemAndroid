@@ -279,6 +279,126 @@
           "replacement": "c3"
         }
       ]
+    },
+    {
+      "name": "Space-filling tree",
+      "axiom": "-[f]--[f]--[f]--[f]",
+      "directionIncrement": "45",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "ff[f][--f][++f]"
+        }
+      ]
+    },
+    {
+      "name": "Quadratic cross",
+      "axiom": "[f]--[f]--[f]--[f]",
+      "directionIncrement": "45",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "{{{ff}}}[f][--f][++f]"
+        }
+      ]
+    },
+    {
+      "name": "Christmas cross",
+      "axiom": "[f]--[f]--[f]--[f]",
+      "directionIncrement": "45",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "<{{{ff}}}[f][--f][++f]"
+        }
+      ]
+    },
+    {
+      "name": "Quadratic Koch Island",
+      "axiom": "f-f-f-f",
+      "directionIncrement": "90",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "f-f+f+ff-f-f+f"
+        }
+      ]
+    },
+    {
+      "name": "Tree I",
+      "axiom": "|f",
+      "directionIncrement": "26",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "f[+f]f[-f]f"
+        }
+      ]
+    },
+    {
+      "name": "Tree II",
+      "axiom": "|f",
+      "directionIncrement": "20",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "f[+f]f[-f][f]"
+        }
+      ]
+    },
+    {
+      "name": "Tree III",
+      "axiom": "|f",
+      "directionIncrement": "23",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "ff-[-f+f+f]+[+f-f-f]"
+        }
+      ]
+    },
+    {
+      "name": "Tree IV",
+      "axiom": "|x",
+      "directionIncrement": "23",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "x",
+          "replacement": "f[+x]f[-x]+x"
+        },
+        {
+          "match": "x",
+          "replacement": "f[-x]f[-x]+x"
+        },
+        {
+          "match": "f",
+          "replacement": "ff"
+        }
+      ]
+    },
+    {
+      "name": "Twin dragon",
+      "axiom": "c19fx+c14fx+",
+      "directionIncrement": "90",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "x",
+          "replacement": "x+yf"
+        },
+        {
+          "match": "y",
+          "replacement": "fx-y"
+        }
+      ]
     }
   ]
 }
