@@ -101,4 +101,5 @@
 
     <!-- Common strings -->
     <string name="rule_set_preview_content_description">Renders the preview of a rule set.</string>
+    <string name="no_private_rule_sets_message">When you save your own rule set, it will show up here.</string>
 </resources>

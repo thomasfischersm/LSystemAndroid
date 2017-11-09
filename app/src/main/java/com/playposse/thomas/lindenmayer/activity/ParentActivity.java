@@ -172,6 +172,8 @@ public abstract class ParentActivity<F extends Fragment> extends AppCompatActivi
             case R.id.action_samples:
                 ActivityNavigator.startSampleLibraryActivity(this);
                 return true;
+            case R.id.action_private_rule_sets:
+                ActivityNavigator.startPrivateLibraryActivity(this);
             default:
                 return super.onOptionsItemSelected(item);
         }

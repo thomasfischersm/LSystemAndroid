@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * A content {@link Fragment} that shows a grid with sample rule sets.
  */
-public class SampleLibraryFragment
+public class PrivateLibraryFragment
         extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -43,14 +43,14 @@ public class SampleLibraryFragment
             @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_sample_library, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_private_library, container, false);
 
         ButterKnife.bind(this, rootView);
 
         // Set up RecyclerView.
         ruleSetRecyclerView.setHasFixedSize(true); // Small performance improvement.
         ruleSetRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), GRID_SPAN));
-        ruleSetAdapter = new RuleSetAdapter(getActivity());
+        ruleSetAdapter = new RuleSetAdapter(getContext());
         ruleSetRecyclerView.setAdapter(ruleSetAdapter);
 
         return rootView;
@@ -75,7 +75,7 @@ public class SampleLibraryFragment
                 RuleSetTable.CONTENT_URI,
                 RuleSetTable.COLUMN_NAMES,
                 RuleSetTable.TYPE_COLUMN + "=?",
-                new String[]{Integer.toString(RuleSetTable.SAMPLE_TYPE)},
+                new String[]{Integer.toString(RuleSetTable.PRIVATE_TYPE)},
                 null);
     }
 

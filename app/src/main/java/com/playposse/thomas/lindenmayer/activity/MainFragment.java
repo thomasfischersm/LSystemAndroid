@@ -1,6 +1,5 @@
 package com.playposse.thomas.lindenmayer.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -69,7 +68,7 @@ public class MainFragment extends Fragment {
         turtleTutorialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), TurtleTrainingActivity.class));
+                ActivityNavigator.startTurtleTrainingActivity(getActivity());
             }
         });
 
@@ -119,9 +118,7 @@ public class MainFragment extends Fragment {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), RulesActivity.class);
-                    intent.putExtra(RuleSet.EXTRA_RULE_SET, ruleSet);
-                    startActivity(intent);
+                    ActivityNavigator.startRuleSetActivity(getActivity(), ruleSet);
                 }
             });
             if (deleteable) {

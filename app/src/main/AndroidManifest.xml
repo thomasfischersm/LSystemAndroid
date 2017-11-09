@@ -92,6 +92,8 @@
         <activity android:name=".activity.HelpActivity"/>
         <activity android:name=".activity.SampleLibraryActivity">
         </activity>
+        <activity android:name=".activity.PrivateLibraryActivity">
+        </activity>
     </application>
 
 </manifest>

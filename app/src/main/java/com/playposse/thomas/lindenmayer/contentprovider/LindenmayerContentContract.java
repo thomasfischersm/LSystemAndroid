@@ -37,8 +37,8 @@ public class LindenmayerContentContract {
         public static final String TYPE_COLUMN = "type";
 
         public static final int SAMPLE_TYPE = 1;
-        public static final int GENERATED_BY_THIS_USER_TYPE = 2;
-        public static final int GENERATED_BY_OTHER_USER_TYPE = 3;
+        public static final int PRIVATE_TYPE = 2;
+        public static final int PUBLIC_TYPE = 3;
 
         public static final String[] COLUMN_NAMES = new String[]{
                 ID_COLUMN,

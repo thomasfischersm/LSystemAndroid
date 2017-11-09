@@ -21,7 +21,7 @@
                 android:id="@+id/action_samples"
                 android:title="@string/samples_menu_item"/>
             <item
-                android:id="@+id/action_my_rule_sets"
+                android:id="@+id/action_private_rule_sets"
                 android:title="@string/my_rule_sets_menu_item"/>
             <item
                 android:id="@+id/action_public_rule_sets"

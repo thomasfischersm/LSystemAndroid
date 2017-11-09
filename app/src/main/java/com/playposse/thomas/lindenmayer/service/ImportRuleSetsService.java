@@ -58,7 +58,7 @@ public class ImportRuleSetsService extends IntentService {
                 Log.i(LOG_TAG, "onHandleIntent: Importing user rule sets.");
                 importRuleSets(
                         DataReader.readUserRuleSets(getApplicationContext()),
-                        RuleSetTable.GENERATED_BY_THIS_USER_TYPE);
+                        RuleSetTable.PRIVATE_TYPE);
 
                 AppPreferences.setHasImportedUserRuleSets(getApplicationContext(), true);
             } else {

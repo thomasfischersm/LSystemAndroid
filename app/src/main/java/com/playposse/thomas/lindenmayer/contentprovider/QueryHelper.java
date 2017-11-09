@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.RuleSetTable;
+import com.playposse.thomas.lindenmayer.contentprovider.parser.RuleSetConverter;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.util.SmartCursor;
 
@@ -24,6 +25,26 @@ public class QueryHelper {
                 RuleSetTable.ID_COLUMN + "=?",
                 new String[]{Long.toString(ruleSetId)},
                 null);
+    }
+
+    public static RuleSet getParsedRuleSetById(ContentResolver contentResolver, long ruleSetId) {
+        Cursor cursor = getRuleSetById(contentResolver, ruleSetId);
+
+        if (cursor == null) {
+            throw new IllegalStateException("Failed to load RuleSet. The Cursor was null.");
+        }
+
+        try {
+            if (cursor.moveToFirst()) {
+                SmartCursor smartCursor = new SmartCursor(cursor, RuleSetTable.COLUMN_NAMES);
+                String json = smartCursor.getString(RuleSetTable.RULE_SET_COLUMN);
+                return RuleSetConverter.read(json);
+            } else {
+                throw new IllegalStateException("Cursor failed to return a row!");
+            }
+        } finally {
+            cursor.close();
+        }
     }
 
     /**
