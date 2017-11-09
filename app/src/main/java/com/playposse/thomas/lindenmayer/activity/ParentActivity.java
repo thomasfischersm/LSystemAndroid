@@ -166,6 +166,9 @@ public abstract class ParentActivity<F extends Fragment> extends AppCompatActivi
             case R.id.action_turtle_tutorial:
                 ActivityNavigator.startTurtleTrainingActivity(this);
                 return true;
+            case R.id.action_new_rule_set:
+                ActivityNavigator.startNewRuleSetActivity(this);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

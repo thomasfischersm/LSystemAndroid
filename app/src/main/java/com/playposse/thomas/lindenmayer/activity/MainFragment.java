@@ -62,7 +62,7 @@ public class MainFragment extends Fragment {
         newButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openRulesActivity();
+                ActivityNavigator.startNewRuleSetActivity(getActivity());
             }
         });
 
@@ -138,11 +138,6 @@ public class MainFragment extends Fragment {
             }
             samplesLayout.addView(button);
         }
-    }
-
-    private void openRulesActivity() {
-        Intent intent = new Intent(getActivity(), RulesActivity.class);
-        startActivity(intent);
     }
 
     private class DeleteActionMode implements ActionMode.Callback {

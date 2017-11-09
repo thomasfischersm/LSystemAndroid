@@ -1,42 +1,30 @@
 package com.playposse.thomas.lindenmayer.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.ShareActionProvider;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ShareEvent;
-import com.playposse.thomas.lindenmayer.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.CommonMenuActions;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
-import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
-import com.playposse.thomas.lindenmayer.widgets.FractalView;
 
 import org.json.JSONException;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 /**
  * An {@link android.app.Activity} that shows the render Lindenmayer System.
  */
 public class RenderingActivity
-        extends ParentActivity
+        extends ParentActivity<RenderingFragment>
         implements ShareActionProvider.OnShareTargetSelectedListener {
 
     private static final String LOG_CAT = RenderingActivity.class.getSimpleName();
@@ -45,11 +33,7 @@ public class RenderingActivity
     private static final String UNKNOWN_RULE_SET = "unknown";
     private static final String RULE_SET_NAME_EXTRA = "ruleSetName";
 
-    private RuleSet ruleSet;
-    private int iterationCount = 1;
     private ShareActionProvider shareActionProvider;
-    private FractalView fractalView;
-    private BruteForceRenderAsyncTask asyncTask;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,7 +43,7 @@ public class RenderingActivity
         shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
         shareActionProvider.setOnShareTargetSelectedListener(this);
 
-        render();
+        getContentFragment().render();
 
         return true;
     }
@@ -68,69 +52,7 @@ public class RenderingActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_rendering);
-
-        Intent intent = getIntent();
-        ruleSet = intent.getParcelableExtra(RuleSet.EXTRA_RULE_SET);
-
-        Toolbar mainToolbar = (Toolbar) findViewById(R.id.mainToolbar);
-        setSupportActionBar(mainToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        fractalView = new FractalView(this);
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        fractalView.setLayoutParams(layoutParams);
-        RelativeLayout rootView = (RelativeLayout) findViewById(R.id.renderingRootView);
-        rootView.addView(fractalView);
-
-        final FloatingActionButton decrementButton = (FloatingActionButton) findViewById(R.id.decrementIterationButton);
-        decrementButton.hide();
-        decrementButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iterationCount--;
-                if (iterationCount < 1) {
-                    iterationCount = 1;
-                } else {
-                    render();
-                    AnalyticsUtil.sendEvent(getApplication(), "Action", "DecrementIteration");
-                }
-
-                if (iterationCount == 1) {
-                    decrementButton.hide();
-                }
-            }
-        });
-
-        FloatingActionButton incrementButton =
-                (FloatingActionButton) findViewById(R.id.incrementIterationButton);
-        incrementButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iterationCount++;
-                render();
-                AnalyticsUtil.sendEvent(getApplication(), "Action", "IncrementIteration");
-
-                if (!decrementButton.isShown()) {
-                    decrementButton.show();
-                }
-            }
-        });
-
-        SwipeRefreshLayout swipeRefreshLayout =
-                (SwipeRefreshLayout) findViewById(R.id.renderSwipeRefreshLayout);
-        swipeRefreshLayout.setEnabled(false);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                render();
-            }
-        });
-
-        if (ruleSet.isStochastic()) {
-            Toast.makeText(this, R.string.stochastic_toast, Toast.LENGTH_LONG)
-                    .show();
-        }
+        addContentFragment(new RenderingFragment());
     }
 
     @Override
@@ -141,11 +63,13 @@ public class RenderingActivity
 
         switch (item.getItemId()) {
             case R.id.action_refresh:
-                render();
+                getContentFragment().render();
                 return true;
             case R.id.action_send_us_your_best:
                 try {
-                    CommonMenuActions.sendUsYourBest(this, ruleSet);
+                    CommonMenuActions.sendUsYourBest(
+                            this,
+                            getContentFragment().getRuleSet());
                 } catch (JSONException ex) {
                     Log.e(LOG_CAT, "Failed to execute menu action 'send us your best'", ex);
                 }
@@ -154,21 +78,12 @@ public class RenderingActivity
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-
-    }
-
     private void setShareIntent() {
         // Convert to PNG.
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        Bitmap bitmap = fractalView.getDrawingCache();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, buffer);
+        byte[] pngBytes = getContentFragment().getPngBytes();
 
         // Encode in base64.
-        String encodedImage = Base64.encodeToString(buffer.toByteArray(), Base64.DEFAULT);
+        String encodedImage = Base64.encodeToString(pngBytes, Base64.DEFAULT);
 
         // Save file to cache.
         File file = new File(getCacheDir(), "screenshot.png");
@@ -180,31 +95,11 @@ public class RenderingActivity
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, "");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
+        RuleSet ruleSet = getContentFragment().getRuleSet();
         if ((ruleSet != null) && (ruleSet.getName() != null)) {
             intent.putExtra(RULE_SET_NAME_EXTRA, ruleSet.getName());
         }
         shareActionProvider.setShareIntent(intent);
-    }
-
-    private void render() {
-        SwipeRefreshLayout swipeRefreshLayout =
-                (SwipeRefreshLayout) findViewById(R.id.renderSwipeRefreshLayout);
-        swipeRefreshLayout.setEnabled(false);
-        swipeRefreshLayout.setRefreshing(false); // Don't show the icon. there already is a progress dialog!
-
-        if ((asyncTask != null) && (!asyncTask.isCancelled())) {
-            asyncTask.cancel(true);
-        }
-        asyncTask = new BruteForceRenderAsyncTask(
-                ruleSet,
-                fractalView,
-                iterationCount,
-                shareActionProvider,
-                getCacheDir(),
-                this,
-                swipeRefreshLayout,
-                true);
-        asyncTask.execute();
     }
 
     /**
@@ -233,5 +128,9 @@ public class RenderingActivity
                 .putContentId(ruleSetName));
 
         return false;
+    }
+
+    protected ShareActionProvider getShareActionProvider() {
+        return shareActionProvider;
     }
 }

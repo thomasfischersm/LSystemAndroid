@@ -117,7 +117,7 @@ public class RuleFlowBehaviorTest {
                 .perform(scrollTo(), click());
         onView(withId(R.id.go_button))
                 .perform(click());
-        onView(withId(R.id.incrementIterationButton))
+        onView(withId(R.id.increment_iteration_button))
                 .perform(click());
     }
 }

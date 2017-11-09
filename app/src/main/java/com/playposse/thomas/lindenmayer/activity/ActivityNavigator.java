@@ -26,4 +26,8 @@ public class ActivityNavigator {
         intent.putExtra(RuleSet.EXTRA_RULE_SET, ruleSet);
         context.startActivity(intent);
     }
+
+    public static void startNewRuleSetActivity(Context context) {
+        context.startActivity(new Intent(context, RulesActivity.class));
+    }
 }
