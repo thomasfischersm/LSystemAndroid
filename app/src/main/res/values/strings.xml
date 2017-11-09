@@ -76,6 +76,11 @@
     <string name="turtle_tutorial_black_button">C0: Black</string>
     <string name="turtle_tutorial_turn_around_button">|: Turn around.</string>
 
+    <!-- Samples library activity -->
+    <string name="no_samples_message">
+        There are no samples. Something went wrong. Try deleting the app data and restart the app.
+    </string>
+
     <!-- Toasts -->
     <string name="rule_set_import_failed">Importing the rule sets failed :(</string>
 
@@ -94,4 +99,6 @@
     <string name="my_rule_sets_menu_item">My library</string>
     <string name="public_rule_sets_menu_item">Public library</string>
 
+    <!-- Common strings -->
+    <string name="rule_set_preview_content_description">Renders the preview of a rule set.</string>
 </resources>

@@ -12,18 +12,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
         <meta-data
             android:name="com.google.android.gms.analytics.globalConfigResource"
             android:resource="@xml/analytics_global_config"/>
-
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="5e6d81f10c3b91abdbb377d69ca013c8a8fecb3e"
-            />
+            android:value="5e6d81f10c3b91abdbb377d69ca013c8a8fecb3e"/>
 
-        <!-- Optionally, register AnalyticsReceiver and AnalyticsService to support background
-     dispatching on non-Google Play devices -->
+        <!--
+     Optionally, register AnalyticsReceiver and AnalyticsService to support background
+     dispatching on non-Google Play devices
+        -->
         <receiver
             android:name="com.google.android.gms.analytics.AnalyticsReceiver"
             android:enabled="true">
@@ -31,13 +30,16 @@
                 <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH"/>
             </intent-filter>
         </receiver>
+
         <service
             android:name="com.google.android.gms.analytics.AnalyticsService"
             android:enabled="true"
             android:exported="false"/>
 
-        <!-- Optionally, register CampaignTrackingReceiver and CampaignTrackingService to enable
-             installation campaign reporting -->
+        <!--
+             Optionally, register CampaignTrackingReceiver and CampaignTrackingService to enable
+             installation campaign reporting
+        -->
         <receiver
             android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
             android:exported="true">
@@ -45,6 +47,7 @@
                 <action android:name="com.android.vending.INSTALL_REFERRER"/>
             </intent-filter>
         </receiver>
+
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService"/>
 
         <provider
@@ -87,6 +90,8 @@
         </provider>
 
         <activity android:name=".activity.HelpActivity"/>
+        <activity android:name=".activity.SampleLibraryActivity">
+        </activity>
     </application>
 
 </manifest>

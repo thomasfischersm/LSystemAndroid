@@ -30,4 +30,8 @@ public class ActivityNavigator {
     public static void startNewRuleSetActivity(Context context) {
         context.startActivity(new Intent(context, RulesActivity.class));
     }
+
+    public static void startSampleLibraryActivity(Context context) {
+        context.startActivity(new Intent(context, SampleLibraryActivity.class));
+    }
 }
