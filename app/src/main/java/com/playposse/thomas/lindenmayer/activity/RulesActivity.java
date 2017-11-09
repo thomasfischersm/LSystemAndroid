@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.playposse.thomas.lindenmayer.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.contentprovider.QueryHelper;
 import com.playposse.thomas.lindenmayer.data.DataReader;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
@@ -142,7 +143,7 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         RuleSet ruleSet = getContentFragment().createRuleSet();
 
         ruleSet.setName(fileName);
-        DataReader.saveUserRuleSets(this, ruleSet);
+        QueryHelper.savePrivateRuleSet(this, ruleSet);
 
         AnalyticsUtil.sendEvent(getApplication(), "Action", "SaveRuleSet");
     }

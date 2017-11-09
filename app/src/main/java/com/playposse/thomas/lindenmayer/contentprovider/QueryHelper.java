@@ -1,6 +1,8 @@
 package com.playposse.thomas.lindenmayer.contentprovider;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
@@ -49,6 +51,7 @@ public class QueryHelper {
 
     /**
      * Determines if the {@link RuleSet} exists.
+     *
      * @return Returns null for no and the id for yes.
      */
     @Nullable
@@ -78,6 +81,34 @@ public class QueryHelper {
             }
         } finally {
             cursor.close();
+        }
+    }
+
+    /**
+     * Saves a private {@link RuleSet}.
+     */
+    public static void savePrivateRuleSet(Context context, RuleSet ruleSet) {
+        String json = RuleSetConverter.write(ruleSet);
+
+        ContentValues values = new ContentValues();
+        values.put(RuleSetTable.NAME_COLUMN, ruleSet.getName());
+        values.put(RuleSetTable.RULE_SET_COLUMN, json);
+        values.put(RuleSetTable.TYPE_COLUMN, RuleSetTable.PRIVATE_TYPE);
+
+        ContentResolver contentResolver = context.getContentResolver();
+
+        Long ruleSetId = doesRulSetExistByName(
+                contentResolver,
+                ruleSet.getName(),
+                RuleSetTable.PRIVATE_TYPE);
+        if (ruleSetId == null) {
+            contentResolver.insert(RuleSetTable.CONTENT_URI, values);
+        } else {
+            contentResolver.update(
+                    RuleSetTable.CONTENT_URI,
+                    values,
+                    RuleSetTable.ID_COLUMN + "=?",
+                    new String[]{ruleSetId.toString()});
         }
     }
 }
