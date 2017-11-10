@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +25,7 @@ import android.widget.LinearLayout;
 import com.playposse.thomas.lindenmayer.CommonMenuActions;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.glide.GlideApp;
+import com.playposse.thomas.lindenmayer.util.SurveyUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,6 +82,14 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
 
         if (drawerToggle != null) {
             drawerToggle.syncState();
+        }
+
+        // Try to show a snackbar with a survey prompt.
+        F contentFragment = getContentFragment();
+        if ((contentFragment != null) && (contentFragment.getView() != null)) {
+            CoordinatorLayout coordinatorLayout =
+                    contentFragment.getView().findViewById(R.id.coordinator_layout);
+            SurveyUtil.showSurveyNudge(coordinatorLayout);
         }
     }
 
