@@ -1,5 +1,6 @@
 package com.playposse.thomas.lindenmayer.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -42,8 +43,12 @@ public class ActivityNavigator {
         context.startActivity(intent);
     }
 
-    public static void startNewRuleSetActivity(Context context) {
-        context.startActivity(new Intent(context, RulesActivity.class));
+    public static void startNewRuleSetActivity(Activity activity) {
+        activity.finish();
+
+        Intent intent = new Intent(activity, RulesActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        activity.startActivity(intent);
     }
 
     public static void startSampleLibraryActivity(Context context) {

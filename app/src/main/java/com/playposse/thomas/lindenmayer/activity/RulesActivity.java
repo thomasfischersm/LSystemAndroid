@@ -145,6 +145,9 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         ruleSet.setName(fileName);
         QueryHelper.savePrivateRuleSet(this, ruleSet);
 
+        // Update activity title.
+        setTitle(fileName);
+
         AnalyticsUtil.sendEvent(getApplication(), "Action", "SaveRuleSet");
     }
 

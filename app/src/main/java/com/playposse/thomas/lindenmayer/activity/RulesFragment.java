@@ -87,6 +87,9 @@ public class RulesFragment extends Fragment {
         incrementTextView.addTextChangedListener(new AngleWatcher());
         incrementTextView.addTextChangedListener(previewUpdateWatcher);
 
+        if ((intentRuleSet != null) && !StringUtil.isEmpty(intentRuleSet.getName())) {
+            getActivity().setTitle(intentRuleSet.getName());
+        }
 
         return rootView;
     }

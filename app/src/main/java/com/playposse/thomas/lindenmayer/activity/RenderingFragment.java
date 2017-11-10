@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.playposse.thomas.lindenmayer.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
+import com.playposse.thomas.lindenmayer.util.StringUtil;
 import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
 import com.playposse.thomas.lindenmayer.widgets.FractalView;
 
@@ -108,6 +109,10 @@ public class RenderingFragment extends Fragment {
                 render();
             }
         });
+
+        if ((ruleSet != null) && !StringUtil.isEmpty(ruleSet.getName())) {
+            getActivity().setTitle(ruleSet.getName());
+        }
 
         if (ruleSet.isStochastic()) {
             Toast.makeText(getActivity(), R.string.stochastic_toast, Toast.LENGTH_LONG)
