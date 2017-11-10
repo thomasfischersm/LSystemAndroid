@@ -22,6 +22,8 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 import com.playposse.thomas.lindenmayer.CommonMenuActions;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.glide.GlideApp;
@@ -66,6 +68,7 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
                 navigationView.getHeaderView(0).findViewById(R.id.navigation_header_image_view);
         GlideApp.with(this)
                 .load(R.drawable.navigation_banner)
+                .apply(RequestOptions.overrideOf(Target.SIZE_ORIGINAL))
                 .into(navigationHeaderImageView);
     }
 
