@@ -101,5 +101,18 @@
             android:layout_height="wrap_content"
             android:autoLink="email"
             android:text="@string/help_contact_body_text"/>
+
+        <TextView
+            style="@style/sectionHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/help_credit_heading"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:text="@string/help_credit_body_text"/>
     </LinearLayout>
 </ScrollView>

@@ -30,7 +30,14 @@
     <string name="help_book_body_text">The most gorgeous and comprehensive book on Lindenmayer systems is available for free as a PDF.</string>
     <string name="help_book_link">http://algorithmicbotany.org/papers/abop/abop.pdf</string>
     <string name="help_contact_heading">Contact</string>
-    <string name="help_contact_body_text">This is my first Android app. Feedback is welcome.\n\nThomas Fischer\nthomas@playposse.com\n\n(C) 2016 Thomas Fischer all rights reserved.</string>
+    <string name="help_contact_body_text">This is my first Android app. Feedback is welcome.\n\nThomas Fischer\nthomas@playposse.com\n\n© 2016 Thomas Fischer all rights reserved.</string>
+    <string name="help_credit_heading">Credits</string>
+    <string name="help_credit_body_text">Some of the icons are from http://thenounproject.com.\n
+        \nVideo by \'i cons\' from the Noun Project
+        \nturtle by Alex Furgiuele from the Noun Project
+        \nColor Swatch by Kaitlin Till-Landry from the Noun Project
+        \nhide by Sergio Aguado from the Noun Project
+    </string>
 
     <string name="rules_activity_axiom_label">Axiom</string>
     <string name="rules_activity_rotation_label">Rotation increment (in degrees)</string>
@@ -43,7 +50,7 @@
     <string name="rules_activity_overwrite_warning_title">Confirm</string>
     <string name="rules_activity_overwrite_warning_message">A rule set with that name already exists. Do you want to continue?</string>
 
-    <string name="progress_bar_title">Counting sheep...</string>
+    <string name="progress_bar_title">Counting sheep…</string>
     <string name="stochastic_toast">Detected stochastic rule set. Swipe down to render another version.</string>
 
     <string name="feedback_dialog_title">Send us feedback!</string>

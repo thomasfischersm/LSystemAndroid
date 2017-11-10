@@ -4,27 +4,33 @@
         <menu>
             <item
                 android:id="@+id/action_video_tutorial"
+                android:icon="@drawable/ic_noun_1008434_cc"
                 android:title="@string/video_tutorial_menu_item"/>
             <item
                 android:id="@+id/action_turtle_tutorial"
+                android:icon="@drawable/ic_noun_1067770_cc"
                 android:title="@string/turtle_tutorial_menu_item"/>
         </menu>
     </item>
 
     <item
         android:id="@+id/action_new_rule_set"
+        android:icon="@drawable/ic_note_add_black_24dp"
         android:title="@string/new_rule_set_menu_item"/>
 
     <item android:title="@string/rule_sets_menu_group">
         <menu>
             <item
                 android:id="@+id/action_samples"
+                android:icon="@drawable/ic_noun_215925_cc"
                 android:title="@string/samples_menu_item"/>
             <item
                 android:id="@+id/action_private_rule_sets"
+                android:icon="@drawable/ic_noun_905614_cc"
                 android:title="@string/my_rule_sets_menu_item"/>
             <item
                 android:id="@+id/action_public_rule_sets"
+                android:icon="@drawable/ic_public_black_24dp"
                 android:title="@string/public_rule_sets_menu_item"/>
         </menu>
     </item>
