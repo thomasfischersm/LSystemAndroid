@@ -399,6 +399,18 @@
           "replacement": "fx-y"
         }
       ]
+    },
+    {
+      "name": "Koch snowflake",
+      "axiom": "f++f++f",
+      "directionIncrement": "60",
+      "defaultIterationCount": "4",
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "f-f++f-f"
+        }
+      ]
     }
   ]
 }
