@@ -13,9 +13,11 @@ public class AppPreferences {
 
     private static final String SHOW_TURTLE_TUTORIAL_DIALOG = "showTurtleTutorialDialog";
     private static final String HAS_IMPORTED_USER_RULE_SETS = "hasImportedUserRuleSets";
+    private static final String HAS_SEEN_INTRO_DECK = "hasSeenIntroDeck";
 
     private static final boolean SHOW_TURTLE_TUTORIAL_DIALOG_DEFAULT = true;
     private static final boolean HAS_IMPORTED_USER_RULE_SETS_DEFAULT = false;
+    private static final boolean HAS_SEEN_INTRO_DECK_DEFAULT = false;
 
     private static final BasePreferences basePreferences =
             new BasePreferences(SHARED_PREFERENCES_NAME);
@@ -40,6 +42,17 @@ public class AppPreferences {
 
     public static void setHasImportedUserRuleSets(Context context, boolean value) {
         basePreferences.setBoolean(context, HAS_IMPORTED_USER_RULE_SETS, value);
+    }
+
+    public static boolean hasSeenIntroDeck(Context context) {
+        return basePreferences.getBoolean(
+                context,
+                HAS_SEEN_INTRO_DECK,
+                HAS_SEEN_INTRO_DECK_DEFAULT);
+    }
+
+    public static void setHasSeenIntroDeck(Context context, boolean value) {
+        basePreferences.setBoolean(context, HAS_SEEN_INTRO_DECK, value);
     }
 
     public static void reset(Context context) {

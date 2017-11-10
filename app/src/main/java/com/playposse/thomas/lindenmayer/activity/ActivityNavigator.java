@@ -13,6 +13,14 @@ import com.playposse.thomas.lindenmayer.domain.RuleSet;
  */
 public class ActivityNavigator {
 
+    public static void startIntroductionActivity(Context context) {
+        context.startActivity(new Intent(context, IntroductionActivity.class));
+    }
+
+    public static void startMainActivity(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
+
     public static void startVideoTutorialActivity(Context context) {
         context.startActivity(new Intent(
                 Intent.ACTION_VIEW,

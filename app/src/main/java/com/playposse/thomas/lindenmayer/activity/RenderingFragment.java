@@ -16,9 +16,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.playposse.thomas.lindenmayer.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
+import com.playposse.thomas.lindenmayer.util.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
 import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
 import com.playposse.thomas.lindenmayer.widgets.FractalView;
@@ -76,7 +76,6 @@ public class RenderingFragment extends Fragment {
                     render();
                     AnalyticsUtil.sendEvent(
                             getActivity().getApplication(),
-                            "Action",
                             "DecrementIteration");
                 }
 
@@ -93,7 +92,6 @@ public class RenderingFragment extends Fragment {
                 render();
                 AnalyticsUtil.sendEvent(
                         getActivity().getApplication(),
-                        "Action",
                         "IncrementIteration");
 
                 if (!decrementButton.isShown()) {

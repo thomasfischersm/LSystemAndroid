@@ -21,22 +21,17 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.playposse.thomas.lindenmayer.CommonMenuActions;
-import com.playposse.thomas.lindenmayer.LindenmayerApplication;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.glide.GlideApp;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.fabric.sdk.android.Fabric;
 
 /**
  * An abstract activity that extends {@link AppCompatActivity} to add analytics tracking.
  */
-public abstract class ParentActivity<F extends Fragment> extends AppCompatActivity {
+public abstract class ParentActivity<F extends Fragment> extends MinimumActivity {
 
     private static final String MAIN_FRAGMENT_TAG = "mainFragment";
 
@@ -70,8 +65,6 @@ public abstract class ParentActivity<F extends Fragment> extends AppCompatActivi
         GlideApp.with(this)
                 .load(R.drawable.navigation_banner)
                 .into(navigationHeaderImageView);
-
-        Fabric.with(this, new Crashlytics());
     }
 
     @Override
@@ -79,19 +72,6 @@ public abstract class ParentActivity<F extends Fragment> extends AppCompatActivi
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        LindenmayerApplication application = (LindenmayerApplication) getApplication();
-        Tracker tracker = application.getDefaultTracker();
-        tracker.setScreenName(getClass().getSimpleName());
-        tracker.enableAdvertisingIdCollection(true);
-        tracker.enableAutoActivityTracking(true);
-        tracker.enableExceptionReporting(true);
-        tracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

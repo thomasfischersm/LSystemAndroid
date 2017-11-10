@@ -11,11 +11,11 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
-import com.playposse.thomas.lindenmayer.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.contentprovider.QueryHelper;
 import com.playposse.thomas.lindenmayer.data.DataReader;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
+import com.playposse.thomas.lindenmayer.util.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
 import com.playposse.thomas.lindenmayer.widgets.SaveView;
 
@@ -148,7 +148,7 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         // Update activity title.
         setTitle(fileName);
 
-        AnalyticsUtil.sendEvent(getApplication(), "Action", "SaveRuleSet");
+        AnalyticsUtil.sendEvent(getApplication(), "SaveRuleSet");
     }
 
     @Override

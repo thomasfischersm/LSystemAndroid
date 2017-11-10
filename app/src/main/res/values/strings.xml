@@ -83,6 +83,13 @@
     <string name="turtle_tutorial_black_button">C0: Black</string>
     <string name="turtle_tutorial_turn_around_button">|: Turn around.</string>
 
+    <!-- On-boarding activity -->
+    <string name="background_content_description">A soft gradient for the background.</string>
+    <string name="getting_started_button">Get started</string>
+    <string name="introduction_slide0_content_description">An on-boarding image that shows L-system renderings.</string>
+    <string name="introduction_slide1_content_description">An on-boarding image that the turtle grammar.</string>
+    <string name="introduction_slide2_content_description">An on-boarding image that shows string re-writing.</string>
+
     <!-- Samples library activity -->
     <string name="no_samples_message">
         There are no samples. Something went wrong. Try deleting the app data and restart the app.
