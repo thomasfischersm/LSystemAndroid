@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.playposse.thomas.lindenmayer.util.PaintCache;
 import com.playposse.thomas.lindenmayer.widgets.ProgressCallback;
 
 import java.util.Stack;
@@ -160,10 +161,8 @@ public class Turtle {
     }
 
     protected void recreatePaint() {
-        paint = new Paint();
-        paint.setColor(ColorPalette.COLORS[colorIndex]);
-        paint.setStrokeWidth(strokeWidth);
-    }
+        paint = PaintCache.getPaint(ColorPalette.COLORS[colorIndex], strokeWidth);
+        }
 
     public void drawLine(float fromX, float fromY, float toX, float toY, Paint paint) {
         canvas.drawLine(fromX, fromY, toX, toY, paint);

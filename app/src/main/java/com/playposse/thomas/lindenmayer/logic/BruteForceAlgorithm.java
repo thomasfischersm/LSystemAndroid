@@ -29,9 +29,9 @@ public class BruteForceAlgorithm {
 
         for (int i = 0; i < startingString.length(); i++) {
             char c = startingString.charAt(i);
-            RuleSet.Rule rule = ruleSet.getRule("" + c);
-            if (rule != null) {
-                sb.append(rule.getReplacement());
+            String replacement = ruleSet.getReplacement(c);
+            if (replacement != null) {
+                sb.append(replacement);
             } else {
                 sb.append(c);
             }

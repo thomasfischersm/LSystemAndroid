@@ -26,6 +26,8 @@ public class LindenmayerApplication extends Application {
 
         // Check if anything needs to be imported.
         startService(new Intent(getApplicationContext(), ImportRuleSetsService.class));
+
+//        Benchmark.runBenchmark();
     }
 
     /**

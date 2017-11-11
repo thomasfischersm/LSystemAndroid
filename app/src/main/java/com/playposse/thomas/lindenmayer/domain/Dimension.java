@@ -1,5 +1,7 @@
 package com.playposse.thomas.lindenmayer.domain;
 
+import com.playposse.thomas.lindenmayer.util.OptimizedMath;
+
 import java.util.Stack;
 
 /**
@@ -74,10 +76,10 @@ public class Dimension {
         }
 
         public void moveToPosition(double x, double y) {
-            minX = Math.min(minX, x);
-            minY = Math.min(minY, y);
-            maxX = Math.max(maxX, x);
-            maxY = Math.max(maxY, y);
+            minX = OptimizedMath.min(minX, x);
+            minY = OptimizedMath.min(minY, y);
+            maxX = OptimizedMath.max(maxX, x);
+            maxY = OptimizedMath.max(maxY, y);
             currentX = x;
             currentY = y;
         }

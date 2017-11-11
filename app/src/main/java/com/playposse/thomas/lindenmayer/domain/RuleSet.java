@@ -2,11 +2,14 @@ package com.playposse.thomas.lindenmayer.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 
 import com.google.common.base.Objects;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -22,6 +25,7 @@ public class RuleSet implements Parcelable {
     private final Random rand = new Random();
 
     private String name;
+    private Map<Character, List<String>> optimizedRuleMap = null;
 
     public RuleSet(String axiom, List<Rule> rules, int directionIncrement) {
         this.axiom = axiom;
@@ -91,7 +95,12 @@ public class RuleSet implements Parcelable {
      */
     public Rule getRule(String match) {
         List<Rule> possibleRules = new ArrayList<>();
-        for (Rule rule : rules) {
+        // DO NOT USE FOR-EACH! This will create an iterator on each iteration. The algorithm calls
+        // this methods tens and hundreds of thousands of times.
+        // Benchmark with foreach for 10,000 calls: 1,115ms.
+        // Benchmark with regular for-loop: 11ms.
+        for (int i = 0; i < rules.size(); i++) {
+            Rule rule = rules.get(i);
             if (rule.getMatch().equals(match)) {
                 possibleRules.add(rule);
             }
@@ -101,6 +110,45 @@ public class RuleSet implements Parcelable {
             return null;
         } else {
             return possibleRules.get(rand.nextInt(possibleRules.size()));
+        }
+    }
+
+    /**
+     * Finds the rule that matches the specified string and returns the replacement.
+     *
+     * <p>This method is highly optimized and should only be called after carefully studying its
+     * initialization!
+     *
+     * <p>This method assumes that matches are only one character large!
+     *
+     * <p>The method carefully avoids creating any objects, which are slow to create and must be
+     * garbage collected. In contrast, #getRule(String) creates an ArrayList, which is expensive.
+     */
+    @Nullable
+    public String getReplacement(char match) {
+        // Initialize the optimized lookup if necessary.
+        if (optimizedRuleMap == null) {
+            optimizedRuleMap = new HashMap<>();
+            for (Rule rule : rules) {
+                if (!optimizedRuleMap.containsKey(rule.getMatch())) {
+                    List<String> newList = new ArrayList<>();
+                    newList.add(rule.getReplacement());
+                    optimizedRuleMap.put(rule.getMatch().charAt(0), newList);
+                } else {
+                    optimizedRuleMap.get(rule.getMatch()).add(rule.getReplacement());
+                }
+            }
+        }
+
+        List<String> possibleReplacements = optimizedRuleMap.get(match);
+        if (possibleReplacements == null) {
+            return null;
+        } else {
+            if (possibleReplacements.size() == 1) {
+                return possibleReplacements.get(0);
+            } else {
+                return possibleReplacements.get(rand.nextInt(possibleReplacements.size()));
+            }
         }
     }
 
