@@ -5,5 +5,13 @@ package com.playposse.thomas.lindenmayer.widgets;
  */
 public interface ProgressCallback {
 
+    /**
+     * Called each time the algorithm makes one step forward.
+     */
     void markProgress();
+
+    /**
+     * Called when the algorithm can anticipate how many steps the run has.
+     */
+    void declareMaxProgress(int maxProgress);
 }

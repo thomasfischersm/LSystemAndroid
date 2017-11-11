@@ -1,6 +1,6 @@
 package com.playposse.thomas.lindenmayer.glide;
 
-import android.widget.ProgressBar;
+import android.util.Log;
 
 import com.bumptech.glide.load.Key;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
@@ -13,22 +13,26 @@ import javax.annotation.Nullable;
  */
 public class RuleSetResource {
 
+    private static final String LOG_TAG = RuleSetResource.class.getSimpleName();
+
     // TODO: Handle stochastic rulesets!
     // TODO: Handle iteration!
 
     private final RuleSet ruleSet;
     private final int iterationCount;
     @Nullable
-    private final ProgressBarProgressCallbackImpl progressCallback;
+    private final ProgressCallback progressCallback;
 
-    public RuleSetResource(RuleSet ruleSet, int iterationCount, @Nullable ProgressBar progressBar) {
+    public RuleSetResource(RuleSet ruleSet, int iterationCount, @Nullable ProgressCallback progressCallback) {
         this.ruleSet = ruleSet;
         this.iterationCount = iterationCount;
-        progressCallback = new ProgressBarProgressCallbackImpl(progressBar);
+        this.progressCallback = progressCallback;
     }
 
     public Key getKey() {
-        return new HashCodeKey(ruleSet, iterationCount);
+        HashCodeKey key = new HashCodeKey(ruleSet, iterationCount);
+        Log.d(LOG_TAG, "getKey: Generated hash key: " + key.hashCode());
+        return key;
     }
 
     public RuleSet getRuleSet() {

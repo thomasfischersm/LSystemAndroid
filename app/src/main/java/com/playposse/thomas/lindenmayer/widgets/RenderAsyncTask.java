@@ -226,5 +226,10 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
                 lastUpdate = progress;
             }
         }
+
+        @Override
+        public void declareMaxProgress(int maxProgress) {
+            // Ignore. This class will be deleted soon.
+        }
     }
 }

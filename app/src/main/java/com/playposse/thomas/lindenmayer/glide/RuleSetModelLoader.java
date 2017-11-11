@@ -21,7 +21,7 @@ public class RuleSetModelLoader implements ModelLoader<RuleSetResource, InputStr
             int height,
             Options options) {
 
-        return new LoadData<InputStream>(
+        return new LoadData<>(
                 ruleSetResource.getKey(),
                 new RuleSetDataFetcher(ruleSetResource, width, height));
     }

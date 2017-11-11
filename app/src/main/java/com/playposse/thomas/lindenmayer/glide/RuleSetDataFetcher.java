@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.DataSource;
@@ -13,6 +14,7 @@ import com.playposse.thomas.lindenmayer.domain.Dimension;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.domain.Turtle;
 import com.playposse.thomas.lindenmayer.logic.BruteForceAlgorithm;
+import com.playposse.thomas.lindenmayer.widgets.ProgressCallback;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,13 +25,15 @@ import java.io.InputStream;
  */
 class RuleSetDataFetcher implements DataFetcher<InputStream> {
 
+    private static final String LOG_TAG = RuleSetDataFetcher.class.getSimpleName();
+
     private final RuleSetResource ruleSetResource;
     private final RuleSet ruleSet;
     private final int iterationCount;
     private final int width;
     private final int height;
 
-    public RuleSetDataFetcher(RuleSetResource ruleSetResource, int width, int height) {
+    RuleSetDataFetcher(RuleSetResource ruleSetResource, int width, int height) {
         this.ruleSetResource = ruleSetResource;
         this.width = width;
         this.height = height;
@@ -39,9 +43,15 @@ class RuleSetDataFetcher implements DataFetcher<InputStream> {
     }
 
     @Override
-    public void loadData(Priority priority, DataCallback<? super InputStream> callback) {
+    public void loadData(Priority priority, final DataCallback<? super InputStream> callback) {
+        Log.i(LOG_TAG, "loadData: Start rendering.");
+        ProgressCallback progressCallback = ruleSetResource.getProgressCallback();
+
         // Generate string.
         String fractalRepresentation = BruteForceAlgorithm.iterate(ruleSet, iterationCount);
+        if (progressCallback != null) {
+            progressCallback.declareMaxProgress(fractalRepresentation.length());
+        }
 
         // Create bitmap.
         Bitmap bitmap = createBitmap();
@@ -59,7 +69,7 @@ class RuleSetDataFetcher implements DataFetcher<InputStream> {
                 canvas,
                 dimension,
                 ruleSet.getDirectionIncrement(),
-                ruleSetResource.getProgressCallback());
+                progressCallback);
         BruteForceAlgorithm.paint(fractalRepresentation, turtle);
 
         // Convert to PNG.
@@ -67,6 +77,7 @@ class RuleSetDataFetcher implements DataFetcher<InputStream> {
 
         // Return result to Glide.
         callback.onDataReady(pngFile);
+        Log.i(LOG_TAG, "loadData: Done Rendering");
     }
 
     @Override
@@ -88,7 +99,7 @@ class RuleSetDataFetcher implements DataFetcher<InputStream> {
     @NonNull
     @Override
     public DataSource getDataSource() {
-        return null;
+        return DataSource.LOCAL;
     }
 
     private Bitmap createBitmap() {

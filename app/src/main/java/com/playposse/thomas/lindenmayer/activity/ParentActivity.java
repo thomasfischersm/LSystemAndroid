@@ -1,5 +1,6 @@
 package com.playposse.thomas.lindenmayer.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
 
     private ActionBarDrawerToggle drawerToggle;
 
+    @SuppressLint("Range")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
