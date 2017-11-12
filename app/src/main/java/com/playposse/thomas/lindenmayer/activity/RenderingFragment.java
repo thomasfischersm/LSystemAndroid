@@ -1,7 +1,6 @@
 package com.playposse.thomas.lindenmayer.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +10,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,12 +29,7 @@ import com.playposse.thomas.lindenmayer.glide.GlideApp;
 import com.playposse.thomas.lindenmayer.glide.RuleSetResource;
 import com.playposse.thomas.lindenmayer.util.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
-import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
-import com.playposse.thomas.lindenmayer.widgets.FractalView;
 import com.playposse.thomas.lindenmayer.widgets.ProgressCallback;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,8 +51,6 @@ public class RenderingFragment extends Fragment {
 
     private RuleSet ruleSet;
     private int iterationCount = 1;
-    private FractalView fractalView;
-    private BruteForceRenderAsyncTask asyncTask;
 
     @Nullable
     @Override
@@ -74,13 +65,6 @@ public class RenderingFragment extends Fragment {
 
         Intent intent = getActivity().getIntent();
         ruleSet = intent.getParcelableExtra(RuleSet.EXTRA_RULE_SET);
-
-//        fractalView = new FractalView(getActivity());
-//        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
-//                ViewGroup.LayoutParams.MATCH_PARENT,
-//                ViewGroup.LayoutParams.MATCH_PARENT);
-//        fractalView.setLayoutParams(layoutParams);
-//        renderingRootView.addView(fractalView);
 
         decrementButton.hide();
         decrementButton.setOnClickListener(new View.OnClickListener() {
@@ -134,32 +118,13 @@ public class RenderingFragment extends Fragment {
                     .show();
         }
 
+        render();
+
         return rootView;
     }
 
     protected void render() {
-//        swipeRefreshLayout.setEnabled(false);
-//        swipeRefreshLayout.setRefreshing(false); // Don't show the icon. there already is a progress dialog!
-//
-//        if ((asyncTask != null) && (!asyncTask.isCancelled())) {
-//            asyncTask.cancel(true);
-//        }
-
-        ShareActionProvider shareActionProvider =
-                ((RenderingActivity) getActivity()).getShareActionProvider();
-
-//        asyncTask = new BruteForceRenderAsyncTask(
-//                ruleSet,
-//                fractalView,
-//                iterationCount,
-//                shareActionProvider,
-//                getActivity().getCacheDir(),
-//                getActivity(),
-//                swipeRefreshLayout,
-//                true);
-//        asyncTask.execute();
-
-        fractalImageView.setVisibility(View.GONE);
+        fractalImageView.setVisibility(View.VISIBLE);
 
         GlideApp.with(this)
                 .load(new RuleSetResource(ruleSet, iterationCount, new ProgressCallbackImpl()))
@@ -187,8 +152,6 @@ public class RenderingFragment extends Fragment {
                         Log.i(LOG_TAG, "onResourceReady: The fragment got notification that " +
                                 "rendering is complete.");
 
-                        // TODO: Set share action
-
                         fractalImageView.setVisibility(View.VISIBLE);
                         progressLayout.setVisibility(View.GONE);
 
@@ -202,16 +165,12 @@ public class RenderingFragment extends Fragment {
         return ruleSet;
     }
 
-    protected byte[] getPngBytes() {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        Bitmap bitmap = fractalView.getDrawingCache();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, buffer);
-        try {
-            buffer.flush();
-        } catch (IOException ex) {
-            Log.e(LOG_TAG, "getPngBytes: Failed to flush PNG bytes before sharing.", ex);
-        }
-        return buffer.toByteArray();
+    ImageView getFractalImageView() {
+        return fractalImageView;
+    }
+
+    protected int getIterationCount() {
+        return iterationCount;
     }
 
     /**

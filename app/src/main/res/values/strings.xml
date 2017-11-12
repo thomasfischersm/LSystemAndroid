@@ -55,6 +55,7 @@
     <string name="stochastic_toast">Detected stochastic rule set. Swipe down to render another version.</string>
     <string name="fractal_content_description">Rendering of the L-System.</string>
     <string name="progress_steps">%1$d/%2$d</string>
+    <string name="share_message">Check out this cool L-System!"</string>
 
     <string name="feedback_dialog_title">Send us feedback!</string>
     <string name="feedback_dialog_message">An e-mail will be opened where you can send me feedback.</string>

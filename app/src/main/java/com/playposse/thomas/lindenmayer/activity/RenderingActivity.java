@@ -1,24 +1,21 @@
 package com.playposse.thomas.lindenmayer.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.ShareActionProvider;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ShareEvent;
 import com.playposse.thomas.lindenmayer.CommonMenuActions;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
+import com.playposse.thomas.lindenmayer.util.ShareUtil;
 
 import org.json.JSONException;
-
-import java.io.File;
 
 /**
  * An {@link android.app.Activity} that shows the render Lindenmayer System.
@@ -27,23 +24,15 @@ public class RenderingActivity
         extends ParentActivity<RenderingFragment>
         implements ShareActionProvider.OnShareTargetSelectedListener {
 
-    private static final String LOG_CAT = RenderingActivity.class.getSimpleName();
+    private static final String LOG_TAG = RenderingActivity.class.getSimpleName();
 
     private static final String UNKNOWN_METHOD = "unknown";
     private static final String UNKNOWN_RULE_SET = "unknown";
     private static final String RULE_SET_NAME_EXTRA = "ruleSetName";
 
-    private ShareActionProvider shareActionProvider;
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.render_menu, menu);
-
-        MenuItem item = menu.findItem(R.id.action_share);
-        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        shareActionProvider.setOnShareTargetSelectedListener(this);
-
-        getContentFragment().render();
 
         return true;
     }
@@ -71,35 +60,24 @@ public class RenderingActivity
                             this,
                             getContentFragment().getRuleSet());
                 } catch (JSONException ex) {
-                    Log.e(LOG_CAT, "Failed to execute menu action 'send us your best'", ex);
+                    Log.e(LOG_TAG, "Failed to execute menu action 'send us your best'", ex);
                 }
+                return true;
+            case R.id.action_share:
+                onShareClicked();
+                return true;
             default:
                 return false;
         }
     }
 
-    private void setShareIntent() {
-        // Convert to PNG.
-        byte[] pngBytes = getContentFragment().getPngBytes();
+    private void onShareClicked() {
+        RenderingFragment contentFragment = getContentFragment();
+        ImageView fractalImageView = contentFragment.getFractalImageView();
+        RuleSet ruleSet = contentFragment.getRuleSet();
+        int iterationCount = contentFragment.getIterationCount();
 
-        // Encode in base64.
-        String encodedImage = Base64.encodeToString(pngBytes, Base64.DEFAULT);
-
-        // Save file to cache.
-        File file = new File(getCacheDir(), "screenshot.png");
-        file.setReadable(true, false);
-        Uri uri = Uri.fromFile(file);
-
-        // Create share intent
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, "");
-        intent.putExtra(Intent.EXTRA_STREAM, uri);
-        RuleSet ruleSet = getContentFragment().getRuleSet();
-        if ((ruleSet != null) && (ruleSet.getName() != null)) {
-            intent.putExtra(RULE_SET_NAME_EXTRA, ruleSet.getName());
-        }
-        shareActionProvider.setShareIntent(intent);
+        ShareUtil.share(ruleSet, iterationCount, fractalImageView);
     }
 
     /**
@@ -128,9 +106,5 @@ public class RenderingActivity
                 .putContentId(ruleSetName));
 
         return false;
-    }
-
-    protected ShareActionProvider getShareActionProvider() {
-        return shareActionProvider;
     }
 }

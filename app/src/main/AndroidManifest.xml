@@ -80,7 +80,7 @@
             android:parentActivityName=".activity.MainActivity"/>
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name=".util.PngFileProvider"
             android:authorities="com.playposse.thomas.lindenmayer"
             android:exported="false"
             android:grantUriPermissions="true">

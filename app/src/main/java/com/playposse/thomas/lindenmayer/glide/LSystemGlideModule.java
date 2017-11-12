@@ -1,6 +1,7 @@
 package com.playposse.thomas.lindenmayer.glide;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
@@ -24,6 +25,7 @@ public class LSystemGlideModule extends AppGlideModule {
         builder.setDefaultRequestOptions(
                 new RequestOptions()
                         .format(DecodeFormat.PREFER_ARGB_8888));
+        builder.setLogLevel(Log.DEBUG);
     }
 
     @Override

@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+      xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_share"
-        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_share_black_24dp"
         android:title="@string/share_menu_title"
-        app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/action_refresh"
-        app:showAsAction="never"
-        android:title="@string/refresh_menu_title"/>
+        android:icon="@drawable/ic_refresh_black_24dp"
+        android:title="@string/refresh_menu_title"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_send_feedback"
+        android:icon="@drawable/ic_feedback_black_24dp"
         android:title="@string/send_feedback_menu_title"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_send_us_your_best"
         android:title="@string/send_us_your_best_menu_title"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/action_help"
+        android:icon="@drawable/ic_help_black_24dp"
         android:title="@string/help_menu_title"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 </menu>
