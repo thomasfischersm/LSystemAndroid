@@ -27,8 +27,6 @@ public final class ShareUtil {
 
     private static final String FILE_PROVIDER_AUTHORITY = "com.playposse.thomas.lindenmayer";
     private static final String IMAGE_CONTENT_TYPE = "image/png";
-    private static final String SHARED_IMAGE_DIRECTORY = "images";
-    private static final String TMP_FILE_NAME = "screenshot.png";
 
     private ShareUtil() {
     }
@@ -39,13 +37,6 @@ public final class ShareUtil {
         // Extract info from view.
         final int width = imageView.getWidth();
         final int height = imageView.getHeight();
-//        Drawable drawable = imageView.getDrawable();
-//        if (!(drawable instanceof BitmapDrawable)) {
-//            throw new IllegalStateException("Unexpected drawable: "
-//                    + drawable.getClass().getName());
-//        }
-//        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-
         final Context context = imageView.getContext();
 
         new Thread(new Runnable() {
@@ -61,7 +52,7 @@ public final class ShareUtil {
     }
 
     @WorkerThread
-    public static void shareAsync(
+    private static void shareAsync(
             Context context,
             RuleSet ruleSet,
             int iterationCount,
@@ -76,34 +67,6 @@ public final class ShareUtil {
                 .load(new RuleSetResource(ruleSet, iterationCount, null))
                 .submit(width, height)
                 .get();
-
-//        // Draw on white background.
-//        Bitmap sharedBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-//        Canvas sharedCanvas = new Canvas(sharedBitmap);
-//        Paint paint = new Paint();
-//        paint.setColor(Color.WHITE);
-//        paint.setStyle(Paint.Style.FILL);
-//        sharedCanvas.drawRect(0, 0, width, height, paint);
-//        sharedCanvas.drawBitmap(bitmap, 1, 1, null);
-
-//        // Convert to PNG.
-//        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-//        sharedBitmap.compress(Bitmap.CompressFormat.PNG, 100, buffer);
-
-        // Save file to cache.
-//        File cacheDir = context.getExternalCacheDir();
-//        File dir = new File(cacheDir, SHARED_IMAGE_DIRECTORY);
-//        dir.mkdirs();
-//        File file = new File(dir, TMP_FILE_NAME);
-//        FileOutputStream outputStream = null;
-//        try {
-//            outputStream = new FileOutputStream(file);
-//            outputStream.write(buffer.toByteArray());
-//        } finally {
-//            if (outputStream != null) {
-//                outputStream.close();
-//            }
-//        }
 
         // Create share intent
         Intent intent = new Intent();
