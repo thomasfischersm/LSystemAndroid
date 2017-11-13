@@ -12,6 +12,9 @@
     <string name="send_feedback_menu_title">Send feedback</string>
     <string name="send_us_your_best_menu_title">Send us your best</string>
 
+    <!-- Main activity -->
+    <string name="welcome_message">Welcome!\n\nUse the navigation drawer to start your journey.</string>
+
     <string name="home_screen_new_button">New</string>
     <string name="home_screen_help_heading">Help</string>
     <string name="home_screen_video_tutorial_button">Video tutorial</string>

@@ -7,67 +7,10 @@
     android:layout_height="match_parent"
     tools:context="com.playposse.thomas.lindenmayer.activity.MainFragment">
 
-    <ScrollView
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <Button
-                android:id="@+id/new_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_screen_new_button"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingTop="20dp"
-                android:text="@string/home_screen_help_heading"/>
-
-            <Button
-                android:id="@+id/video_tutorial_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_screen_video_tutorial_button"/>
-
-            <Button
-                android:id="@+id/turtle_tutorial_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/home_screen_turtle_tutorial_button"/>
-
-            <TextView
-                android:id="@+id/user_defined_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingTop="20dp"
-                android:text="@string/home_screen_user_defined_heading"/>
-
-            <LinearLayout
-                android:id="@+id/user_defined_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="20dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/home_screen_samples_heading"/>
-
-            <LinearLayout
-                android:id="@+id/sample_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"/>
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/welcome_message"/>
 </android.support.design.widget.CoordinatorLayout>
