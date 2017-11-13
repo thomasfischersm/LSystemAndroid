@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 
 android {
@@ -59,3 +58,4 @@ dependencies {
 //    compile 'com.android.support.test:rules:0.5'
 }
 
+apply plugin: 'com.google.gms.google-services'
