@@ -101,7 +101,6 @@ public class RenderingFragment extends Fragment {
             }
         });
 
-        swipeRefreshLayout.setEnabled(false);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -127,7 +126,7 @@ public class RenderingFragment extends Fragment {
         fractalImageView.setVisibility(View.VISIBLE);
 
         GlideApp.with(this)
-                .load(new RuleSetResource(ruleSet, iterationCount, new ProgressCallbackImpl()))
+                .load(new RuleSetResource(ruleSet, iterationCount, new ProgressCallbackImpl(), false))
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(
@@ -154,6 +153,11 @@ public class RenderingFragment extends Fragment {
 
                         fractalImageView.setVisibility(View.VISIBLE);
                         progressLayout.setVisibility(View.GONE);
+
+                        if (ruleSet.isStochastic()) {
+                            swipeRefreshLayout.setEnabled(true);
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
 
                         return false;
                     }

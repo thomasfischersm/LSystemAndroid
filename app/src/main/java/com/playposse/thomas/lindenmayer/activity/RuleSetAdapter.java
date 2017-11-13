@@ -48,7 +48,7 @@ class RuleSetAdapter extends RecyclerViewCursorAdapter<RuleSetViewHolder> {
         holder.getNameTextView().setText(ruleSetName);
 
         GlideApp.with(holder.getPreviewImageView().getContext())
-                .load(new RuleSetResource(ruleSet, PREVIEW_ITERATION_COUNT, null))
+                .load(new RuleSetResource(ruleSet, PREVIEW_ITERATION_COUNT, null, true))
                 .into(holder.getPreviewImageView());
 
         holder.getPreviewImageView().setOnClickListener(new View.OnClickListener() {

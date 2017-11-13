@@ -64,7 +64,7 @@ public final class ShareUtil {
         // Get cached file out of Glide.
         File file = GlideApp.with(context)
                 .downloadOnly()
-                .load(new RuleSetResource(ruleSet, iterationCount, null))
+                .load(new RuleSetResource(ruleSet, iterationCount, null, true))
                 .submit(width, height)
                 .get();
 

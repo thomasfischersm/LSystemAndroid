@@ -130,12 +130,13 @@ public class RuleSet implements Parcelable {
         if (optimizedRuleMap == null) {
             optimizedRuleMap = new HashMap<>();
             for (Rule rule : rules) {
-                if (!optimizedRuleMap.containsKey(rule.getMatch())) {
+                char matchChar = rule.getMatch().charAt(0);
+                if (!optimizedRuleMap.containsKey(matchChar)) {
                     List<String> newList = new ArrayList<>();
                     newList.add(rule.getReplacement());
-                    optimizedRuleMap.put(rule.getMatch().charAt(0), newList);
+                    optimizedRuleMap.put(matchChar, newList);
                 } else {
-                    optimizedRuleMap.get(rule.getMatch()).add(rule.getReplacement());
+                    optimizedRuleMap.get(matchChar).add(rule.getReplacement());
                 }
             }
         }
