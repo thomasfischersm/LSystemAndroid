@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.domain.test.RuleSetTestUtil;
+import com.playposse.thomas.lindenmayer.service.DataReader;
 
 import junit.framework.Assert;
 

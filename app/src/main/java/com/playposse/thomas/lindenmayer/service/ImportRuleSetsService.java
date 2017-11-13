@@ -13,7 +13,6 @@ import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerDatabaseHelpe
 import com.playposse.thomas.lindenmayer.contentprovider.QueryHelper;
 import com.playposse.thomas.lindenmayer.contentprovider.parser.RuleSetConverter;
 import com.playposse.thomas.lindenmayer.data.AppPreferences;
-import com.playposse.thomas.lindenmayer.data.DataReader;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.util.DatabaseDumper;
 

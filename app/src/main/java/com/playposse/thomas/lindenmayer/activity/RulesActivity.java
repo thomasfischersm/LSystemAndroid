@@ -12,10 +12,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.playposse.thomas.lindenmayer.R;
-import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract;
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.RuleSetTable;
 import com.playposse.thomas.lindenmayer.contentprovider.QueryHelper;
-import com.playposse.thomas.lindenmayer.data.DataReader;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.util.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
@@ -50,7 +48,11 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
                         return;
                     }
 
-                    if (DataReader.doesUserRuleSetExist(getApplicationContext(), fileName)) {
+                    Long ruleSetId = QueryHelper.doesRulSetExistByName(
+                            getContentResolver(),
+                            fileName,
+                            RuleSetTable.PRIVATE_TYPE);
+                    if (ruleSetId != null) {
                         showOverwriteWarningBeforeSaving(fileName, saveMenuItem);
                     } else {
                         saveRuleSetAndCollapseInput(fileName, saveMenuItem);

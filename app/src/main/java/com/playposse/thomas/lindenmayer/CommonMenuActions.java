@@ -5,13 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import com.playposse.thomas.lindenmayer.data.DataReader;
+import com.playposse.thomas.lindenmayer.contentprovider.parser.RuleSetConverter;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 
 import org.json.JSONException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Helper class that contains menu actions that are shared among all activities.
@@ -29,9 +26,7 @@ public final class CommonMenuActions {
     }
 
     public static void sendUsYourBest(Context context, RuleSet ruleSet) throws JSONException {
-        List<RuleSet> ruleSets = new ArrayList<>();
-        ruleSets.add(ruleSet);
-        String encodedRuleSet = DataReader.generateJson(ruleSets);
+        String encodedRuleSet = RuleSetConverter.write(ruleSet);
 
         String emailBody = context.getResources().getString(R.string.send_us_your_best_email_body)
                 + "\n"

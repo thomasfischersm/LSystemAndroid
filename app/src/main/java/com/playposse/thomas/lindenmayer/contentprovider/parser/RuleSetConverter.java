@@ -1,7 +1,6 @@
 package com.playposse.thomas.lindenmayer.contentprovider.parser;
 
 import com.google.gson.Gson;
-import com.playposse.thomas.lindenmayer.data.DataReader;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.List;
 /**
  * A GSON converter for {@link RuleSet}s.
  *
- * <p>This replaces {@link DataReader}. DataReader is kept around to read the legacy JSON files.
+ * <p>This replaces DataReader. DataReader is kept around to read the legacy JSON files.
  */
 public final class RuleSetConverter {
 

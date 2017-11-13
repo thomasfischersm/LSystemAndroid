@@ -1,4 +1,4 @@
-package com.playposse.thomas.lindenmayer.data;
+package com.playposse.thomas.lindenmayer.service;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -28,22 +28,25 @@ import java.util.List;
 /**
  * Utility that provides access to stored {@link RuleSet}s (examples and user defined ones. They
  * are stored as JSON on the device.
+ *
+ * <p>Note: This class must be package private, so that only the {@link ImportRuleSetsService} can
+ * access this code. All other code should read from the ContentRepository.
  */
-public class DataReader {
+class DataReader {
 
     private static final String LOG_CAT = DataReader.class.getSimpleName();
 
     private static final String USER_FILE_NAME = "userDefinedRuleSets.json";
 
-    public static final String SAMPLES_NODE_NAME = "samples";
-    public static final String NAME_NODE_NAME = "name";
-    public static final String AXIOM_NODE_NAME = "axiom";
-    public static final String DIRECTION_INCREMENT_NODE_NAME = "directionIncrement";
-    public static final String RULES_NODE_NAME = "rules";
-    public static final String MATCH_NODE_NAME = "match";
-    public static final String REPLACEMENT_NODE_NAME = "replacement";
+    private static final String SAMPLES_NODE_NAME = "samples";
+    private static final String NAME_NODE_NAME = "name";
+    private static final String AXIOM_NODE_NAME = "axiom";
+    private static final String DIRECTION_INCREMENT_NODE_NAME = "directionIncrement";
+    private static final String RULES_NODE_NAME = "rules";
+    private static final String MATCH_NODE_NAME = "match";
+    private static final String REPLACEMENT_NODE_NAME = "replacement";
 
-    public static List<RuleSet> readSampleRuleSets(Resources resources)
+    static List<RuleSet> readSampleRuleSets(Resources resources)
             throws IOException, JSONException {
 
         String jsonString = readResource(resources, R.raw.samples);
@@ -51,7 +54,7 @@ public class DataReader {
         return parseJson(jsonString);
     }
 
-    public static List<RuleSet> readUserRuleSets(Context context)
+    static List<RuleSet> readUserRuleSets(Context context)
             throws JSONException, IOException {
 
         try {
@@ -60,56 +63,6 @@ public class DataReader {
             // The first time, the file needs to be created.
             return new ArrayList<>();
         }
-    }
-
-    public static void saveUserRuleSets(Context context, RuleSet ruleSet)
-            throws IOException, JSONException {
-
-        List<RuleSet> ruleSets = readUserRuleSets(context);
-
-        boolean found = false;
-        for (int i = 0; i < ruleSets.size(); i++) {
-            RuleSet currentRuleSet = ruleSets.get(i);
-            if (currentRuleSet.getName().equalsIgnoreCase(ruleSet.getName())) {
-                // Replace an existing rule set.
-                ruleSets.set(i, ruleSet);
-                found = true;
-            }
-        }
-
-        if (!found) {
-            ruleSets.add(ruleSet);
-        }
-
-        writeUserRuleSets(context, ruleSets);
-    }
-
-    public static void deleteUserRuleSet(Context context, String name)
-            throws IOException, JSONException {
-
-        List<RuleSet> ruleSets = readUserRuleSets(context);
-
-        for (int i = 0; i < ruleSets.size(); i++) {
-            RuleSet currentRuleSet = ruleSets.get(i);
-            if (currentRuleSet.getName().equalsIgnoreCase(name)) {
-                // Replace an existing rule set.
-                ruleSets.remove(i);
-                break;
-            }
-        }
-
-        writeUserRuleSets(context, ruleSets);
-    }
-
-    public static boolean doesUserRuleSetExist(Context context, String name)
-            throws IOException, JSONException {
-
-        for (RuleSet ruleSet : readUserRuleSets(context)) {
-            if (ruleSet.getName().equalsIgnoreCase(name)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @NonNull
@@ -184,7 +137,7 @@ public class DataReader {
         }
     }
 
-    public static String generateJson(List<RuleSet> ruleSets) throws JSONException {
+    private static String generateJson(List<RuleSet> ruleSets) throws JSONException {
         JSONObject rootNode = new JSONObject();
 
         JSONArray samplesNode = new JSONArray();
