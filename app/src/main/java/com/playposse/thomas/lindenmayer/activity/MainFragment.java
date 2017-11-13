@@ -4,17 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.data.DataReader;
@@ -106,7 +101,7 @@ public class MainFragment extends Fragment {
     }
 
     private void addRulesToView(List<RuleSet> ruleSets, LinearLayout samplesLayout, boolean deleteable) {
-        final DeleteActionMode deleteActionMode = deleteable ? new DeleteActionMode() : null;
+//        final DeleteActionMode deleteActionMode = deleteable ? new DeleteActionMode() : null;
 
         for (final RuleSet ruleSet : ruleSets) {
             Button button = new Button(getActivity());
@@ -121,74 +116,74 @@ public class MainFragment extends Fragment {
                     ActivityNavigator.startRuleSetActivity(getActivity(), ruleSet);
                 }
             });
-            if (deleteable) {
-                button.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        view.setSelected(true);
-                        view.setPressed(true);
-                        deleteActionMode.setSelectedButton((Button) view);
-                        getActivity().startActionMode(deleteActionMode);
-                        return true;
-                    }
-                });
-            }
+//            if (deleteable) {
+//                button.setOnLongClickListener(new View.OnLongClickListener() {
+//                    @Override
+//                    public boolean onLongClick(View view) {
+//                        view.setSelected(true);
+//                        view.setPressed(true);
+//                        deleteActionMode.setSelectedButton((Button) view);
+//                        getActivity().startActionMode(deleteActionMode);
+//                        return true;
+//                    }
+//                });
+//            }
             samplesLayout.addView(button);
         }
     }
 
-    private class DeleteActionMode implements ActionMode.Callback {
-
-        private Button selectedButton;
-
-        public void setSelectedButton(Button selectedButton) {
-            this.selectedButton = selectedButton;
-        }
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.delete_menu, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            String deleteActionTitle =
-                    String.format(getResources().getString(R.string.delete_action_title), selectedButton.getText());
-            mode.setTitle(deleteActionTitle);
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.action_delete:
-                    try {
-                        String name = selectedButton.getText().toString();
-                        DataReader.deleteUserRuleSet(getActivity(), name);
-                        String deleteToastString = String.format(getResources().getString(R.string.delete_toast), name);
-                        Toast toast = Toast.makeText(getActivity(), deleteToastString, Toast.LENGTH_SHORT);
-                        toast.show();
-                    } catch (IOException | JSONException ex) {
-                        ex.printStackTrace();
-                    }
-                    selectedButton.setSelected(false);
-                    selectedButton.setPressed(false);
-                    mode.finish();
-                    try {
-                        populateRuleSets();
-                    } catch (IOException | JSONException ex) {
-                        ex.printStackTrace();
-                    }
-                    return true;
-            }
-
-            return false;
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-        }
-    }
+//    private class DeleteActionMode implements ActionMode.Callback {
+//
+//        private Button selectedButton;
+//
+//        public void setSelectedButton(Button selectedButton) {
+//            this.selectedButton = selectedButton;
+//        }
+//
+//        @Override
+//        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+//            MenuInflater inflater = mode.getMenuInflater();
+//            inflater.inflate(R.menu.delete_menu, menu);
+//            return true;
+//        }
+//
+//        @Override
+//        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+//            String deleteActionTitle =
+//                    String.format(getResources().getString(R.string.delete_action_title), selectedButton.getText());
+//            mode.setTitle(deleteActionTitle);
+//            return false;
+//        }
+//
+//        @Override
+//        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+//            switch (item.getItemId()) {
+//                case R.id.action_delete:
+//                    try {
+//                        String name = selectedButton.getText().toString();
+//                        DataReader.deleteUserRuleSet(getActivity(), name);
+//                        String deleteToastString = String.format(getResources().getString(R.string.delete_toast), name);
+//                        Toast toast = Toast.makeText(getActivity(), deleteToastString, Toast.LENGTH_SHORT);
+//                        toast.show();
+//                    } catch (IOException | JSONException ex) {
+//                        ex.printStackTrace();
+//                    }
+//                    selectedButton.setSelected(false);
+//                    selectedButton.setPressed(false);
+//                    mode.finish();
+//                    try {
+//                        populateRuleSets();
+//                    } catch (IOException | JSONException ex) {
+//                        ex.printStackTrace();
+//                    }
+//                    return true;
+//            }
+//
+//            return false;
+//        }
+//
+//        @Override
+//        public void onDestroyActionMode(ActionMode mode) {
+//        }
+//    }
 }

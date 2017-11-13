@@ -12,6 +12,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract;
+import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.RuleSetTable;
 import com.playposse.thomas.lindenmayer.contentprovider.QueryHelper;
 import com.playposse.thomas.lindenmayer.data.DataReader;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
@@ -33,6 +35,8 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // TODO: Hide/show the delete button intelligently based on if the RuleSet is currently
+        // saved or transient.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.rules_menu, menu);
 
@@ -66,7 +70,7 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
 
                 String ruleSetName = getContentFragment().getRuleSetName();
                 if (!StringUtil.isEmpty(ruleSetName)) {
-                        saveView.setText(ruleSetName);
+                    saveView.setText(ruleSetName);
                 }
                 return true;
             }
@@ -104,7 +108,7 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     saveRuleSetAndCollapseInput(fileName, saveMenuItem);
-                } catch (IOException|JSONException ex) {
+                } catch (IOException | JSONException ex) {
                     Log.e(LOG_CAT, "Failed to save rule set.", ex);
                 }
                 dialog.dismiss();
@@ -156,5 +160,41 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         super.onCreate(savedInstanceState);
 
         addContentFragment(new RulesFragment());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                onDeleteClicked();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void onDeleteClicked() {
+        String name = getContentFragment().getRuleSetName();
+
+        // Ensure that the RuleSet exists.
+        Long ruleSetId = QueryHelper.doesRulSetExistByName(
+                getContentResolver(),
+                name,
+                RuleSetTable.PRIVATE_TYPE);
+        if (ruleSetId == null) {
+            Toast.makeText(this, R.string.cant_delete_rule_set_toast, Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
+        // Delete the RuleSet.
+        QueryHelper.deleteRuleSet(getContentResolver(), ruleSetId);
+
+        // Show toast.
+        String deleteToastString = getString(R.string.delete_toast, name);
+        Toast toast = Toast.makeText(this, deleteToastString, Toast.LENGTH_SHORT);
+        toast.show();
+
+        // TODO: Update the RuleSet name inside of RulesFragment.
     }
 }

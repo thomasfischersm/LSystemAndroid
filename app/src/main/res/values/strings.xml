@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Lindenmayer</string>
     <string name="delete_action_title">Delete %1$s</string>
+    <string name="cant_delete_rule_set_toast">The rule set hasn\'t been saved.</string>
     <string name="delete_toast">%1$s has been deleted.</string>
 
     <string name="help_menu_title">Help</string>

@@ -111,4 +111,14 @@ public class QueryHelper {
                     new String[]{ruleSetId.toString()});
         }
     }
+
+    /**
+     * Deletes the specified {@link RuleSet}.
+     */
+    public static void deleteRuleSet(ContentResolver contentResolver, long ruleSetId) {
+        contentResolver.delete(
+                RuleSetTable.CONTENT_URI,
+                RuleSetTable.ID_COLUMN + "=?" ,
+                new String[]{Long.toString(ruleSetId)});
+    }
 }
