@@ -6,12 +6,18 @@
         android:id="@+id/action_share"
         android:icon="@drawable/ic_share_black_24dp"
         android:title="@string/share_menu_title"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
     <item
         android:id="@+id/action_refresh"
         android:icon="@drawable/ic_refresh_black_24dp"
         android:title="@string/refresh_menu_title"
         app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/action_publish"
+        android:icon="@drawable/ic_public_black_24dp"
+        android:title="@string/publish_menu_title"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/action_send_feedback"

@@ -16,12 +16,14 @@ public class AppPreferences {
     private static final String HAS_SEEN_INTRO_DECK = "hasSeenIntroDeck";
     private static final String HAS_SURVEY_BEEN_CLICKED = "hasSurveyBeenClicked";
     private static final String SURVEY_NUDGE_COUNTER = "surveyNudgeCounter";
+    private static final String HAS_SEEN_PUBLISH_DIALOG = "hasSeenPublishDialog";
 
     private static final boolean SHOW_TURTLE_TUTORIAL_DIALOG_DEFAULT = true;
     private static final boolean HAS_IMPORTED_USER_RULE_SETS_DEFAULT = false;
     private static final boolean HAS_SEEN_INTRO_DECK_DEFAULT = false;
     private static final boolean HAS_SURVEY_BEEN_CLICKED_DEFAULT = false;
     private static final int SURVEY_NUDGE_COUNTER_DEFAULT = 0;
+    private static final boolean HAS_SEEN_PUBLISH_DIALOG_DEFAULT = false;
 
     private static final BasePreferences basePreferences =
             new BasePreferences(SHARED_PREFERENCES_NAME);
@@ -88,6 +90,17 @@ public class AppPreferences {
         count++;
         basePreferences.setInt(context, SURVEY_NUDGE_COUNTER, count);
         return count;
+    }
+
+    public static boolean hasSeenPublishDialog(Context context) {
+        return basePreferences.getBoolean(
+                context,
+                HAS_SEEN_PUBLISH_DIALOG,
+                HAS_SEEN_INTRO_DECK_DEFAULT);
+    }
+
+    public static void setHasSeenPublishDialog(Context context, boolean value) {
+        basePreferences.setBoolean(context, HAS_SEEN_PUBLISH_DIALOG, value);
     }
 
     public static void reset(Context context) {

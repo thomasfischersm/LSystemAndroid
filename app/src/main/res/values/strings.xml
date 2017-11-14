@@ -12,6 +12,7 @@
     <string name="delete_menu_title">Delete</string>
     <string name="share_menu_title">Share</string>
     <string name="save_menu_title">Save</string>
+    <string name="publish_menu_title">Publish</string>
     <string name="refresh_menu_title">Refresh</string>
     <string name="send_feedback_menu_title">Send feedback</string>
     <string name="send_us_your_best_menu_title">Send us your best</string>
@@ -70,9 +71,6 @@
     <string name="send_us_your_best_email_subject">I found a really cool rule set!</string>
     <string name="send_us_your_best_email_body">Okay, you got us already curious and excited to see what you found. Be sure to include the encoded rule set below. Pro tip: Think of a rad name for it!</string>
 
-    <string name="dialog_continue_button">Continue</string>
-    <string name="dialog_cancel_button">Cancel</string>
-
     <string name="turtle_trainer_dialog_title">Turtle Trainer</string>
     <string name="turtle_Trainer_Dialog_message">In this interactive screen, you will learn by experimenting how letters are translated to drawing.</string>
     <string name="turtle_tutorial_f_button">f: Draw line.</string>
@@ -121,6 +119,15 @@
     <!-- Survey snackbar -->
     <string name="survey_snack_bar_prompt">Help me improve the app!</string>
     <string name="survey_snack_bar_action">Take survey</string>
+
+    <!-- Dialogs -->
+    <string name="cancel_button_label">Cancel</string>
+    <string name="ok_button_label">OK</string>
+    <string name="dialog_continue_button">Continue</string>
+    <string name="dialog_cancel_button">Cancel</string>
+
+    <string name="publish_rule_set_dialog_title">Publish rule set</string>
+    <string name="publish_rule_set_dialog_message">This will share your rule set with the L-System community. Be part the research community!</string>
 
     <!-- Common strings -->
     <string name="rule_set_preview_content_description">Renders the preview of a rule set.</string>

@@ -1,10 +1,13 @@
 package com.playposse.thomas.lindenmayer.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
@@ -13,17 +16,31 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.RuleSetTable;
 import com.playposse.thomas.lindenmayer.contentprovider.QueryHelper;
+import com.playposse.thomas.lindenmayer.contentprovider.parser.RuleSetConverter;
+import com.playposse.thomas.lindenmayer.data.AppPreferences;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.util.AnalyticsUtil;
+import com.playposse.thomas.lindenmayer.util.DialogUtil;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
 import com.playposse.thomas.lindenmayer.widgets.SaveView;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An {@link android.app.Activity} that allows the user to enter a
@@ -31,7 +48,9 @@ import java.io.IOException;
  */
 public class RulesActivity extends ParentActivity<RulesFragment> {
 
-    private static final String LOG_CAT = RulesActivity.class.getSimpleName();
+    private static final String LOG_TAG = RulesActivity.class.getSimpleName();
+
+    private static final int SIGN_IN_RETURN_CODE = 1;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -60,7 +79,7 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
                         saveRuleSetAndCollapseInput(fileName, saveMenuItem);
                     }
                 } catch (IOException | JSONException ex) {
-                    Log.e(LOG_CAT, "Failed to save rule set.", ex);
+                    Log.e(LOG_TAG, "Failed to save rule set.", ex);
                 }
             }
         });
@@ -113,7 +132,7 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
                 try {
                     saveRuleSetAndCollapseInput(fileName, saveMenuItem);
                 } catch (IOException | JSONException ex) {
-                    Log.e(LOG_CAT, "Failed to save rule set.", ex);
+                    Log.e(LOG_TAG, "Failed to save rule set.", ex);
                 }
                 dialog.dismiss();
             }
@@ -173,6 +192,9 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
             case R.id.action_delete:
                 onDeleteClicked();
                 return true;
+            case R.id.action_publish:
+                onPublishClicked();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -201,5 +223,99 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         toast.show();
 
         // TODO: Update the RuleSet name inside of RulesFragment.
+    }
+
+    private void onPublishClicked() {
+        if (AppPreferences.hasSeenPublishDialog(this)) {
+            onPublishConfirmed();
+        } else {
+            DialogUtil.confirm(
+                    this,
+                    R.string.publish_rule_set_dialog_title,
+                    R.string.publish_rule_set_dialog_message,
+                    R.string.ok_button_label,
+                    R.string.cancel_button_label,
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            AppPreferences.setHasSeenPublishDialog(
+                                    RulesActivity.this,
+                                    true);
+
+                            onPublishConfirmed();
+                        }
+                    });
+        }
+    }
+
+    private void onPublishConfirmed() {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            onPublishConfirmedAndSignedIn();
+        } else {
+            List<AuthUI.IdpConfig> providers = Arrays.asList(
+                    new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
+                    new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build());
+
+            startActivityForResult(
+                    AuthUI.getInstance()
+                            .createSignInIntentBuilder()
+                            .setAvailableProviders(providers)
+                            .build(),
+                    SIGN_IN_RETURN_CODE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SIGN_IN_RETURN_CODE) {
+//            IdpResponse response = IdpResponse.fromResultIntent(data);
+
+            if ((resultCode == Activity.RESULT_OK)
+                    && (FirebaseAuth.getInstance().getCurrentUser() != null)) {
+                onPublishConfirmedAndSignedIn();
+            }
+        }
+
+        // If the user aborted sign in, let 'em be in peace.
+    }
+
+    private void onPublishConfirmedAndSignedIn() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            throw new IllegalStateException("The FirebaseUser should never be null here!");
+        }
+
+        // TODO: Check if the name already exists.
+        // TODO: Check if we should update instead of create.
+        // TODO: Prompt for rule set name if none given.
+        // TODO: Check that the rule set is NOT a sample!
+        // TODO: Check if the actual rules have already been submitted!
+
+        RuleSet ruleSet = getContentFragment().createRuleSet();
+        String ruleSetJson = RuleSetConverter.write(ruleSet);
+
+        Map<String, Object> ruleSetMap = new HashMap<>();
+        ruleSetMap.put("name", getContentFragment().getRuleSetName());
+        ruleSetMap.put("ruleSet", ruleSetJson);
+        ruleSetMap.put("creatorId", user.getUid());
+        ruleSetMap.put("creatorName", user.getDisplayName());
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("ruleSets")
+                .add(ruleSetMap)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(LOG_TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(LOG_TAG, "Error adding document", e);
+                    }
+                });
     }
 }
