@@ -2,6 +2,7 @@ package com.playposse.thomas.lindenmayer;
 
 import android.app.Application;
 import android.content.Intent;
+import android.support.multidex.MultiDexApplication;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
@@ -11,7 +12,7 @@ import com.playposse.thomas.lindenmayer.service.ImportRuleSetsService;
 /**
  * An instance of {@link Application} that helps with Google analytics.
  */
-public class LindenmayerApplication extends Application {
+public class LindenmayerApplication extends MultiDexApplication {
 
     private Tracker tracker;
 
@@ -19,7 +20,7 @@ public class LindenmayerApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // TODO: Remove this for the release
+        // Reset the database for debug releases.
         if (BuildConfig.DEBUG) {
             getApplicationContext().deleteDatabase(LindenmayerDatabaseHelper.DB_NAME);
         }
@@ -27,6 +28,7 @@ public class LindenmayerApplication extends Application {
         // Check if anything needs to be imported.
         startService(new Intent(getApplicationContext(), ImportRuleSetsService.class));
 
+        // Leave this comment because we need to enable this frequently during development.
 //        Benchmark.runBenchmark();
     }
 

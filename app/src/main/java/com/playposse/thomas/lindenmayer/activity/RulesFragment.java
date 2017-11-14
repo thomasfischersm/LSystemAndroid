@@ -235,6 +235,7 @@ public class RulesFragment extends Fragment {
         previewTextView.bringToFront();
 
         // Render the preview.
+        // TODO: Switch to Glide rendering for preview as well.
         fractalView.post(new Runnable() {
             @Override
             public void run() {

@@ -1,8 +1,10 @@
 package com.playposse.thomas.lindenmayer.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
@@ -131,6 +133,7 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
      * Handles all the UI management of saving and defers the actual saving to
      * {@link #saveRuleSet(String)}.
      */
+    @SuppressLint("WrongViewCast")
     private void saveRuleSetAndCollapseInput(String fileName, MenuItem saveMenuItem)
             throws IOException, JSONException {
 
@@ -139,7 +142,7 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         Toast toast = Toast.makeText(getApplicationContext(), fileName + " saved.", Toast.LENGTH_SHORT);
         toast.show();
         InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(findViewById(R.id.axiom_text_view).getWindowToken(), 0);
+        inputManager.hideSoftInputFromWindow((IBinder) findViewById(R.id.axiom_text_view).getWindowToken(), 0);
     }
 
     /**
