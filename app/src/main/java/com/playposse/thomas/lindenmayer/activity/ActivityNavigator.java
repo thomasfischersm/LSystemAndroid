@@ -70,4 +70,8 @@ public class ActivityNavigator {
     public static void startPublicLibraryActivity(Context context) {
         context.startActivity(new Intent(context, PublicLibraryActivity.class));
     }
+
+    public static void startHelpActivity(Context context) {
+        context.startActivity(new Intent(context, HelpActivity.class));
+    }
 }

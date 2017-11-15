@@ -1,16 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.playposse.thomas.lindenmayer.activity.MainFragment">
 
-    <TextView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/welcome_message"/>
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/welcome_newbies_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="start"
+            android:padding="16dp"
+            android:text="@string/welcome_newbies"
+            android:textColor="@color/text_heading"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/watch_video_text_view"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/watch_video_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/watch_video"
+            android:textColor="@color/text_body"
+            app:layout_constraintBottom_toTopOf="@+id/read_help_text_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_newbies_text_view"/>
+
+        <TextView
+            android:id="@+id/read_help_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/read_help"
+            android:textColor="@color/text_body"
+            app:layout_constraintBottom_toTopOf="@+id/learn_turtle_text_view"
+            app:layout_constraintStart_toStartOf="@+id/watch_video_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/watch_video_text_view"/>
+
+        <TextView
+            android:id="@+id/learn_turtle_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/learn_turtle_trainer"
+            android:textColor="@color/text_body"
+            app:layout_constraintBottom_toTopOf="@+id/newbies_space"
+            app:layout_constraintStart_toStartOf="@+id/read_help_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/read_help_text_view"/>
+
+        <Space
+            android:id="@+id/newbies_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/welcome_experienced_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/learn_turtle_text_view"/>
+
+        <TextView
+            android:id="@+id/welcome_experienced_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="start"
+            android:padding="16dp"
+            android:text="@string/welcome_experienced"
+            android:textColor="@color/text_heading"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/check_out_samples_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/newbies_space"/>
+
+
+        <TextView
+            android:id="@+id/check_out_samples_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/check_out_samples"
+            android:textColor="@color/text_body"
+            app:layout_constraintBottom_toTopOf="@+id/create_your_own_text_view"
+            app:layout_constraintStart_toStartOf="@+id/watch_video_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/welcome_experienced_text_view"/>
+
+        <TextView
+            android:id="@+id/create_your_own_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_your_own"
+            android:textColor="@color/text_body"
+            app:layout_constraintBottom_toTopOf="@+id/see_community_contributions_text_view"
+            app:layout_constraintStart_toStartOf="@+id/check_out_samples_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/check_out_samples_text_view"/>
+
+        <TextView
+            android:id="@+id/see_community_contributions_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/see_community_contributions"
+            android:textColor="@color/text_body"
+            app:layout_constraintBottom_toTopOf="@+id/experienced_space"
+            app:layout_constraintStart_toStartOf="@+id/create_your_own_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/create_your_own_text_view"/>
+
+        <Space
+            android:id="@+id/experienced_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/see_community_contributions_text_view"/>
+    </android.support.constraint.ConstraintLayout>
 </android.support.design.widget.CoordinatorLayout>

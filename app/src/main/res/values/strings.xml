@@ -18,7 +18,14 @@
     <string name="send_us_your_best_menu_title">Send us your best</string>
 
     <!-- Main activity -->
-    <string name="welcome_message">Welcome!\n\nUse the navigation drawer to start your journey.</string>
+    <string name="welcome_newbies">If you are new to L-Systems:</string>
+    <string name="watch_video">&#x2022; Watch the <a href="">introduction video.</a></string>
+    <string name="read_help">&#x2022; Read the <a href="">help section.</a></string>
+    <string name="learn_turtle_trainer">&#x2022; Learn with the <a href="">turtle trainer.</a></string>
+    <string name="welcome_experienced">If you know L-Systems:</string>
+    <string name="check_out_samples">&#x2022; Check out the <a href="">samples</a>.</string>
+    <string name="create_your_own">&#x2022; Create your <a href="">own rules</a>.</string>
+    <string name="see_community_contributions">&#x2022; See <a href="">community contributions</a>.</string>
 
     <string name="help_about_heading">About</string>
     <string name="help_about_body_text">An L-system or Lindenmayer system is a parallel rewriting system and a type of formal grammar. An L-system consists of an alphabet of symbols that can be used to make strings, a collection of production rules that expand each symbol into some larger string of symbols, an initial &quot;axiom&quot; string from which to begin construction, and a mechanism for translating the generated strings into geometric structures. L-systems were introduced and developed in 1968 by Aristid Lindenmayer, a Hungarian theoretical biologist and botanist at the University of Utrecht. Lindenmayer used L-systems to describe the behaviour of plant cells and to model the growth processes of plant development. L-systems have also been used to model the morphology of a variety of organisms[1] and can be used to generate self-similar fractals such as iterated function systems.</string>

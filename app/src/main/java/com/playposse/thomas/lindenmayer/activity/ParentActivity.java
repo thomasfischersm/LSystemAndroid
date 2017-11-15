@@ -1,7 +1,6 @@
 package com.playposse.thomas.lindenmayer.activity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -150,7 +149,7 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
                 }
                 return true;
             case R.id.action_help:
-                startActivity(new Intent(this, HelpActivity.class));
+                ActivityNavigator.startHelpActivity(this);
                 return true;
             case R.id.action_send_feedback:
                 CommonMenuActions.sendFeedbackAction(this);
