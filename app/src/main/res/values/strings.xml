@@ -100,6 +100,7 @@
 
     <!-- Toasts -->
     <string name="rule_set_import_failed">Importing the rule sets failed :(</string>
+    <string name="rule_set_published_successfully">The rule set \'%1$s\' has been published successfully.</string>
 
     <!-- Navigation drawer -->
     <string name="navigation_header_content_description">Ornamental header graphics</string>
