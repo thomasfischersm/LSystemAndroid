@@ -131,6 +131,9 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         ruleSet.setName(fileName);
         QueryHelper.savePrivateRuleSet(this, ruleSet);
 
+        // Update the fragment.
+        getContentFragment().setRuleSetName(fileName);
+
         // Update activity title.
         setTitle(fileName);
 
@@ -162,8 +165,6 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         String deleteToastString = getString(R.string.delete_toast, name);
         Toast toast = Toast.makeText(this, deleteToastString, Toast.LENGTH_SHORT);
         toast.show();
-
-        // TODO: Update the RuleSet name inside of RulesFragment.
     }
 
     @Override

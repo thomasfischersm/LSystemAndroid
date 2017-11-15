@@ -40,6 +40,8 @@ import butterknife.ButterKnife;
  */
 public class RulesFragment extends Fragment {
 
+    private static final String RULE_SET_NAME_KEY = "ruleSetName";
+
     @BindView(R.id.go_button) FloatingActionButton goButton;
     @BindView(R.id.axiom_text_view) TextView axiomTextView;
     @BindView(R.id.direction_increment_text_view) TextView incrementTextView;
@@ -53,6 +55,10 @@ public class RulesFragment extends Fragment {
     private NeatRowWatcher neatRowWatcher = new NeatRowWatcher();
     private FractalView fractalView;
 
+    /**
+     * A rule set name that the user has specified after the intent was created.
+     */
+    private String overwrittenRuleSetName = null;
 
     @Nullable
     @Override
@@ -64,6 +70,10 @@ public class RulesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_rules, container, false);
 
         ButterKnife.bind(this, rootView);
+
+        if ((savedInstanceState != null) && savedInstanceState.containsKey(RULE_SET_NAME_KEY)) {
+            overwrittenRuleSetName = savedInstanceState.getString(RULE_SET_NAME_KEY);
+        }
 
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,8 +97,8 @@ public class RulesFragment extends Fragment {
         incrementTextView.addTextChangedListener(new AngleWatcher());
         incrementTextView.addTextChangedListener(previewUpdateWatcher);
 
-        if ((intentRuleSet != null) && !StringUtil.isEmpty(intentRuleSet.getName())) {
-            getActivity().setTitle(intentRuleSet.getName());
+        if ((intentRuleSet != null) && !StringUtil.isEmpty(getRuleSetName())) {
+            getActivity().setTitle(getRuleSetName());
         }
 
         return rootView;
@@ -328,21 +338,28 @@ public class RulesFragment extends Fragment {
         }
 
         outState.putParcelable(RuleSet.EXTRA_RULE_SET, ruleSet);
+        outState.putString(RULE_SET_NAME_KEY, getRuleSetName());
     }
 
     private void logContentViewToFabric(RuleSet intentRuleSet) {
         Answers.getInstance().logContentView(new ContentViewEvent()
                 .putContentName("Viewed L-System rule")
                 .putContentType("L-system view")
-                .putContentId(intentRuleSet.getName()));
+                .putContentId(getRuleSetName()));
     }
 
     public String getRuleSetName() {
-        if ((intentRuleSet != null) && (!StringUtil.isEmpty(intentRuleSet.getName()))) {
+        if (!StringUtil.isEmpty(overwrittenRuleSetName)) {
+            return overwrittenRuleSetName;
+        } else if ((intentRuleSet != null) && (!StringUtil.isEmpty(intentRuleSet.getName()))) {
             return intentRuleSet.getName();
         } else {
             return null;
         }
+    }
+
+    public void setRuleSetName(String ruleSetName) {
+        overwrittenRuleSetName = ruleSetName;
     }
 
     private class NeatRowWatcher implements TextWatcher {
