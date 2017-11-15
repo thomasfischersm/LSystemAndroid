@@ -209,6 +209,7 @@ public class RulesFragment extends Fragment {
             }
 
             ruleSet = new RuleSet(axiom, rules, directionIncrement);
+            ruleSet.setName(getRuleSetName());
         } catch (NumberFormatException ex) {
             // This method is called to attempt creating a RuleSet. Getting a bad number
             // simply means that the RuleSet is incomplete.
@@ -233,6 +234,7 @@ public class RulesFragment extends Fragment {
         }
 
         // Add the preview to the UI.
+        // TODO: Move this into the layout file.
         fractalView = new FractalView(getActivity());
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(180, 180);
         layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
