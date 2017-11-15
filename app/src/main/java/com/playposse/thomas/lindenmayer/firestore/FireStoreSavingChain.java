@@ -39,8 +39,6 @@ public final class FireStoreSavingChain {
                     activity,
                     R.string.publish_rule_set_dialog_title,
                     R.string.publish_rule_set_dialog_message,
-                    R.string.ok_button_label,
-                    R.string.cancel_button_label,
                     new Runnable() {
                         @Override
                         public void run() {

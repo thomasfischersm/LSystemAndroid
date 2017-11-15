@@ -130,6 +130,15 @@
     <string name="publish_rule_set_dialog_title">Publish rule set</string>
     <string name="publish_rule_set_dialog_message">This will share your rule set with the L-System community. Be part the research community!</string>
 
+    <string name="incomplete_rules_set_dialog_title">Can\'t save</string>
+    <string name="incomplete_rules_set_dialog_message">Please, create valid rules first.</string>
+
+    <string name="save_rule_set_dialog_title">Save</string>
+    <string name="save_rule_set_dialog_message">Please, provide a name for the rule set.</string>
+
+    <string name="empty_rule_set_name_dialog_title">No name entered</string>
+    <string name="empty_rule_set_name_dialog_message">Try again and enter a name.</string>
+
     <!-- Common strings -->
     <string name="rule_set_preview_content_description">Renders the preview of a rule set.</string>
     <string name="no_private_rule_sets_message">When you save your own rule set, it will show up here.</string>

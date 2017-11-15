@@ -1,17 +1,10 @@
 package com.playposse.thomas.lindenmayer.activity;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.playposse.thomas.lindenmayer.R;
@@ -21,12 +14,8 @@ import com.playposse.thomas.lindenmayer.contentprovider.parser.RuleSetConverter;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.firestore.FireStoreSavingChain;
 import com.playposse.thomas.lindenmayer.util.AnalyticsUtil;
+import com.playposse.thomas.lindenmayer.util.DialogUtil;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
-import com.playposse.thomas.lindenmayer.widgets.SaveView;
-
-import org.json.JSONException;
-
-import java.io.IOException;
 
 /**
  * An {@link android.app.Activity} that allows the user to enter a
@@ -43,124 +32,7 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.rules_menu, menu);
 
-        final MenuItem saveMenuItem = menu.findItem(R.id.action_save);
-        final SaveView saveView = (SaveView) saveMenuItem.getActionView();
-        saveView.addSaveHandler(new SaveView.SaveHandler() {
-            @Override
-            public void onSave(String fileName) {
-                try {
-                    if (!getContentFragment().validate()) {
-                        return;
-                    }
-
-                    Long ruleSetId = QueryHelper.doesRulSetExistByName(
-                            getContentResolver(),
-                            fileName,
-                            RuleSetTable.PRIVATE_TYPE);
-                    if (ruleSetId != null) {
-                        showOverwriteWarningBeforeSaving(fileName, saveMenuItem);
-                    } else {
-                        saveRuleSetAndCollapseInput(fileName, saveMenuItem);
-                    }
-                } catch (IOException | JSONException ex) {
-                    Log.e(LOG_TAG, "Failed to save rule set.", ex);
-                }
-            }
-        });
-
-        saveMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                if (!getContentFragment().validate()) {
-                    return false;
-                }
-
-                String ruleSetName = getContentFragment().getRuleSetName();
-                if (!StringUtil.isEmpty(ruleSetName)) {
-                    saveView.setText(ruleSetName);
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                return true;
-            }
-        });
         return true;
-    }
-
-    /**
-     * Shows a dialog asking the user to confirm overwriting an existing {@link RuleSet}.
-     */
-    private void showOverwriteWarningBeforeSaving(
-            final String fileName,
-            final MenuItem saveMenuItem) {
-
-        // Retrieve strings.
-        String titleStr = getResources().getString(R.string.rules_activity_overwrite_warning_title);
-        String messageStr =
-                getResources().getString(R.string.rules_activity_overwrite_warning_message);
-        String positiveButtonStr =
-                getResources().getString(R.string.dialog_continue_button);
-        String negativeButtonStr =
-                getResources().getString(R.string.dialog_cancel_button);
-
-        // Build dialog.
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
-        alertBuilder.setTitle(titleStr);
-        alertBuilder.setMessage(messageStr);
-        alertBuilder.setPositiveButton(positiveButtonStr, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    saveRuleSetAndCollapseInput(fileName, saveMenuItem);
-                } catch (IOException | JSONException ex) {
-                    Log.e(LOG_TAG, "Failed to save rule set.", ex);
-                }
-                dialog.dismiss();
-            }
-        });
-        alertBuilder.setNegativeButton(negativeButtonStr, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Do nothing. Let the user pick another file name.
-                dialog.dismiss();
-            }
-        });
-
-        alertBuilder.create().show();
-    }
-
-    /**
-     * Handles all the UI management of saving and defers the actual saving to
-     * {@link #saveRuleSet(String)}.
-     */
-    @SuppressLint("WrongViewCast")
-    private void saveRuleSetAndCollapseInput(String fileName, MenuItem saveMenuItem)
-            throws IOException, JSONException {
-
-        saveRuleSet(fileName);
-        saveMenuItem.collapseActionView();
-        Toast toast = Toast.makeText(getApplicationContext(), fileName + " saved.", Toast.LENGTH_SHORT);
-        toast.show();
-        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow((IBinder) findViewById(R.id.axiom_text_view).getWindowToken(), 0);
-    }
-
-    /**
-     * Does the actual saving of the {@link RuleSet}.
-     */
-    private void saveRuleSet(String fileName) throws IOException, JSONException {
-        RuleSet ruleSet = getContentFragment().createRuleSet();
-
-        ruleSet.setName(fileName);
-        QueryHelper.savePrivateRuleSet(this, ruleSet);
-
-        // Update activity title.
-        setTitle(fileName);
-
-        AnalyticsUtil.sendEvent(getApplication(), "SaveRuleSet");
     }
 
     @Override
@@ -173,6 +45,9 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_save:
+                onSaveClicked();
+                return true;
             case R.id.action_delete:
                 onDeleteClicked();
                 return true;
@@ -185,6 +60,85 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void onSaveClicked() {
+        if (!getContentFragment().validate()) {
+            DialogUtil.alert(
+                    this,
+                    R.string.incomplete_rules_set_dialog_title,
+                    R.string.publish_rule_set_dialog_message);
+            return;
+        }
+
+        final String currentRuleSetName = getContentFragment().getRuleSetName();
+        DialogUtil.requestInput(
+                this,
+                R.string.save_rule_set_dialog_title,
+                R.string.save_rule_set_dialog_message,
+                currentRuleSetName,
+                new DialogUtil.UserInputCallback() {
+                    @Override
+                    public void onSubmit(String newRuleSetName) {
+                        onSaveNameEntered(currentRuleSetName, newRuleSetName);
+                    }
+                });
+    }
+
+    private void onSaveNameEntered(String currentRuleSetName, final String newRuleSetName) {
+        // Check if anything was entered.
+        if (StringUtil.isEmpty(newRuleSetName)) {
+            DialogUtil.alert(
+                    this,
+                    R.string.empty_rule_set_name_dialog_title,
+                    R.string.empty_rule_set_name_dialog_message);
+            return;
+        }
+
+        // Check if an existing rule set is updated.
+        if (currentRuleSetName.equals(newRuleSetName)) {
+            saveRuleSet(newRuleSetName);
+            return;
+        }
+
+        // Check if the name would overwrite an existing rule set.
+        Long ruleSetId = QueryHelper.doesRulSetExistByName(
+                getContentResolver(),
+                newRuleSetName,
+                RuleSetTable.PRIVATE_TYPE);
+        if (ruleSetId == null) {
+            saveRuleSet(newRuleSetName);
+        } else {
+            DialogUtil.confirm(
+                    this,
+                    R.string.rules_activity_overwrite_warning_title,
+                    R.string.rules_activity_overwrite_warning_message,
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            saveRuleSet(newRuleSetName);
+                        }
+                    });
+        }
+    }
+
+    /**
+     * Does the actual saving of the {@link RuleSet}.
+     */
+    private void saveRuleSet(String fileName) {
+        // Do the actual saving.
+        RuleSet ruleSet = getContentFragment().createRuleSet();
+        ruleSet.setName(fileName);
+        QueryHelper.savePrivateRuleSet(this, ruleSet);
+
+        // Update activity title.
+        setTitle(fileName);
+
+        // Show the user a success toast.
+        Toast.makeText(getApplicationContext(), fileName + " saved.", Toast.LENGTH_SHORT)
+                .show();
+
+        AnalyticsUtil.sendEvent(getApplication(), "SaveRuleSet");
     }
 
     private void onDeleteClicked() {

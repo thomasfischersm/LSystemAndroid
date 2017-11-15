@@ -6,7 +6,6 @@
         android:id="@+id/action_save"
         android:icon="@drawable/ic_save_black_24dp"
         android:title="@string/save_menu_title"
-        app:actionViewClass="com.playposse.thomas.lindenmayer.widgets.SaveView"
         app:showAsAction="always|collapseActionView"/>
 
     <item
