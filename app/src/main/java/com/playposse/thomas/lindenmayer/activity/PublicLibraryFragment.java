@@ -30,6 +30,7 @@ public class PublicLibraryFragment extends Fragment {
     private static final int GRID_SPAN = 3;
 
     @BindView(R.id.rule_set_recycler_view) RecyclerView ruleSetRecyclerView;
+    @BindView(R.id.loading_message_text_view) TextView loadingMessageTextView;
     @BindView(R.id.empty_message_text_view) TextView emptyMessageTextView;
 
     private RuleSetAdapter ruleSetAdapter;
@@ -64,8 +65,12 @@ public class PublicLibraryFragment extends Fragment {
             public void onLoaded(Cursor cursor) {
                 ruleSetAdapter.swapCursor(cursor);
 
+                loadingMessageTextView.setVisibility(View.GONE);
+
                 if (cursor.getCount() > 0) {
                     emptyMessageTextView.setVisibility(View.GONE);
+                } else {
+                    emptyMessageTextView.setVisibility(View.VISIBLE);
                 }
             }
         });
