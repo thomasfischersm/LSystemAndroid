@@ -9,6 +9,8 @@ import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ShareEvent;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.glide.GlideApp;
@@ -27,6 +29,7 @@ public final class ShareUtil {
 
     private static final String FILE_PROVIDER_AUTHORITY = "com.playposse.thomas.lindenmayer";
     private static final String IMAGE_CONTENT_TYPE = "image/png";
+    private static final String UNKNOWN_METHOD = "unknown";
 
     private ShareUtil() {
     }
@@ -76,6 +79,19 @@ public final class ShareUtil {
         intent.putExtra(Intent.EXTRA_STREAM, contentUri);
         intent.setType(IMAGE_CONTENT_TYPE);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        final String method;
+        if (intent.getComponent() != null) {
+            method = intent.getComponent().getPackageName();
+        } else {
+            method = UNKNOWN_METHOD;
+        }
+
+        Answers.getInstance().logShare(new ShareEvent()
+                .putMethod(method)
+                .putContentName("Share l-system")
+                .putContentType("l-system")
+                .putContentId(ruleSet.getName()));
 
         context.startActivity(intent);
     }

@@ -43,6 +43,23 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        RuleSet ruleSet = getContentFragment().createRuleSet();
+        String ruleSetJson = RuleSetConverter.write(ruleSet);
+        String ruleSetName = getContentFragment().getRuleSetName();
+
+        FireStoreSavingChain.onActivityResult(
+                this,
+                requestCode,
+                requestCode,
+                data,
+                ruleSetJson,
+                ruleSetName);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
@@ -165,22 +182,5 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         String deleteToastString = getString(R.string.delete_toast, name);
         Toast toast = Toast.makeText(this, deleteToastString, Toast.LENGTH_SHORT);
         toast.show();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        RuleSet ruleSet = getContentFragment().createRuleSet();
-        String ruleSetJson = RuleSetConverter.write(ruleSet);
-        String ruleSetName = getContentFragment().getRuleSetName();
-
-        FireStoreSavingChain.onActivityResult(
-                this,
-                requestCode,
-                requestCode,
-                data,
-                ruleSetJson,
-                ruleSetName);
     }
 }

@@ -2,17 +2,17 @@ package com.playposse.thomas.lindenmayer.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.ShareActionProvider;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.ShareEvent;
 import com.playposse.thomas.lindenmayer.CommonMenuActions;
 import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.contentprovider.parser.RuleSetConverter;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
+import com.playposse.thomas.lindenmayer.firestore.FireStoreSavingChain;
 import com.playposse.thomas.lindenmayer.util.ShareUtil;
 
 import org.json.JSONException;
@@ -20,15 +20,12 @@ import org.json.JSONException;
 /**
  * An {@link android.app.Activity} that shows the render Lindenmayer System.
  */
-public class RenderingActivity
-        extends ParentActivity<RenderingFragment>
-        implements ShareActionProvider.OnShareTargetSelectedListener {
+public class RenderingActivity extends ParentActivity<RenderingFragment> {
 
     private static final String LOG_TAG = RenderingActivity.class.getSimpleName();
 
-    private static final String UNKNOWN_METHOD = "unknown";
-    private static final String UNKNOWN_RULE_SET = "unknown";
-    private static final String RULE_SET_NAME_EXTRA = "ruleSetName";
+    @Nullable private RuleSet ruleSet;
+    @Nullable private String ruleSetJson;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,6 +42,19 @@ public class RenderingActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        FireStoreSavingChain.onActivityResult(
+                this,
+                requestCode,
+                requestCode,
+                data,
+                getRuleSetJson(),
+                getRuleSetName());
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (super.onOptionsItemSelected(item)) {
             return true;
@@ -53,6 +63,9 @@ public class RenderingActivity
         switch (item.getItemId()) {
             case R.id.action_refresh:
                 getContentFragment().render();
+                return true;
+            case R.id.action_publish:
+                FireStoreSavingChain.onPublishClicked(this, getRuleSetName(), getRuleSetJson());
                 return true;
             case R.id.action_send_us_your_best:
                 try {
@@ -80,31 +93,21 @@ public class RenderingActivity
         ShareUtil.share(ruleSet, iterationCount, fractalImageView);
     }
 
-    /**
-     * Notify Fabric that a rule set has been shared.
-     */
-    @Override
-    public boolean onShareTargetSelected(ShareActionProvider source, Intent intent) {
-        final String method;
-        if (intent.getComponent() != null) {
-            method = intent.getComponent().getPackageName();
-        } else {
-            method = UNKNOWN_METHOD;
+    private RuleSet getRuleSet() {
+        if (ruleSet == null) {
+            ruleSet = getIntent().getParcelableExtra(RuleSet.EXTRA_RULE_SET);
         }
+        return ruleSet;
+    }
 
-        final String ruleSetName;
-        if (intent.hasExtra(RULE_SET_NAME_EXTRA)) {
-            ruleSetName = intent.getStringExtra(RULE_SET_NAME_EXTRA);
-        } else {
-            ruleSetName = UNKNOWN_RULE_SET;
+    private String getRuleSetName() {
+        return getRuleSet().getName();
+    }
+
+    private String getRuleSetJson() {
+        if (ruleSetJson == null) {
+            ruleSetJson = RuleSetConverter.write(getRuleSet());
         }
-
-        Answers.getInstance().logShare(new ShareEvent()
-                .putMethod(method)
-                .putContentName("Share l-system")
-                .putContentType("l-system")
-                .putContentId(ruleSetName));
-
-        return false;
+        return ruleSetJson;
     }
 }
