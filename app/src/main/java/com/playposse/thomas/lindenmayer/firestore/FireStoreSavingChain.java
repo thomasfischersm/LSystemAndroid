@@ -88,6 +88,4 @@ public final class FireStoreSavingChain {
 
         // If the user aborted sign in, let 'em be in peace.
     }
-
-
 }

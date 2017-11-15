@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.playposse.thomas.lindenmayer.R;
@@ -58,6 +61,7 @@ public final class DialogUtil {
                 .show();
 
     }
+
     /**
      * Shows a dialog with a message that the user can agree with or reject.
      */
@@ -141,8 +145,6 @@ public final class DialogUtil {
             @Nullable String currentValue,
             final UserInputCallback callback) {
 
-        // TODO: Disable the submit button until some text has been entered.
-
         final EditText editText = new EditText(context);
         editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_AUTO_CORRECT);
 
@@ -150,7 +152,7 @@ public final class DialogUtil {
             editText.setText(currentValue);
         }
 
-        new AlertDialog.Builder(context)
+        AlertDialog dialog = new AlertDialog.Builder(context)
                 .setTitle(titleResId)
                 .setMessage(messageResId)
                 .setView(editText)
@@ -160,7 +162,7 @@ public final class DialogUtil {
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.dismiss();
-                                callback.onSubmit(editText.getText().toString());
+                                callback.onSubmit(editText.getText().toString().trim());
                             }
                         }
                 )
@@ -172,8 +174,10 @@ public final class DialogUtil {
                                 dialog.dismiss();
                             }
                         }
-                )
-                .show();
+                ).create();
+        dialog.show();
+
+        editText.addTextChangedListener(new DisableSubmitTextWatcher(dialog));
     }
 
     /**
@@ -182,5 +186,32 @@ public final class DialogUtil {
     public interface UserInputCallback {
 
         void onSubmit(String userInput);
+    }
+
+    /**
+     * A {link TextWatcher} that keeps the submit button disabled until text has been entered.
+     */
+    private static class DisableSubmitTextWatcher implements TextWatcher {
+
+        private final Button submitButton;
+
+        private DisableSubmitTextWatcher(AlertDialog alertDialog) {
+            this.submitButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int before, int count) {
+            // Ignore.
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int count, int after) {
+            // Ignore.
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            submitButton.setEnabled(!StringUtil.isEmpty(editable.toString()));
+        }
     }
 }
