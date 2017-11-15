@@ -60,7 +60,7 @@ public class PrivateLibraryFragment
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        getLoaderManager().initLoader(Loaders.samplesLoader.getLoaderId(), null, this);
+        getLoaderManager().initLoader(Loaders.privateLibraryLoader.getLoaderId(), null, this);
     }
 
     @Override

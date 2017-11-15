@@ -93,6 +93,7 @@
         <activity android:name=".activity.SampleLibraryActivity" />
         <activity android:name=".activity.PrivateLibraryActivity" />
         <activity android:name=".activity.IntroductionActivity" />
+        <activity android:name=".activity.PublicLibraryActivity" />
     </application>
 
 </manifest>

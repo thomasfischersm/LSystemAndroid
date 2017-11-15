@@ -66,4 +66,8 @@ public class ActivityNavigator {
     public static void startPrivateLibraryActivity(Context context) {
         context.startActivity(new Intent(context, PrivateLibraryActivity.class));
     }
+
+    public static void startPublicLibraryActivity(Context context) {
+        context.startActivity(new Intent(context, PublicLibraryActivity.class));
+    }
 }

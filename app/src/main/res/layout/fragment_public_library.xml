@@ -6,7 +6,7 @@
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.playposse.thomas.lindenmayer.activity.PrivateLibraryFragment">
+    tools:context="com.playposse.thomas.lindenmayer.activity.PublicLibraryFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rule_set_recycler_view"
@@ -19,5 +19,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/no_private_rule_sets_message"/>
+        android:text="@string/no_public_rule_sets_message"/>
 </android.support.design.widget.CoordinatorLayout>

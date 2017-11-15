@@ -169,6 +169,10 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
                 return true;
             case R.id.action_private_rule_sets:
                 ActivityNavigator.startPrivateLibraryActivity(this);
+                return true;
+            case R.id.action_public_rule_sets:
+                ActivityNavigator.startPublicLibraryActivity(this);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

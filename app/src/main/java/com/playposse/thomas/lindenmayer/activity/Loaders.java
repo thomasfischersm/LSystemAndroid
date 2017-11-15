@@ -5,7 +5,8 @@ package com.playposse.thomas.lindenmayer.activity;
  */
 public enum Loaders {
     samplesLoader(1),
-    ;
+    privateLibraryLoader(2),
+    publicLibraryLoader(3);
     private final int loaderId;
 
     Loaders(int loaderId) {
