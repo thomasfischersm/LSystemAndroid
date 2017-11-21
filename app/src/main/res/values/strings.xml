@@ -48,6 +48,7 @@
         \nhide by Sergio Aguado from the Noun Project
     </string>
 
+    <!-- Rules activity -->
     <string name="rules_activity_axiom_label">Axiom</string>
     <string name="rules_activity_rotation_label">Rotation increment (in degrees)</string>
     <string name="rules_activity_rules_label">Rules</string>
@@ -148,6 +149,9 @@
 
     <string name="empty_rule_set_name_dialog_title">No name entered</string>
     <string name="empty_rule_set_name_dialog_message">Try again and enter a name.</string>
+
+    <string name="name_missing_dialog_title">Name missing!</string>
+    <string name="name_missing_dialog_message">Please, save the rule set first to give it a name.</string>
 
     <!-- Common strings -->
     <string name="rule_set_preview_content_description">Renders the preview of a rule set.</string>

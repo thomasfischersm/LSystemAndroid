@@ -19,6 +19,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.util.DialogUtil;
+import com.playposse.thomas.lindenmayer.util.StringUtil;
 
 /**
  * A helper for accessing Firestore.
@@ -58,6 +60,15 @@ public final class FireStoreHelper {
             final Context context,
             final String ruleSetName,
             final String ruleSetJson) {
+
+        // Check if a name has been given.
+        if (StringUtil.isEmpty(ruleSetName)) {
+            DialogUtil.alert(
+                    context,
+                    R.string.name_missing_dialog_title,
+                    R.string.name_missing_dialog_message);
+            return;
+        }
 
         // Check if the RuleSet needs to be created or updated.
         getRuleSetByNameAndCurrentUser(ruleSetName, new LookupCallback() {
