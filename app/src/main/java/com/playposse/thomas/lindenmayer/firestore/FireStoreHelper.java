@@ -17,9 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.playposse.thomas.lindenmayer.R;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * A helper for accessing Firestore.
  */
@@ -27,12 +24,7 @@ public final class FireStoreHelper {
 
     private static final String LOG_TAG = FireStoreHelper.class.getSimpleName();
 
-    public static final String RULE_SETS_COLLECTION = "ruleSets";
-
-    public static final String RULE_SET_NAME_PROPERTY = "name";
-    public static final String RULE_SET_PROPERTY = "ruleSet";
-    public static final String CREATOR_ID_PROPERTY = "creatorId";
-    public static final String CREATOR_NAME_PROPERTY = "creatorName";
+    private static final String RULE_SETS_COLLECTION = "ruleSets";
 
     private FireStoreHelper() {
     }
@@ -64,21 +56,20 @@ public final class FireStoreHelper {
             throw new IllegalStateException("The FirebaseUser should never be null here!");
         }
 
-        // TODO: Check if the name already exists.
         // TODO: Check if we should update instead of create.
         // TODO: Prompt for rule set name if none given.
         // TODO: Check that the rule set is NOT a sample!
         // TODO: Check if the actual rules have already been submitted!
 
-        Map<String, Object> ruleSetMap = new HashMap<>();
-        ruleSetMap.put(RULE_SET_NAME_PROPERTY, ruleSetName);
-        ruleSetMap.put(RULE_SET_PROPERTY, ruleSetJson);
-        ruleSetMap.put(CREATOR_ID_PROPERTY, user.getUid());
-        ruleSetMap.put(CREATOR_NAME_PROPERTY, user.getDisplayName());
+        FireStoreRuleSet fireRuleSet = new FireStoreRuleSet(
+                ruleSetName,
+                ruleSetJson,
+                user.getUid(), user.
+                getDisplayName());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(RULE_SETS_COLLECTION)
-                .add(ruleSetMap)
+                .add(fireRuleSet)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {

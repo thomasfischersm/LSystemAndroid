@@ -21,9 +21,10 @@ class RuleSetTableMatrixCursor extends MatrixCursor {
 
         for (DocumentSnapshot document : result.getDocuments()) {
             int id = document.getId().hashCode();
-            String name = document.getString(FireStoreHelper.RULE_SET_NAME_PROPERTY);
-            String json = document.getString(FireStoreHelper.RULE_SET_PROPERTY);
-            String authorDisplayName = document.getString(FireStoreHelper.CREATOR_NAME_PROPERTY);
+
+            FireStoreRuleSet fireRuleSet = document.toObject(FireStoreRuleSet.class);
+            String name = fireRuleSet.getName();
+            String json = fireRuleSet.getRuleSet();
 
             if (!StringUtil.isEmpty(name) && !StringUtil.isEmpty(json)) {
                 addRow(new Object[]{
@@ -31,7 +32,7 @@ class RuleSetTableMatrixCursor extends MatrixCursor {
                         name,
                         json,
                         LindenmayerContentContract.RuleSetTable.PUBLIC_TYPE,
-                        authorDisplayName});
+                        fireRuleSet.getCreatorName()});
             }
         }
     }

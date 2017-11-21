@@ -48,7 +48,7 @@ public class RuleSetAdapter extends RecyclerViewCursorAdapter<RuleSetViewHolder>
         final Long ruleSetId = smartCursor.getLong(RuleSetTable.ID_COLUMN);
         String ruleSetName = smartCursor.getString(RuleSetTable.NAME_COLUMN);
         String ruleSetJson = smartCursor.getString(RuleSetTable.RULE_SET_COLUMN);
-        RuleSet ruleSet = RuleSetConverter.read(ruleSetJson);
+        final RuleSet ruleSet = RuleSetConverter.read(ruleSetJson);
 
         holder.getNameTextView().setText(ruleSetName);
 
@@ -59,7 +59,7 @@ public class RuleSetAdapter extends RecyclerViewCursorAdapter<RuleSetViewHolder>
         holder.getPreviewImageView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityNavigator.startRuleSetActivity(context, ruleSetId);
+                ActivityNavigator.startRuleSetActivity(context, ruleSet);
             }
         });
     }
