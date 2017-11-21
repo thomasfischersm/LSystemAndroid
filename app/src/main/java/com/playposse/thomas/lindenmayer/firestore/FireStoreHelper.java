@@ -3,6 +3,7 @@ package com.playposse.thomas.lindenmayer.firestore;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -12,7 +13,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.playposse.thomas.lindenmayer.R;
@@ -25,6 +28,11 @@ public final class FireStoreHelper {
     private static final String LOG_TAG = FireStoreHelper.class.getSimpleName();
 
     private static final String RULE_SETS_COLLECTION = "ruleSets";
+
+    private static final String RULE_SET_NAME_PROPERTY = "name";
+    private static final String RULE_SET_PROPERTY = "ruleSet";
+    private static final String CREATOR_ID_PROPERTY = "creatorId";
+    private static final String CREATOR_NAME_PROPERTY = "creatorName";
 
     private FireStoreHelper() {
     }
@@ -49,14 +57,35 @@ public final class FireStoreHelper {
     static void onPublishConfirmedAndSignedIn(
             final Context context,
             final String ruleSetName,
-            String ruleSetJson) {
+            final String ruleSetJson) {
+
+        // Check if the RuleSet needs to be created or updated.
+        getRuleSetByNameAndCurrentUser(ruleSetName, new LookupCallback() {
+            @Override
+            public void onLoaded(
+                    @Nullable String ruleSetId,
+                    @Nullable FireStoreRuleSet fireRuleSet) {
+
+                if (ruleSetId == null) {
+                    onPublishConfirmedAndSignedIn(context, ruleSetName, ruleSetJson, null);
+                } else {
+                    onPublishConfirmedAndSignedIn(context, ruleSetName, ruleSetJson, ruleSetId);
+                }
+            }
+        });
+    }
+
+    static void onPublishConfirmedAndSignedIn(
+            final Context context,
+            final String ruleSetName,
+            String ruleSetJson,
+            @Nullable final String existingId) {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             throw new IllegalStateException("The FirebaseUser should never be null here!");
         }
 
-        // TODO: Check if we should update instead of create.
         // TODO: Prompt for rule set name if none given.
         // TODO: Check that the rule set is NOT a sample!
         // TODO: Check if the actual rules have already been submitted!
@@ -68,27 +97,96 @@ public final class FireStoreHelper {
                 getDisplayName());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(RULE_SETS_COLLECTION)
-                .add(fireRuleSet)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        String toastMsg = context.getString(
-                                R.string.rule_set_published_successfully,
-                                ruleSetName);
+        CollectionReference collection = db.collection(RULE_SETS_COLLECTION);
 
-                        Toast.makeText(
-                                context,
-                                toastMsg,
-                                Toast.LENGTH_LONG)
-                                .show();
-                        Log.d(LOG_TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+        if (existingId == null) {
+            // Insert.
+            collection
+                    .add(fireRuleSet)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            String toastMsg = context.getString(
+                                    R.string.rule_set_published_successfully,
+                                    ruleSetName);
+
+                            Toast.makeText(
+                                    context,
+                                    toastMsg,
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                            Log.d(LOG_TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception ex) {
+                            Log.w(LOG_TAG, "Error adding document", ex);
+                        }
+                    });
+        } else {
+            // Update.
+            collection
+                    .document(existingId)
+                    .set(fireRuleSet)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            String toastMsg = context.getString(
+                                    R.string.rule_set_published_successfully,
+                                    ruleSetName);
+
+                            Toast.makeText(
+                                    context,
+                                    toastMsg,
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                            Log.d(LOG_TAG, "DocumentSnapshot updated with ID: " + existingId);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception ex) {
+                            Log.w(LOG_TAG, "Error adding document", ex);
+                        }
+                    });
+        }
+    }
+
+    static void getRuleSetByNameAndCurrentUser(final String ruleSetName, final LookupCallback callback) {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            throw new IllegalStateException("The FirebaseUser should never be null here!");
+        }
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection(RULE_SETS_COLLECTION)
+                .whereEqualTo(RULE_SET_NAME_PROPERTY, ruleSetName)
+                .whereEqualTo(CREATOR_ID_PROPERTY, user.getUid())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot querySnapshot) {
+                        if (querySnapshot.isEmpty()
+                                || (querySnapshot.size() == 0)
+                                || (querySnapshot.getDocuments().size() == 0)) {
+                            callback.onLoaded(null, null);
+                        } else {
+                            DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                            FireStoreRuleSet fireRuleSet =
+                                    documentSnapshot.toObject(FireStoreRuleSet.class);
+                            callback.onLoaded(documentSnapshot.getId(), fireRuleSet);
+                        }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(LOG_TAG, "Error adding document", e);
+                    public void onFailure(@NonNull Exception ex) {
+                        Log.e(
+                                LOG_TAG,
+                                "onFailure: Failed to find RuleSet: " + ruleSetName + " "
+                                        + user.getUid(),
+                                ex);
                     }
                 });
     }
@@ -98,5 +196,12 @@ public final class FireStoreHelper {
      */
     public interface LoadingCallback {
         void onLoaded(Cursor cursor);
+    }
+
+    /**
+     * A callback interface that gets the result of a rule set lookup.
+     */
+    private interface LookupCallback {
+        void onLoaded(@Nullable String ruleSetId, @Nullable FireStoreRuleSet fireRuleSet);
     }
 }
