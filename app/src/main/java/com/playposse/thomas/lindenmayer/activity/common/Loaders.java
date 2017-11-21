@@ -1,4 +1,4 @@
-package com.playposse.thomas.lindenmayer.activity;
+package com.playposse.thomas.lindenmayer.activity.common;
 
 /**
  * An enum to keep track of all the loader constants.

@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.activity.common.Loaders;
+import com.playposse.thomas.lindenmayer.activity.common.RuleSetAdapter;
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.RuleSetTable;
 
 import butterknife.BindView;

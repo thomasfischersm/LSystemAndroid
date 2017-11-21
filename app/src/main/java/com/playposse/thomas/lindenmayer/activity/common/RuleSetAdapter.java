@@ -1,4 +1,4 @@
-package com.playposse.thomas.lindenmayer.activity;
+package com.playposse.thomas.lindenmayer.activity.common;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -18,13 +18,13 @@ import com.playposse.thomas.lindenmayer.util.SmartCursor;
 /**
  * A adapter that manages the list of rule sets.
  */
-class RuleSetAdapter extends RecyclerViewCursorAdapter<RuleSetViewHolder> {
+public class RuleSetAdapter extends RecyclerViewCursorAdapter<RuleSetViewHolder> {
 
     private static final int PREVIEW_ITERATION_COUNT = 4;
 
     private final Context context;
 
-    RuleSetAdapter(Context context) {
+    public RuleSetAdapter(Context context) {
         this.context = context;
     }
 
@@ -40,6 +40,11 @@ class RuleSetAdapter extends RecyclerViewCursorAdapter<RuleSetViewHolder> {
     @Override
     protected void onBindViewHolder(RuleSetViewHolder holder, int position, Cursor cursor) {
         SmartCursor smartCursor = new SmartCursor(cursor, RuleSetTable.COLUMN_NAMES);
+
+        onBindViewHolder(holder, smartCursor);
+    }
+
+    protected void onBindViewHolder(RuleSetViewHolder holder, SmartCursor smartCursor) {
         final Long ruleSetId = smartCursor.getLong(RuleSetTable.ID_COLUMN);
         String ruleSetName = smartCursor.getString(RuleSetTable.NAME_COLUMN);
         String ruleSetJson = smartCursor.getString(RuleSetTable.RULE_SET_COLUMN);
@@ -57,5 +62,9 @@ class RuleSetAdapter extends RecyclerViewCursorAdapter<RuleSetViewHolder> {
                 ActivityNavigator.startRuleSetActivity(context, ruleSetId);
             }
         });
+    }
+
+    protected Context getContext() {
+        return context;
     }
 }

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
 import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.activity.common.ActivityNavigator;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
 import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;

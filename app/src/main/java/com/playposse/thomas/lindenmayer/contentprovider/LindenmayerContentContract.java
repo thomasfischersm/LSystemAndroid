@@ -25,7 +25,7 @@ public class LindenmayerContentContract {
     /**
      * Stores rule sets
      */
-    public static final class RuleSetTable implements BaseColumns {
+    public static class RuleSetTable implements BaseColumns {
 
         public static final String PATH = "ruleSet";
         public static final Uri CONTENT_URI = createContentUri(PATH);
@@ -52,5 +52,22 @@ public class LindenmayerContentContract {
                         + "name TEXT, "
                         + "rule_set TEXT, "
                         + "type INTEGER)";
+    }
+
+    /**
+     * A list of columns for public rule sets. These aren't stored in the SQL Lite database, yet
+     * for consistency of cursors, there is a constant here. The actual data comes from the
+     * Firestore.
+     */
+    public static final class PublicRuleSetTable extends RuleSetTable {
+
+        public static final String AUTHOR_DISPLAY_NAME = "authorDisplayName";
+
+        public static final String[] COLUMN_NAMES = new String[]{
+                ID_COLUMN,
+                NAME_COLUMN,
+                RULE_SET_COLUMN,
+                TYPE_COLUMN,
+                AUTHOR_DISPLAY_NAME};
     }
 }

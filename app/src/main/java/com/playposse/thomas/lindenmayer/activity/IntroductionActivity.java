@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.activity.common.ActivityNavigator;
 import com.playposse.thomas.lindenmayer.data.AppPreferences;
 import com.playposse.thomas.lindenmayer.util.AnalyticsUtil;
 

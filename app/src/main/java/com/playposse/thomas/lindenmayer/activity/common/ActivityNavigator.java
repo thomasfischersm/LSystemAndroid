@@ -1,10 +1,19 @@
-package com.playposse.thomas.lindenmayer.activity;
+package com.playposse.thomas.lindenmayer.activity.common;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.playposse.thomas.lindenmayer.activity.HelpActivity;
+import com.playposse.thomas.lindenmayer.activity.IntroductionActivity;
+import com.playposse.thomas.lindenmayer.activity.MainActivity;
+import com.playposse.thomas.lindenmayer.activity.PrivateLibraryActivity;
+import com.playposse.thomas.lindenmayer.activity.PublicLibraryActivity;
+import com.playposse.thomas.lindenmayer.activity.RenderingActivity;
+import com.playposse.thomas.lindenmayer.activity.RulesActivity;
+import com.playposse.thomas.lindenmayer.activity.SampleLibraryActivity;
+import com.playposse.thomas.lindenmayer.activity.TurtleTrainingActivity;
 import com.playposse.thomas.lindenmayer.contentprovider.QueryHelper;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 

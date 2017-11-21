@@ -3,6 +3,7 @@ package com.playposse.thomas.lindenmayer.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.playposse.thomas.lindenmayer.activity.common.ActivityNavigator;
 import com.playposse.thomas.lindenmayer.data.AppPreferences;
 
 /**

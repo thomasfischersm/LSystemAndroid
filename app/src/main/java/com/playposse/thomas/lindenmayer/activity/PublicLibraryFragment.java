@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.activity.common.PublicRuleSetAdapter;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.firestore.FireStoreHelper;
 
@@ -33,7 +34,7 @@ public class PublicLibraryFragment extends Fragment {
     @BindView(R.id.loading_message_text_view) TextView loadingMessageTextView;
     @BindView(R.id.empty_message_text_view) TextView emptyMessageTextView;
 
-    private RuleSetAdapter ruleSetAdapter;
+    private PublicRuleSetAdapter ruleSetAdapter;
 
     @Nullable
     @Override
@@ -49,7 +50,7 @@ public class PublicLibraryFragment extends Fragment {
         // Set up RecyclerView.
         ruleSetRecyclerView.setHasFixedSize(true); // Small performance improvement.
         ruleSetRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), GRID_SPAN));
-        ruleSetAdapter = new RuleSetAdapter(getContext());
+        ruleSetAdapter = new PublicRuleSetAdapter(getContext());
         ruleSetRecyclerView.setAdapter(ruleSetAdapter);
 
         return rootView;

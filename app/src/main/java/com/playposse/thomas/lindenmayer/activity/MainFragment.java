@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.activity.common.ActivityNavigator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

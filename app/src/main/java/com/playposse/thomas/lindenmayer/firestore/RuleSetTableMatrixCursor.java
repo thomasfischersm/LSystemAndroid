@@ -6,15 +6,16 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract;
+import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.PublicRuleSetTable;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
 
 /**
  * A {@link MatrixCursor} that mimics the {@link LindenmayerContentContract.RuleSetTable} from the content repository.
  */
-public class RuleSetTableMatrixCursor extends MatrixCursor {
+class RuleSetTableMatrixCursor extends MatrixCursor {
 
-    public RuleSetTableMatrixCursor(Task<QuerySnapshot> task) {
-        super(LindenmayerContentContract.RuleSetTable.COLUMN_NAMES, task.getResult().size());
+    RuleSetTableMatrixCursor(Task<QuerySnapshot> task) {
+        super(PublicRuleSetTable.COLUMN_NAMES, task.getResult().size());
 
         QuerySnapshot result = task.getResult();
 
@@ -22,13 +23,15 @@ public class RuleSetTableMatrixCursor extends MatrixCursor {
             int id = document.getId().hashCode();
             String name = document.getString(FireStoreHelper.RULE_SET_NAME_PROPERTY);
             String json = document.getString(FireStoreHelper.RULE_SET_PROPERTY);
+            String authorDisplayName = document.getString(FireStoreHelper.CREATOR_NAME_PROPERTY);
 
             if (!StringUtil.isEmpty(name) && !StringUtil.isEmpty(json)) {
                 addRow(new Object[]{
                         id,
                         name,
                         json,
-                        LindenmayerContentContract.RuleSetTable.PUBLIC_TYPE});
+                        LindenmayerContentContract.RuleSetTable.PUBLIC_TYPE,
+                        authorDisplayName});
             }
         }
     }

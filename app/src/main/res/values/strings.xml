@@ -105,6 +105,9 @@
         There are no samples. Something went wrong. Try deleting the app data and restart the app.
     </string>
 
+    <!-- Public rule set activity -->
+    <string name="credit_line">by %1$s</string>
+
     <!-- Toasts -->
     <string name="rule_set_import_failed">Importing the rule sets failed :(</string>
     <string name="rule_set_published_successfully">The rule set \'%1$s\' has been published successfully.</string>

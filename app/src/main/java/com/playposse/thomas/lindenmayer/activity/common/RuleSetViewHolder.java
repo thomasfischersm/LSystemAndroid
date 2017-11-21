@@ -1,4 +1,4 @@
-package com.playposse.thomas.lindenmayer.activity;
+package com.playposse.thomas.lindenmayer.activity.common;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
