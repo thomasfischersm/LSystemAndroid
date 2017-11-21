@@ -75,7 +75,7 @@ public final class FireStoreHelper {
         });
     }
 
-    static void onPublishConfirmedAndSignedIn(
+    private static void onPublishConfirmedAndSignedIn(
             final Context context,
             final String ruleSetName,
             String ruleSetJson,
@@ -153,7 +153,7 @@ public final class FireStoreHelper {
         }
     }
 
-    static void getRuleSetByNameAndCurrentUser(final String ruleSetName, final LookupCallback callback) {
+    private static void getRuleSetByNameAndCurrentUser(final String ruleSetName, final LookupCallback callback) {
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             throw new IllegalStateException("The FirebaseUser should never be null here!");
