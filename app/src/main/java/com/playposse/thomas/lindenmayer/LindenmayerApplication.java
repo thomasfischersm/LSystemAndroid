@@ -26,7 +26,11 @@ public class LindenmayerApplication extends MultiDexApplication {
         }
 
         // Check if anything needs to be imported.
-        startService(new Intent(getApplicationContext(), ImportRuleSetsService.class));
+        ImportRuleSetsService.enqueueWork(
+                getApplicationContext(),
+                ImportRuleSetsService.class,
+                ImportRuleSetsService.JOB_ID,
+                new Intent(getApplicationContext(), ImportRuleSetsService.class));
 
         // Leave this comment because we need to enable this frequently during development.
 //        Benchmark.runBenchmark();

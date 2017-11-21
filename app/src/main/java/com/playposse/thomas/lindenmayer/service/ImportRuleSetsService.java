@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.JobIntentService;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -33,18 +34,14 @@ import java.util.List;
  * </li>
  * </ul>
  */
-public class ImportRuleSetsService extends IntentService {
+public class ImportRuleSetsService extends JobIntentService {
 
     private static final String LOG_TAG = ImportRuleSetsService.class.getSimpleName();
 
-    private static final String SERVICE_NAME = "ImportRuleSetsService";
-
-    public ImportRuleSetsService() {
-        super(SERVICE_NAME);
-    }
+    public static final int JOB_ID = 1;
 
     @Override
-    protected void onHandleIntent(@Nullable Intent intent) {
+    protected void onHandleWork(@Nullable Intent intent) {
         Log.i(LOG_TAG, "onHandleIntent: Start running ImportRuleSetsService.");
         long start = System.currentTimeMillis();
 

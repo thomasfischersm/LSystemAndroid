@@ -57,7 +57,8 @@
 
         <service
             android:name=".service.ImportRuleSetsService"
-            android:exported="false"/>
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <activity android:name=".activity.MainActivity">
             <intent-filter>
@@ -90,10 +91,10 @@
         </provider>
 
         <activity android:name=".activity.HelpActivity"/>
-        <activity android:name=".activity.SampleLibraryActivity" />
-        <activity android:name=".activity.PrivateLibraryActivity" />
-        <activity android:name=".activity.IntroductionActivity" />
-        <activity android:name=".activity.PublicLibraryActivity" />
+        <activity android:name=".activity.SampleLibraryActivity"/>
+        <activity android:name=".activity.PrivateLibraryActivity"/>
+        <activity android:name=".activity.IntroductionActivity"/>
+        <activity android:name=".activity.PublicLibraryActivity"/>
     </application>
 
 </manifest>
