@@ -12,7 +12,8 @@ public class LindenmayerContentContract {
 
     private static final String CONTENT_SCHEME = "content";
 
-    private LindenmayerContentContract() {}
+    private LindenmayerContentContract() {
+    }
 
     private static Uri createContentUri(String path) {
         return new Uri.Builder()
@@ -62,12 +63,14 @@ public class LindenmayerContentContract {
     public static final class PublicRuleSetTable extends RuleSetTable {
 
         public static final String AUTHOR_DISPLAY_NAME = "authorDisplayName";
+        public static final String AUTHOR_PHOTO_URL = "authorPhotoUrl";
 
         public static final String[] COLUMN_NAMES = new String[]{
                 ID_COLUMN,
                 NAME_COLUMN,
                 RULE_SET_COLUMN,
                 TYPE_COLUMN,
-                AUTHOR_DISPLAY_NAME};
+                AUTHOR_DISPLAY_NAME,
+                AUTHOR_PHOTO_URL};
     }
 }

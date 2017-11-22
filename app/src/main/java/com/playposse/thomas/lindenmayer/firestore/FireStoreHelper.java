@@ -2,6 +2,7 @@ package com.playposse.thomas.lindenmayer.firestore;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -97,15 +98,18 @@ public final class FireStoreHelper {
             throw new IllegalStateException("The FirebaseUser should never be null here!");
         }
 
-        // TODO: Prompt for rule set name if none given.
         // TODO: Check that the rule set is NOT a sample!
         // TODO: Check if the actual rules have already been submitted!
 
+        Uri creatorPhotoUrl = user.getPhotoUrl();
+        String creatorPhotoUrlString =
+                (creatorPhotoUrl != null) ? creatorPhotoUrl.toString() : null;
         FireStoreRuleSet fireRuleSet = new FireStoreRuleSet(
                 ruleSetName,
                 ruleSetJson,
-                user.getUid(), user.
-                getDisplayName());
+                user.getUid(),
+                user.getDisplayName(),
+                creatorPhotoUrlString);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collection = db.collection(RULE_SETS_COLLECTION);

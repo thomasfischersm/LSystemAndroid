@@ -108,6 +108,7 @@
 
     <!-- Public rule set activity -->
     <string name="credit_line">by %1$s</string>
+    <string name="profile_photo_content_description">Profile photo of the user who submitted the L-System.</string>
 
     <!-- Toasts -->
     <string name="rule_set_import_failed">Importing the rule sets failed :(</string>

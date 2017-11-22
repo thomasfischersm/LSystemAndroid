@@ -32,7 +32,8 @@ class RuleSetTableMatrixCursor extends MatrixCursor {
                         name,
                         json,
                         LindenmayerContentContract.RuleSetTable.PUBLIC_TYPE,
-                        fireRuleSet.getCreatorName()});
+                        fireRuleSet.getCreatorName(),
+                        fireRuleSet.getCreatorPhotoUrl()});
             }
         }
     }

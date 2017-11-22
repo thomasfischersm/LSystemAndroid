@@ -1,5 +1,7 @@
 package com.playposse.thomas.lindenmayer.firestore;
 
+import android.support.annotation.Nullable;
+
 /**
  * A data class that represents a public L-System rule set in the Firestore.
  */
@@ -9,15 +11,23 @@ class FireStoreRuleSet {
     private String ruleSet;
     private String creatorId;
     private String creatorName;
+    @Nullable private String creatorPhotoUrl;
 
     FireStoreRuleSet() {
     }
 
-    FireStoreRuleSet(String name, String ruleSet, String creatorId, String creatorName) {
+    FireStoreRuleSet(
+            String name,
+            String ruleSet,
+            String creatorId,
+            String creatorName,
+            @Nullable String creatorPhotoUrl) {
+
         this.name = name;
         this.ruleSet = ruleSet;
         this.creatorId = creatorId;
         this.creatorName = creatorName;
+        this.creatorPhotoUrl = creatorPhotoUrl;
     }
 
     public String getName() {
@@ -50,5 +60,13 @@ class FireStoreRuleSet {
 
     public void setCreatorName(String creatorName) {
         this.creatorName = creatorName;
+    }
+
+    public String getCreatorPhotoUrl() {
+        return creatorPhotoUrl;
+    }
+
+    public void setCreatorPhotoUrl(String creatorPhotoUrl) {
+        this.creatorPhotoUrl = creatorPhotoUrl;
     }
 }

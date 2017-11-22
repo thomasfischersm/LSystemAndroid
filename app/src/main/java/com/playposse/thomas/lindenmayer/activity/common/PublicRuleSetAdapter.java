@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.PublicRuleSetTable;
+import com.playposse.thomas.lindenmayer.glide.GlideApp;
 import com.playposse.thomas.lindenmayer.util.SmartCursor;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
 
@@ -46,6 +47,18 @@ public class PublicRuleSetAdapter extends RuleSetAdapter {
             holder.getCreditTextView().setVisibility(View.VISIBLE);
         } else {
             holder.getCreditTextView().setVisibility(View.GONE);
+        }
+
+        String authorPhotoUrl = smartCursor.getString(PublicRuleSetTable.AUTHOR_PHOTO_URL);
+        if (!StringUtil.isEmpty(authorPhotoUrl)) {
+            GlideApp.with(getContext())
+                    .load(authorPhotoUrl)
+                    .circleCrop()
+                    .into(holder.getCreatorPhotoImageView());
+            holder.getCreatorPhotoImageView().setVisibility(View.VISIBLE);
+        } else {
+            holder.getCreatorPhotoImageView().setImageDrawable(null);
+            holder.getCreatorPhotoImageView().setVisibility(View.GONE);
         }
     }
 }
