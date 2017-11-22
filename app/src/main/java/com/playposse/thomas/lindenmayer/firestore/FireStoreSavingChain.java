@@ -1,7 +1,6 @@
 package com.playposse.thomas.lindenmayer.firestore;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 
 import com.firebase.ui.auth.AuthUI;
@@ -72,7 +71,7 @@ public final class FireStoreSavingChain {
     }
 
     public static void onActivityResult(
-            Context context,
+            Activity activity,
             int requestCode,
             int resultCode,
             Intent data,
@@ -82,7 +81,9 @@ public final class FireStoreSavingChain {
         if (requestCode == SIGN_IN_RETURN_CODE) {
             if ((resultCode == Activity.RESULT_OK)
                     && (FirebaseAuth.getInstance().getCurrentUser() != null)) {
-                FireStoreHelper.onPublishConfirmedAndSignedIn(context, ruleSetName, ruleSetJson);
+                activity.invalidateOptionsMenu();
+
+                FireStoreHelper.onPublishConfirmedAndSignedIn(activity, ruleSetName, ruleSetJson);
             }
         }
 

@@ -3,19 +3,14 @@ package com.playposse.thomas.lindenmayer.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.playposse.thomas.lindenmayer.CommonMenuActions;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.contentprovider.parser.RuleSetConverter;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.firestore.FireStoreSavingChain;
 import com.playposse.thomas.lindenmayer.util.ShareUtil;
-
-import org.json.JSONException;
 
 /**
  * An {@link android.app.Activity} that shows the render Lindenmayer System.
@@ -26,13 +21,6 @@ public class RenderingActivity extends ParentActivity<RenderingFragment> {
 
     @Nullable private RuleSet ruleSet;
     @Nullable private String ruleSetJson;
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.render_menu, menu);
-
-        return true;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,15 +54,6 @@ public class RenderingActivity extends ParentActivity<RenderingFragment> {
                 return true;
             case R.id.action_publish:
                 FireStoreSavingChain.onPublishClicked(this, getRuleSetName(), getRuleSetJson());
-                return true;
-            case R.id.action_send_us_your_best:
-                try {
-                    CommonMenuActions.sendUsYourBest(
-                            this,
-                            getContentFragment().getRuleSet());
-                } catch (JSONException ex) {
-                    Log.e(LOG_TAG, "Failed to execute menu action 'send us your best'", ex);
-                }
                 return true;
             case R.id.action_share:
                 onShareClicked();

@@ -1,10 +1,6 @@
 package com.playposse.thomas.lindenmayer.activity;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-
-import com.playposse.thomas.lindenmayer.R;
 
 /**
  * An activity that trains the user to use turtle graphics. The upper half of the screen is the
@@ -21,13 +17,4 @@ public class TurtleTrainingActivity extends ParentActivity {
 
         addContentFragment(new TurtleTrainingFragment());
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.turtle_tutorial_menu, menu);
-        return true;
-    }
-
 }

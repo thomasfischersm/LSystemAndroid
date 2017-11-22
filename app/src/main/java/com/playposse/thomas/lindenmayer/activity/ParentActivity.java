@@ -86,6 +86,21 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
 
+        // It used to be tedious to manage multiple menu files and keep them in sync. This approach
+        // is to have one menu file with all options and to dynamically hide options based on the
+        // activity.
+        if (!(this instanceof RulesActivity)) {
+            MenuUtil.setMenuItemVisibility(menu, R.id.action_save, false);
+            MenuUtil.setMenuItemVisibility(menu, R.id.action_delete, false);
+        }
+        if (!(this instanceof RenderingActivity)) {
+            MenuUtil.setMenuItemVisibility(menu, R.id.action_refresh, false);
+            MenuUtil.setMenuItemVisibility(menu, R.id.action_share, false);
+        }
+        if (!(this instanceof RulesActivity) && !(this instanceof  RenderingActivity)) {
+            MenuUtil.setMenuItemVisibility(menu, R.id.action_publish, false);
+        }
+
         // Only show logout option when logged in.
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         boolean isLoggedIn = (user != null);

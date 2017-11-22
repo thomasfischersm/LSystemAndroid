@@ -5,11 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import com.playposse.thomas.lindenmayer.contentprovider.parser.RuleSetConverter;
-import com.playposse.thomas.lindenmayer.domain.RuleSet;
-
-import org.json.JSONException;
-
 /**
  * Helper class that contains menu actions that are shared among all activities.
  */
@@ -23,22 +18,6 @@ public final class CommonMenuActions {
                 R.string.feedback_email_recipient,
                 R.string.feedback_email_subject,
                 context.getResources().getString(R.string.feedback_email_body));
-    }
-
-    public static void sendUsYourBest(Context context, RuleSet ruleSet) throws JSONException {
-        String encodedRuleSet = RuleSetConverter.write(ruleSet);
-
-        String emailBody = context.getResources().getString(R.string.send_us_your_best_email_body)
-                + "\n"
-                + encodedRuleSet;
-
-        showInfoDialogAndSendEmail(
-                context,
-                R.string.send_us_your_best_dialog_title,
-                R.string.send_us_your_best_dialog_message,
-                R.string.send_us_your_best_email_recipient,
-                R.string.send_us_your_best_email_subject,
-                emailBody);
     }
 
     private static void showInfoDialogAndSendEmail(

@@ -2,8 +2,6 @@ package com.playposse.thomas.lindenmayer.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -22,18 +20,10 @@ import com.playposse.thomas.lindenmayer.util.StringUtil;
  * {@link com.playposse.thomas.lindenmayer.domain.RuleSet}.
  */
 public class RulesActivity extends ParentActivity<RulesFragment> {
+    // TODO: Hide/show the delete button intelligently based on if the RuleSet is currently
+    // saved or transient.
 
     private static final String LOG_TAG = RulesActivity.class.getSimpleName();
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // TODO: Hide/show the delete button intelligently based on if the RuleSet is currently
-        // saved or transient.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.rules_menu, menu);
-
-        return true;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
