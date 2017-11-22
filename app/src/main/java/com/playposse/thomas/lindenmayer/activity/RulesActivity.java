@@ -53,10 +53,10 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         FireStoreSavingChain.onActivityResult(
                 this,
                 requestCode,
-                requestCode,
+                resultCode,
                 data,
-                ruleSetJson,
-                ruleSetName);
+                ruleSetName,
+                ruleSetJson);
     }
 
     @Override

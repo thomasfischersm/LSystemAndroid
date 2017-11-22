@@ -48,10 +48,10 @@ public class RenderingActivity extends ParentActivity<RenderingFragment> {
         FireStoreSavingChain.onActivityResult(
                 this,
                 requestCode,
-                requestCode,
+                resultCode,
                 data,
-                getRuleSetJson(),
-                getRuleSetName());
+                getRuleSetName(),
+                getRuleSetJson());
     }
 
     @Override
