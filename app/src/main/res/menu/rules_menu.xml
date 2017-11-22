@@ -26,8 +26,12 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/action_logout"
+        android:title="@string/logout_menu_title"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_help"
         android:title="@string/help_menu_title"
         app:showAsAction="never"/>
-
 </menu>

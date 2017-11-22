@@ -30,7 +30,7 @@
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.3"/>
+        app:layout_constraintGuide_percent="0.35"/>
 
     <LinearLayout
         android:id="@+id/scrim_container"

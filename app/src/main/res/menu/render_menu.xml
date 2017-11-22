@@ -31,6 +31,11 @@
         app:showAsAction="never"/>
 
     <item
+        android:id="@+id/action_logout"
+        android:title="@string/logout_menu_title"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_help"
         android:icon="@drawable/ic_help_black_24dp"
         android:title="@string/help_menu_title"

@@ -16,6 +16,7 @@
     <string name="refresh_menu_title">Refresh</string>
     <string name="send_feedback_menu_title">Send feedback</string>
     <string name="send_us_your_best_menu_title">Send us your best</string>
+    <string name="logout_menu_title">Logout</string>
 
     <!-- Main activity -->
     <string name="welcome_newbies">If you are new to L-Systems:</string>

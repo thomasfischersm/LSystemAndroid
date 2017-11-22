@@ -24,10 +24,13 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.playposse.thomas.lindenmayer.CommonMenuActions;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.activity.common.ActivityNavigator;
 import com.playposse.thomas.lindenmayer.glide.GlideApp;
+import com.playposse.thomas.lindenmayer.util.MenuUtil;
 import com.playposse.thomas.lindenmayer.util.SurveyUtil;
 
 import butterknife.BindView;
@@ -78,6 +81,12 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
+
+        // Only show logout option when logged in.
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        boolean isLoggedIn = (user != null);
+        MenuUtil.setMenuItemVisibility(menu, R.id.action_logout, isLoggedIn);
+
         return true;
     }
 
@@ -173,9 +182,19 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
             case R.id.action_public_rule_sets:
                 ActivityNavigator.startPublicLibraryActivity(this);
                 return true;
+            case R.id.action_logout:
+                onLogoutClicked();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void onLogoutClicked() {
+        FirebaseAuth.getInstance().signOut();
+
+        // Remove the logout menu item.
+        invalidateOptionsMenu();
     }
 
     @SuppressWarnings("unchecked")
