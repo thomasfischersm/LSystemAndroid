@@ -1,8 +1,10 @@
 package com.playposse.thomas.lindenmayer.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -19,6 +21,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -131,6 +135,8 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
                         return onOptionsItemSelected(item);
                     }
                 });
+
+        drawerLayout.addDrawerListener(new SoftKeyboardCloserListener());
     }
 
     protected void addContentFragment(Fragment mainFragment) {
@@ -200,5 +206,38 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
     @SuppressWarnings("unchecked")
     protected F getContentFragment() {
         return (F) getSupportFragmentManager().findFragmentByTag(MAIN_FRAGMENT_TAG);
+    }
+
+    /**
+     * A listener on the navigation drawer that closes the soft keyboard if it is visible.
+     */
+    private class SoftKeyboardCloserListener implements DrawerLayout.DrawerListener {
+        @Override
+        public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+            InputMethodManager inputMethodManager =
+                    (InputMethodManager)  getSystemService(Activity.INPUT_METHOD_SERVICE);
+            View currentView = getCurrentFocus();
+            if ((inputMethodManager != null) && (currentView != null)) {
+                IBinder windowToken = currentView.getWindowToken();
+                if (windowToken != null) {
+                    inputMethodManager.hideSoftInputFromWindow(windowToken, 0);
+                }
+            }
+        }
+
+        @Override
+        public void onDrawerOpened(@NonNull View drawerView) {
+            // Ignore.
+        }
+
+        @Override
+        public void onDrawerClosed(@NonNull View drawerView) {
+            // Ignore.
+        }
+
+        @Override
+        public void onDrawerStateChanged(int newState) {
+            // Ignore.
+        }
     }
 }
