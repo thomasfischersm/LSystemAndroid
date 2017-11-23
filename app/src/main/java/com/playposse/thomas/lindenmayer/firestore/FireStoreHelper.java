@@ -78,10 +78,18 @@ public final class FireStoreHelper {
                     @Nullable String ruleSetId,
                     @Nullable FireStoreRuleSet fireRuleSet) {
 
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
                 if (ruleSetId == null) {
                     onPublishConfirmedAndSignedIn(context, ruleSetName, ruleSetJson, null);
-                } else {
+                } else if (fireRuleSet.getCreatorId().equals(user.getUid())) {
                     onPublishConfirmedAndSignedIn(context, ruleSetName, ruleSetJson, ruleSetId);
+                } else {
+                    // Another user has already chosen that name.
+                    String toastMsg =
+                            context.getString(R.string.published_name_exists_toast, ruleSetName);
+                    Toast.makeText(context, toastMsg, Toast.LENGTH_LONG)
+                            .show();
                 }
             }
         });
@@ -93,7 +101,7 @@ public final class FireStoreHelper {
             String ruleSetJson,
             @Nullable final String existingId) {
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             throw new IllegalStateException("The FirebaseUser should never be null here!");
         }
@@ -137,6 +145,9 @@ public final class FireStoreHelper {
                         @Override
                         public void onFailure(@NonNull Exception ex) {
                             Log.w(LOG_TAG, "Error adding document", ex);
+                            Toast.makeText(context, ex.getLocalizedMessage(), Toast.LENGTH_LONG)
+                                    .show();
+                            throw new RuntimeException("Failed to add RuleSet to FireStore", ex);
                         }
                     });
         } else {
@@ -162,13 +173,22 @@ public final class FireStoreHelper {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception ex) {
-                            Log.w(LOG_TAG, "Error adding document", ex);
+                            Log.w(LOG_TAG, "Error updating document", ex);
+                            Toast.makeText(context, ex.getLocalizedMessage(), Toast.LENGTH_LONG)
+                                    .show();
+                            throw new RuntimeException(
+                                    "Failed to update RuleSet to FireStore. Rule set name: "
+                                            + ruleSetName + " user uid: " + user.getUid(),
+                                    ex);
                         }
                     });
         }
     }
 
-    private static void getRuleSetByNameAndCurrentUser(final String ruleSetName, final LookupCallback callback) {
+    private static void getRuleSetByNameAndCurrentUser(
+            final String ruleSetName,
+            final LookupCallback callback) {
+
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             throw new IllegalStateException("The FirebaseUser should never be null here!");
@@ -177,7 +197,7 @@ public final class FireStoreHelper {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(RULE_SETS_COLLECTION)
                 .whereEqualTo(RULE_SET_NAME_PROPERTY, ruleSetName)
-                .whereEqualTo(CREATOR_ID_PROPERTY, user.getUid())
+//                .whereEqualTo(CREATOR_ID_PROPERTY, user.getUid())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

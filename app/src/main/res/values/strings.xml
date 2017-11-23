@@ -60,6 +60,7 @@
     <string name="rules_activity_required_value_error">Please, enter a value.</string>
     <string name="rules_activity_overwrite_warning_title">Confirm</string>
     <string name="rules_activity_overwrite_warning_message">A rule set with that name already exists. Do you want to continue?</string>
+    <string name="published_name_exists_toast">Another user has already chosen the name \'%1$s\'.</string>
 
     <!-- Render activity -->
     <string name="progress_bar_title">Counting sheep…</string>
