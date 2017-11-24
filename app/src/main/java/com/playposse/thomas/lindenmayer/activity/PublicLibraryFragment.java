@@ -61,7 +61,7 @@ public class PublicLibraryFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        FireStoreHelper.loadRuleSets(new FireStoreHelper.LoadingCallback() {
+        FireStoreHelper.loadRuleSets(new FireStoreHelper.LoadCallback() {
             @Override
             public void onLoaded(Cursor cursor) {
                 ruleSetAdapter.swapCursor(cursor);

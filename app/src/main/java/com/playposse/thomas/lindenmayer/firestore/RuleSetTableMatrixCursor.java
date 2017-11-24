@@ -7,6 +7,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract;
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.PublicRuleSetTable;
+import com.playposse.thomas.lindenmayer.firestore.data.FireStoreRuleSet;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
 
 /**
@@ -20,7 +21,7 @@ class RuleSetTableMatrixCursor extends MatrixCursor {
         QuerySnapshot result = task.getResult();
 
         for (DocumentSnapshot document : result.getDocuments()) {
-            int id = document.getId().hashCode();
+            int hashedId = document.getId().hashCode();
 
             FireStoreRuleSet fireRuleSet = document.toObject(FireStoreRuleSet.class);
             String name = fireRuleSet.getName();
@@ -28,12 +29,13 @@ class RuleSetTableMatrixCursor extends MatrixCursor {
 
             if (!StringUtil.isEmpty(name) && !StringUtil.isEmpty(json)) {
                 addRow(new Object[]{
-                        id,
+                        hashedId,
                         name,
                         json,
                         LindenmayerContentContract.RuleSetTable.PUBLIC_TYPE,
                         fireRuleSet.getCreatorName(),
-                        fireRuleSet.getCreatorPhotoUrl()});
+                        fireRuleSet.getCreatorPhotoUrl(),
+                        document.getId()});
             }
         }
     }

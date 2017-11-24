@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="is_liked_tag" type="id" />
+    <item name="fire_rule_set_id_tag" type="id" />
+</resources>

@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.playposse.thomas.lindenmayer.R;
+import com.playposse.thomas.lindenmayer.firestore.data.FireStoreRuleSet;
 import com.playposse.thomas.lindenmayer.util.DialogUtil;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
 
@@ -40,7 +41,7 @@ public final class FireStoreHelper {
     private FireStoreHelper() {
     }
 
-    public static void loadRuleSets(final LoadingCallback callback) {
+    public static void loadRuleSets(final LoadCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(RULE_SETS_COLLECTION)
                 .get()
@@ -229,7 +230,7 @@ public final class FireStoreHelper {
     /**
      * A callback interface that gets invoked when the RuleSets have been loaded from the Firestore.
      */
-    public interface LoadingCallback {
+    public interface LoadCallback {
         void onLoaded(Cursor cursor);
     }
 

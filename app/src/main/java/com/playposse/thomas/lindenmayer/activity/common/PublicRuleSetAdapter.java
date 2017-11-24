@@ -5,9 +5,11 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.PublicRuleSetTable;
+import com.playposse.thomas.lindenmayer.firestore.FireStoreLikeHelper;
 import com.playposse.thomas.lindenmayer.glide.GlideApp;
 import com.playposse.thomas.lindenmayer.util.SmartCursor;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
@@ -33,12 +35,13 @@ public class PublicRuleSetAdapter extends RuleSetAdapter {
 
     @Override
     protected void onBindViewHolder(RuleSetViewHolder baseHolder, int position, Cursor cursor) {
-        PublicRuleSetViewHolder holder = (PublicRuleSetViewHolder) baseHolder;
+        final PublicRuleSetViewHolder holder = (PublicRuleSetViewHolder) baseHolder;
         SmartCursor smartCursor = new SmartCursor(cursor, PublicRuleSetTable.COLUMN_NAMES);
 
         onBindViewHolder(holder, smartCursor);
 
         String authorDisplayName = smartCursor.getString(PublicRuleSetTable.AUTHOR_DISPLAY_NAME);
+        final String fireStoreId = smartCursor.getString(PublicRuleSetTable.FIRE_STORE_ID);
 
         final String credit;
         if (!StringUtil.isEmpty(authorDisplayName)) {
@@ -60,5 +63,48 @@ public class PublicRuleSetAdapter extends RuleSetAdapter {
             holder.getCreatorPhotoImageView().setImageDrawable(null);
             holder.getCreatorPhotoImageView().setVisibility(View.GONE);
         }
+
+        // Deal with the like icon.
+        final ImageView likeImageView = holder.getLikeImageView();
+        likeImageView.setTag(R.id.fire_rule_set_id_tag, fireStoreId);
+        FireStoreLikeHelper.read(fireStoreId, new FireStoreLikeHelper.LoadCallback() {
+            @Override
+            public void onLoaded(boolean hasLiked) {
+                String storedId = (String) likeImageView.getTag(R.id.fire_rule_set_id_tag);
+
+                if ((storedId == null) || (!fireStoreId.equals(storedId))) {
+                    // The view holder has been reused since this loader finished. Discard the
+                    // result.
+                    return;
+                }
+
+                updateLikeImageView(likeImageView, hasLiked);
+            }
+        });
+
+        likeImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean isLiked = (Boolean) likeImageView.getTag(R.id.is_liked_tag);
+
+                if (isLiked == null) {
+                    // Data hasn't loaded yet. Ignore this.
+                    return;
+                }
+
+                boolean shouldBeLiked = !isLiked;
+                FireStoreLikeHelper.write(fireStoreId, shouldBeLiked);
+                updateLikeImageView(likeImageView, shouldBeLiked);
+            }
+        });
+    }
+
+    private void updateLikeImageView(ImageView likeImageView, boolean isLiked) {
+        if (isLiked) {
+            likeImageView.setImageResource(R.drawable.ic_favorite_red_24dp);
+        } else {
+            likeImageView.setImageResource(R.drawable.ic_favorite_border_red_24dp);
+        }
+        likeImageView.setTag(R.id.is_liked_tag, isLiked);
     }
 }

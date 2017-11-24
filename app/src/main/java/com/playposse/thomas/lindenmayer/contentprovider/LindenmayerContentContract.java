@@ -64,6 +64,7 @@ public class LindenmayerContentContract {
 
         public static final String AUTHOR_DISPLAY_NAME = "authorDisplayName";
         public static final String AUTHOR_PHOTO_URL = "authorPhotoUrl";
+        public static final String FIRE_STORE_ID = "fireStoreId";
 
         public static final String[] COLUMN_NAMES = new String[]{
                 ID_COLUMN,
@@ -71,6 +72,7 @@ public class LindenmayerContentContract {
                 RULE_SET_COLUMN,
                 TYPE_COLUMN,
                 AUTHOR_DISPLAY_NAME,
-                AUTHOR_PHOTO_URL};
+                AUTHOR_PHOTO_URL,
+                FIRE_STORE_ID};
     }
 }

@@ -1,11 +1,11 @@
-package com.playposse.thomas.lindenmayer.firestore;
+package com.playposse.thomas.lindenmayer.firestore.data;
 
 import android.support.annotation.Nullable;
 
 /**
  * A data class that represents a public L-System rule set in the Firestore.
  */
-class FireStoreRuleSet {
+public class FireStoreRuleSet {
 
     private String name;
     private String ruleSet;
@@ -16,7 +16,7 @@ class FireStoreRuleSet {
     FireStoreRuleSet() {
     }
 
-    FireStoreRuleSet(
+    public FireStoreRuleSet(
             String name,
             String ruleSet,
             String creatorId,

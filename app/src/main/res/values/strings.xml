@@ -108,9 +108,10 @@
         There are no samples. Something went wrong. Try deleting the app data and restart the app.
     </string>
 
-    <!-- Public rule set activity -->
+    <!-- Public library activity -->
     <string name="credit_line">by %1$s</string>
     <string name="profile_photo_content_description">Profile photo of the user who submitted the L-System.</string>
+    <string name="like_content_description">An heart shaped icon that allows the user to like a rule set.</string>
 
     <!-- Toasts -->
     <string name="rule_set_import_failed">Importing the rule sets failed :(</string>

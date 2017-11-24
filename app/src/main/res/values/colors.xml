@@ -8,4 +8,6 @@
 
     <color name="text_heading">#000000</color>
     <color name="text_body">#757575</color>
+
+    <color name="like_color">#DD2C00</color>
 </resources>

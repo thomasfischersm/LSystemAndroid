@@ -16,6 +16,7 @@ class PublicRuleSetViewHolder extends RuleSetViewHolder {
 
     @BindView(R.id.credit_text_view) TextView creditTextView;
     @BindView(R.id.creator_photo_image_view) ImageView creatorPhotoImageView;
+    @BindView(R.id.like_image_view) ImageView likeImageView;
 
     PublicRuleSetViewHolder(View itemView) {
         super(itemView);
@@ -27,5 +28,9 @@ class PublicRuleSetViewHolder extends RuleSetViewHolder {
 
     ImageView getCreatorPhotoImageView() {
         return creatorPhotoImageView;
+    }
+
+    ImageView getLikeImageView() {
+        return likeImageView;
     }
 }
