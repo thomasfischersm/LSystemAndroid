@@ -18,6 +18,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.firestore.data.FireStoreRuleSet;
@@ -37,6 +38,7 @@ public final class FireStoreHelper {
     private static final String RULE_SET_PROPERTY = "ruleSet";
     private static final String CREATOR_ID_PROPERTY = "creatorId";
     private static final String CREATOR_NAME_PROPERTY = "creatorName";
+    private static final String LIKE_COUNT_PROPERTY = "likeCount";
 
     private FireStoreHelper() {
     }
@@ -44,6 +46,7 @@ public final class FireStoreHelper {
     public static void loadRuleSets(final LoadCallback callback) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(RULE_SETS_COLLECTION)
+                .orderBy(LIKE_COUNT_PROPERTY, Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

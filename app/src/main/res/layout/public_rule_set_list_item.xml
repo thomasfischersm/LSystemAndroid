@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -32,15 +33,31 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.35"/>
 
-    <ImageView
-        android:id="@+id/like_image_view"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/like_content_description"
-        android:padding="8dp"
-        android:src="@drawable/ic_favorite_border_red_24dp"
+        android:layout_margin="4dp"
+        android:background="@drawable/top_right_corner_scrim_bg"
+        android:orientation="horizontal"
+        android:padding="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/like_count_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            tools:text="1234"/>
+
+        <ImageView
+            android:id="@+id/like_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/like_content_description"
+            android:src="@drawable/ic_favorite_border_red_24dp"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/scrim_container"

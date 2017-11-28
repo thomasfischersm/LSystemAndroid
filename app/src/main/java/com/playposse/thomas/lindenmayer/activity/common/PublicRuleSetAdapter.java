@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.PublicRuleSetTable;
@@ -42,7 +43,9 @@ public class PublicRuleSetAdapter extends RuleSetAdapter {
 
         String authorDisplayName = smartCursor.getString(PublicRuleSetTable.AUTHOR_DISPLAY_NAME);
         final String fireStoreId = smartCursor.getString(PublicRuleSetTable.FIRE_STORE_ID);
+        Integer likeCount = smartCursor.getInt(PublicRuleSetTable.LIKE_COUNT);
 
+        // Show credit.
         final String credit;
         if (!StringUtil.isEmpty(authorDisplayName)) {
             credit = getContext().getString(R.string.credit_line, authorDisplayName);
@@ -52,6 +55,16 @@ public class PublicRuleSetAdapter extends RuleSetAdapter {
             holder.getCreditTextView().setVisibility(View.GONE);
         }
 
+        // Show like count.
+        TextView likeCountTextView = holder.getLikeCountTextView();
+        if ((likeCount != null) && (likeCount > 0)) {
+            likeCountTextView.setVisibility(View.VISIBLE);
+            likeCountTextView.setText(Integer.toString(likeCount));
+        } else {
+            likeCountTextView.setVisibility(View.GONE);
+        }
+
+        // Show creator photo.
         String authorPhotoUrl = smartCursor.getString(PublicRuleSetTable.AUTHOR_PHOTO_URL);
         if (!StringUtil.isEmpty(authorPhotoUrl)) {
             GlideApp.with(getContext())

@@ -12,6 +12,7 @@ public class FireStoreRuleSet {
     private String creatorId;
     private String creatorName;
     @Nullable private String creatorPhotoUrl;
+    @Nullable private Integer likeCount;
 
     FireStoreRuleSet() {
     }
@@ -68,5 +69,10 @@ public class FireStoreRuleSet {
 
     public void setCreatorPhotoUrl(String creatorPhotoUrl) {
         this.creatorPhotoUrl = creatorPhotoUrl;
+    }
+
+    @Nullable
+    public Integer getLikeCount() {
+        return likeCount;
     }
 }
