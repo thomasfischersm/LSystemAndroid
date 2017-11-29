@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "1024303724225",
-    "project_id": "l-system-engine"
+    "firebase_url": "https://l-system-engine.firebaseio.com",
+    "project_id": "l-system-engine",
+    "storage_bucket": "l-system-engine.appspot.com"
   },
   "client": [
     {
@@ -11,7 +13,32 @@
           "package_name": "com.playposse.thomas.lindenmayer"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1024303724225-cokft4o7t88hhgm6lqdbhcmo1vq1lul7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.playposse.thomas.lindenmayer",
+            "certificate_hash": "57ff8a93234ea98b0d5c7fe76ff64ac379b03806"
+          }
+        },
+        {
+          "client_id": "1024303724225-n93cm5uvvfnsshslj45pj835sthgnqeo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.playposse.thomas.lindenmayer",
+            "certificate_hash": "aed65211cee2fbac3ea9edafc34bda04478c8474"
+          }
+        },
+        {
+          "client_id": "1024303724225-n90uriq0cj5u1hl11dttu78dovcl4hif.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1024303724225-noj2g9h8m1l4du8is62bq87u20t97ttm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyASA30qfYYC3XThwDb9NPJdATIH0p0tZaE"
@@ -29,7 +56,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
