@@ -1,11 +1,18 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <item name="android:textViewStyle">@style/fontTextView</item>
+    </style>
+
+    <!-- Set Aileron as the default font for the app. -->
+    <style name="fontTextView" parent="@android:style/Widget.TextView">
+        <!-- TODO: Experiment a bit more with fonts before committing. -->
+        <!--<item name="android:fontFamily">@font/aileron_regular</item>-->
     </style>
 
     <style name="sectionHeader" parent="android:Widget.Holo.Light.TextView">
