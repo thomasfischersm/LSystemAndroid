@@ -23,7 +23,9 @@ import com.playposse.thomas.lindenmayer.domain.RuleSet;
 public class ActivityNavigator {
 
     public static void startIntroductionActivity(Context context) {
-        context.startActivity(new Intent(context, IntroductionActivity.class));
+        Intent intent = new Intent(context, IntroductionActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     public static void startMainActivity(Context context) {
