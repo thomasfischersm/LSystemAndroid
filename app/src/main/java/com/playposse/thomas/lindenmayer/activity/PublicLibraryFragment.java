@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,7 @@ import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.activity.common.PublicRuleSetAdapter;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.firestore.FireStoreHelper;
+import com.playposse.thomas.lindenmayer.ui.ResponsiveGridLayoutManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,8 +27,6 @@ import butterknife.ButterKnife;
 public class PublicLibraryFragment extends Fragment {
 
     private static final String LOG_TAG = PublicLibraryFragment.class.getSimpleName();
-
-    private static final int GRID_SPAN = 3;
 
     @BindView(R.id.rule_set_recycler_view) RecyclerView ruleSetRecyclerView;
     @BindView(R.id.loading_message_text_view) TextView loadingMessageTextView;
@@ -49,7 +47,8 @@ public class PublicLibraryFragment extends Fragment {
 
         // Set up RecyclerView.
         ruleSetRecyclerView.setHasFixedSize(true); // Small performance improvement.
-        ruleSetRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), GRID_SPAN));
+        ruleSetRecyclerView.setLayoutManager(
+                new ResponsiveGridLayoutManager(getActivity(), R.dimen.grid_min_width));
         ruleSetAdapter = new PublicRuleSetAdapter(getContext());
         ruleSetRecyclerView.setAdapter(ruleSetAdapter);
 
