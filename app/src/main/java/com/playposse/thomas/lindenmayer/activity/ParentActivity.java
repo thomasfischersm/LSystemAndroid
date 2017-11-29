@@ -89,16 +89,31 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
         // It used to be tedious to manage multiple menu files and keep them in sync. This approach
         // is to have one menu file with all options and to dynamically hide options based on the
         // activity.
+
+        // The save and delete action is only visible for the RulesActivity.
         if (!(this instanceof RulesActivity)) {
             MenuUtil.setMenuItemVisibility(menu, R.id.action_save, false);
             MenuUtil.setMenuItemVisibility(menu, R.id.action_delete, false);
         }
+
+        // The refresh and share action is only visible for the RenderingActivity.
         if (!(this instanceof RenderingActivity)) {
             MenuUtil.setMenuItemVisibility(menu, R.id.action_refresh, false);
             MenuUtil.setMenuItemVisibility(menu, R.id.action_share, false);
         }
+
+        // The publish action is only visible for the RulesActivity and RenderingActivity.
         if (!(this instanceof RulesActivity) && !(this instanceof  RenderingActivity)) {
             MenuUtil.setMenuItemVisibility(menu, R.id.action_publish, false);
+        }
+
+        // The delete action is hidden unless the user has saved the rule set as a private rule set.
+        if (this instanceof RulesActivity) {
+            RulesActivity rulesActivity = (RulesActivity) this;
+            if (!rulesActivity.getContentFragment().isSaved()) {
+                MenuUtil.setMenuItemVisibility(menu, R.id.action_delete, false);
+
+            }
         }
 
         // Only show logout option when logged in.

@@ -1,6 +1,9 @@
 package com.playposse.thomas.lindenmayer.activity;
 
+import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,11 +29,13 @@ import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.activity.common.ActivityNavigator;
+import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.RuleSetTable;
+import com.playposse.thomas.lindenmayer.contentprovider.QueryHelper;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
-import com.playposse.thomas.lindenmayer.util.StringUtil;
 import com.playposse.thomas.lindenmayer.ui.BruteForceRenderAsyncTask;
 import com.playposse.thomas.lindenmayer.ui.ColorPaletteAdapter;
 import com.playposse.thomas.lindenmayer.ui.FractalView;
+import com.playposse.thomas.lindenmayer.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +70,12 @@ public class RulesFragment extends Fragment {
      * A rule set name that the user has specified after the intent was created.
      */
     private String overwrittenRuleSetName = null;
+
+    /**
+     * A boolean that indicates if the current rule set has been saved. This flag is used by the
+     * options menu to determine if the delete action should be shown or not.
+     */
+    private Boolean isSaved = null;
 
     @Nullable
     @Override
@@ -111,6 +122,8 @@ public class RulesFragment extends Fragment {
         if (colorPaletteGridView != null) {
             colorPaletteGridView.setAdapter(new ColorPaletteAdapter(getActivity()));
         }
+
+        checkIfSaved();
 
         return rootView;
     }
@@ -373,6 +386,41 @@ public class RulesFragment extends Fragment {
 
     public void setRuleSetName(String ruleSetName) {
         overwrittenRuleSetName = ruleSetName;
+    }
+
+    public Boolean isSaved() {
+        return isSaved;
+    }
+
+    /**
+     * Checks if the rule set has been saved and updates {@link #isSaved}.
+     */
+    @SuppressLint("StaticFieldLeak")
+    void checkIfSaved() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                if ((getActivity() == null) || (getActivity().getContentResolver() == null)) {
+                    return null;
+                }
+
+                ContentResolver contentResolver = getActivity().getContentResolver();
+
+                Long ruleSetId = QueryHelper.doesRulSetExistByName(
+                        contentResolver,
+                        getRuleSetName(),
+                        RuleSetTable.PRIVATE_TYPE);
+
+                isSaved = (ruleSetId != null);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                getActivity().invalidateOptionsMenu();
+            }
+        }.execute();
     }
 
     private class NeatRowWatcher implements TextWatcher {

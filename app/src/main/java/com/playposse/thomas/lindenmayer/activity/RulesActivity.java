@@ -148,6 +148,9 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         Toast.makeText(getApplicationContext(), fileName + " saved.", Toast.LENGTH_SHORT)
                 .show();
 
+        // Might have to hide/show the delete action in the options menu.
+        getContentFragment().checkIfSaved();
+
         AnalyticsUtil.sendEvent(getApplication(), "SaveRuleSet");
     }
 
@@ -167,6 +170,9 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
 
         // Delete the RuleSet.
         QueryHelper.deleteRuleSet(getContentResolver(), ruleSetId);
+
+        // Might have to hide/show the delete action in the options menu.
+        getContentFragment().checkIfSaved();
 
         // Show toast.
         String deleteToastString = getString(R.string.delete_toast, name);
