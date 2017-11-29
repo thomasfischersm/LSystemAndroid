@@ -404,11 +404,17 @@ public class RulesFragment extends Fragment {
                     return null;
                 }
 
+                String ruleSetName = getRuleSetName();
+                if (StringUtil.isEmpty(ruleSetName)) {
+                    // This is a new rule set or has no valid name for other reasons.
+                    return null;
+                }
+
                 ContentResolver contentResolver = getActivity().getContentResolver();
 
                 Long ruleSetId = QueryHelper.doesRulSetExistByName(
                         contentResolver,
-                        getRuleSetName(),
+                        ruleSetName,
                         RuleSetTable.PRIVATE_TYPE);
 
                 isSaved = (ruleSetId != null);
