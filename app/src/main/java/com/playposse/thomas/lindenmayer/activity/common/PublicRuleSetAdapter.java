@@ -3,6 +3,7 @@ package com.playposse.thomas.lindenmayer.activity.common;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.playposse.thomas.lindenmayer.util.StringUtil;
  * and author credit.
  */
 public class PublicRuleSetAdapter extends RuleSetAdapter {
+
+    private static final String LOG_TAG = PublicRuleSetAdapter.class.getSimpleName();
 
     public PublicRuleSetAdapter(Context context) {
         super(context);
@@ -59,7 +62,7 @@ public class PublicRuleSetAdapter extends RuleSetAdapter {
         }
 
         // Show like count.
-        TextView likeCountTextView = holder.getLikeCountTextView();
+        final TextView likeCountTextView = holder.getLikeCountTextView();
         if ((likeCount != null) && (likeCount > 0)) {
             likeCountTextView.setVisibility(View.VISIBLE);
             likeCountTextView.setText(Integer.toString(likeCount));
@@ -123,6 +126,12 @@ public class PublicRuleSetAdapter extends RuleSetAdapter {
                 boolean shouldBeLiked = !isLiked;
                 FireStoreLikeHelper.write(fireStoreId, shouldBeLiked);
                 updateLikeImageView(likeImageView, shouldBeLiked);
+
+                if (shouldBeLiked) {
+                    incrementLikeCounter(likeCountTextView);
+                } else {
+                    decrementLikeCounter(likeCountTextView);
+                }
             }
         });
     }
@@ -134,5 +143,37 @@ public class PublicRuleSetAdapter extends RuleSetAdapter {
             likeImageView.setImageResource(R.drawable.ic_favorite_border_red_24dp);
         }
         likeImageView.setTag(R.id.is_liked_tag, isLiked);
+    }
+
+    private void incrementLikeCounter(TextView likeCountTextView) {
+        if (likeCountTextView.getVisibility() == View.VISIBLE) {
+            int likeCount = Integer.parseInt(likeCountTextView.getText().toString());
+            likeCount++;
+            likeCountTextView.setText(String.format("%1$s", likeCount));
+        } else {
+            likeCountTextView.setVisibility(View.VISIBLE);
+            likeCountTextView.setText("1");
+        }
+    }
+
+    private void decrementLikeCounter(TextView likeCountTextView) {
+        String likeCountStr = likeCountTextView.getText().toString();
+        if ((likeCountTextView.getVisibility() == View.VISIBLE)
+                && !StringUtil.isEmpty(likeCountStr)) {
+            int likeCount = Integer.parseInt(likeCountStr);
+            likeCount--;
+
+            if (likeCount > 0) {
+                likeCountTextView.setText(String.format("%1$s", likeCount));
+                likeCountTextView.setVisibility(View.VISIBLE);
+            } else {
+                likeCountTextView.setText("0");
+                likeCountTextView.setVisibility(View.GONE);
+            }
+        } else {
+            // This should never happen.
+            Log.e(LOG_TAG, "decrementLikeCounter: " +
+                    "The like counter was invisible but got decremented anyway!");
+        }
     }
 }
