@@ -37,6 +37,13 @@ userbase. However, to be double sure that the rubric is fulfilled, there is a du
 included: "useless-for-udacity.jks". The password is "12345678". The key alias is "key".
 
 
+#Color Scheme
+The default thought for a color scheme with Material Design is to use bold colors. In this case,
+the app uses almost exclusively non-colors (white, gray, and black aren't colors). The reason is
+that the goal of the app is to create visual renderings. Any color of the app itself would detract
+or influence the end results. That's why visual creator apps like PhotoShop avoid the use of colors.
+
+
 #Bragging
 Seeing L-Systems for the first time, the algorithm may not seem special. Before the latest update,
 the app was the fastest L-System rendering app in the app store. For the last update, I used the
