@@ -10,4 +10,14 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:contentDescription="@string/daily_rendering_content_description"/>
+
+    <TextView
+        android:id="@+id/daily_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/scrim_bg"
+        android:gravity="center_horizontal"
+        android:padding="4dp"
+        android:paddingTop="6dp"/>
 </FrameLayout>

@@ -36,7 +36,7 @@ public class DailyLSystemWidgetProvider extends AppWidgetProvider {
         currentRuleSet = pickRandomRuleSet(context);
 
         for (int appWidgetId : appWidgetIds) {
-            loadImage(context, appWidgetManager, appWidgetId);
+            prepareView(context, appWidgetManager, appWidgetId);
         }
     }
 
@@ -54,20 +54,24 @@ public class DailyLSystemWidgetProvider extends AppWidgetProvider {
             currentRuleSet = pickRandomRuleSet(context);
         }
 
-        loadImage(context, appWidgetManager, appWidgetId);
+        prepareView(context, appWidgetManager, appWidgetId);
     }
 
-    private void loadImage(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+    private void prepareView(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+        RemoteViews remoteViews =
+                new RemoteViews(context.getPackageName(), R.layout.widget_daily_l_system);
+
+        // Set text.
+        String msg = context.getString(R.string.daily_message, currentRuleSet.getName());
+        remoteViews.setTextViewText(R.id.daily_text_view, msg);
+
+        // Set image.
         Bundle appWidgetOptions = appWidgetManager.getAppWidgetOptions(appWidgetId);
-        int minWidth = appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-        int minHeight = appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
         int maxWidth = appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH);
         int maxHeight = appWidgetOptions.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT);
         int width = (int) convertDpToPixel(context, maxWidth);
         int height = (int) convertDpToPixel(context, maxHeight);
 
-        RemoteViews remoteViews =
-                new RemoteViews(context.getPackageName(), R.layout.daily_l_system_widget);
         AppWidgetTarget appWidgetTarget =
                 new AppWidgetTarget(context, R.id.daily_image_view, remoteViews, appWidgetId);
 

@@ -159,6 +159,7 @@
 
     <!-- Widget -->
     <string name="daily_rendering_content_description">Highlights a different L-System each day in a widget.</string>
+    <string name="daily_message">Today\'s rule set: %1$s</string>
 
     <!-- Common strings -->
     <string name="rule_set_preview_content_description">Renders the preview of a rule set.</string>
