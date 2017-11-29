@@ -10,7 +10,7 @@ android {
         minSdkVersion 18
         targetSdkVersion 27
         multiDexEnabled true
-        versionCode 13
+        versionCode 14
         versionName "13.0"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
@@ -45,7 +45,7 @@ dependencies {
     compile 'com.google.guava:guava:23.3-android'
     compile 'com.google.code.findbugs:jsr305:3.0.2'
     compile 'com.google.code.gson:gson:2.8.2'
-    compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true;
     }
     compile 'com.github.bumptech.glide:glide:4.3.0'
