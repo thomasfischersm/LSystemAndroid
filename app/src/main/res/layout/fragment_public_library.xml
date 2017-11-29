@@ -8,24 +8,37 @@
     android:layout_height="match_parent"
     tools:context="com.playposse.thomas.lindenmayer.activity.PublicLibraryFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rule_set_recycler_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"/>
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/empty_message_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/no_public_rule_sets_message"
-        android:visibility="gone"/>
+        <com.playposse.thomas.lindenmayer.ui.NotificationCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:message="@string/public_library_hint"
+            app:preferenceKey="hasPublicLibraryHintBeenSeen"/>
 
-    <TextView
-        android:id="@+id/loading_message_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/loading_message"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rule_set_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"/>
+
+        <TextView
+            android:id="@+id/empty_message_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/no_public_rule_sets_message"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/loading_message_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/loading_message"/>
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

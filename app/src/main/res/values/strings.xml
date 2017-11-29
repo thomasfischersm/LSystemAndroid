@@ -112,6 +112,7 @@
     <string name="credit_line">by %1$s</string>
     <string name="profile_photo_content_description">Profile photo of the user who submitted the L-System.</string>
     <string name="like_content_description">An heart shaped icon that allows the user to like a rule set.</string>
+    <string name="public_library_hint">The community has shared these rule sets with you.\n\nYou can share rule sets, too! Create your own rule set invention and click the publish action!</string>
 
     <!-- Toasts -->
     <string name="rule_set_import_failed">Importing the rule sets failed :(</string>
@@ -166,4 +167,5 @@
     <string name="no_private_rule_sets_message">When you save your own rule set, it will show up here.</string>
     <string name="no_public_rule_sets_message">Nobody has shared any rule sets yet.\n\nBe daring, come up with an innovative rule set and share it!</string>
     <string name="loading_message">Loading community contributions</string>
+    <string name="dismiss_link">Dismiss</string>
 </resources>

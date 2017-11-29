@@ -106,4 +106,12 @@ public class AppPreferences {
     public static void reset(Context context) {
         basePreferences.reset(context);
     }
+
+    public static boolean getBoolean(Context context, String preferenceKey, boolean defaultValue) {
+        return basePreferences.getBoolean(context, preferenceKey, defaultValue);
+    }
+
+    public static void setBoolean(Context context, String preferenceKey, boolean value) {
+        basePreferences.setBoolean(context, preferenceKey, value);
+    }
 }
