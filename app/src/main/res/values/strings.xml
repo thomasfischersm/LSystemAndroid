@@ -157,6 +157,9 @@
     <string name="name_missing_dialog_title">Name missing!</string>
     <string name="name_missing_dialog_message">Please, save the rule set first to give it a name.</string>
 
+    <!-- Widget -->
+    <string name="daily_rendering_content_description">Highlights a different L-System each day in a widget.</string>
+
     <!-- Common strings -->
     <string name="rule_set_preview_content_description">Renders the preview of a rule set.</string>
     <string name="no_private_rule_sets_message">When you save your own rule set, it will show up here.</string>

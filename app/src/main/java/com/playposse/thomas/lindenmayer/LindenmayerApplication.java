@@ -6,7 +6,6 @@ import android.support.multidex.MultiDexApplication;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerDatabaseHelper;
 import com.playposse.thomas.lindenmayer.service.ImportRuleSetsService;
 
 /**
@@ -21,9 +20,9 @@ public class LindenmayerApplication extends MultiDexApplication {
         super.onCreate();
 
         // Reset the database for debug releases.
-        if (BuildConfig.DEBUG) {
-            getApplicationContext().deleteDatabase(LindenmayerDatabaseHelper.DB_NAME);
-        }
+//        if (BuildConfig.DEBUG) {
+//            getApplicationContext().deleteDatabase(LindenmayerDatabaseHelper.DB_NAME);
+//        }
 
         // Check if anything needs to be imported.
         ImportRuleSetsService.enqueueWork(
