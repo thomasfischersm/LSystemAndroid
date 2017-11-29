@@ -10,8 +10,8 @@ android {
         minSdkVersion 18
         targetSdkVersion 27
         multiDexEnabled true
-        versionCode 14
-        versionName "13.0"
+        versionCode 16
+        versionName "16.0"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
     buildTypes {
@@ -42,7 +42,7 @@ dependencies {
     compile 'com.firebaseui:firebase-ui-auth:3.1.0'
     compile('com.facebook.android:facebook-android-sdk:4.27.0')
 //    compile("com.twitter.sdk.android:twitter-core:3.0.0@aar") { transitive = true }
-    compile 'com.google.guava:guava:23.3-android'
+    compile 'com.google.guava:guava:23.5-android'
     compile 'com.google.code.findbugs:jsr305:3.0.2'
     compile 'com.google.code.gson:gson:2.8.2'
     compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
