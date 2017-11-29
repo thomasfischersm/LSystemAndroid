@@ -78,7 +78,7 @@ public class SampleLibraryFragment
                 RuleSetTable.COLUMN_NAMES,
                 RuleSetTable.TYPE_COLUMN + "=?",
                 new String[]{Integer.toString(RuleSetTable.SAMPLE_TYPE)},
-                null);
+                RuleSetTable.NAME_COLUMN + " asc");
     }
 
     @Override
