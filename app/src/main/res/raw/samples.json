@@ -459,6 +459,81 @@
           "replacement": "ff+-+++f+f"
         }
       ]
+    },
+    {
+      "name": "Pleasant Error",
+      "axiom": "f-f-f-f-f",
+      "directionIncrement": 72,
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "f-f++f+f-f-f"
+        }
+      ]
+    },
+    {
+      "name": "Sierpinski's Carpet",
+      "axiom": "f",
+      "directionIncrement": 90,
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "f+f-f-f-F+f+f+f-f"
+        },
+        {
+          "match": "F",
+          "replacement": "FFF"
+        }
+      ]
+    },
+    {
+      "name": "Joined Cross Curves",
+      "axiom": "xyxyxyx+xyxyxyx+xyxyxyx+xyxyxyx",
+      "directionIncrement": 90,
+      "rules": [
+        {
+          "match": "f",
+          "replacement": ""
+        },
+        {
+          "match": "x",
+          "replacement": "fx+fx+fxfy-fy-"
+        },
+        {
+          "match": "y",
+          "replacement": "+fx+fxfy-fy-fy"
+        }
+      ]
+    },
+    {
+      "name": "Sierpinski Median Curve",
+      "axiom": "l--f--l--f",
+      "directionIncrement": 45,
+      "rules": [
+        {
+          "match": "l",
+          "replacement": "+r-f-r+"
+        },
+        {
+          "match": "r",
+          "replacement": "-l+f+l-"
+        }
+      ]
+    },
+    {
+      "name": "Sierpinski Triangle",
+      "axiom": "fa",
+      "directionIncrement": 60,
+      "rules": [
+        {
+          "match": "a",
+          "replacement": "b-fa-fb"
+        },
+        {
+          "match": "b",
+          "replacement": "a+fb+fa"
+        }
+      ]
     }
   ]
 }

@@ -110,7 +110,8 @@ public abstract class ParentActivity<F extends Fragment> extends MinimumActivity
         // The delete action is hidden unless the user has saved the rule set as a private rule set.
         if (this instanceof RulesActivity) {
             RulesActivity rulesActivity = (RulesActivity) this;
-            if (!rulesActivity.getContentFragment().isSaved()) {
+            Boolean isSaved = rulesActivity.getContentFragment().isSaved();
+            if ((isSaved == null) || !isSaved) {
                 MenuUtil.setMenuItemVisibility(menu, R.id.action_delete, false);
 
             }
