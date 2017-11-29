@@ -29,6 +29,14 @@ app no longer has code to create those files. However, there is code to read tho
 convert them to the current storage paradigm.
 
 
+#Signing Key
+Obviously, it would be a major security and Google store policy violation to hand out the actual
+key for this app. Udacity's goal with the key rubric seems to be to ascertain that a student has
+the skills to submit the app to the app store. I've more than demonstrated that by building a 
+userbase. However, to be double sure that the rubric is fulfilled, there is a dummy key store
+included: "useless-for-udacity.jks". The password is "12345678". The key alias is "key".
+
+
 #Bragging
 Seeing L-Systems for the first time, the algorithm may not seem special. Before the latest update,
 the app was the fastest L-System rendering app in the app store. For the last update, I used the
