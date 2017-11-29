@@ -437,6 +437,28 @@
           "replacement": "ff+f++f+f"
         }
       ]
+    },
+    {
+      "name": "Solaroriole I",
+      "axiom": "f--f",
+      "directionIncrement": 90,
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "f--ff+f"
+        }
+      ]
+    },
+    {
+      "name": "Solaroriole II",
+      "axiom": "f+f+f+f",
+      "directionIncrement": 90,
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "ff+-+++f+f"
+        }
+      ]
     }
   ]
 }
