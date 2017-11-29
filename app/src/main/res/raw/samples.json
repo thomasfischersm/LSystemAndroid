@@ -411,6 +411,32 @@
           "replacement": "f-f++f-f"
         }
       ]
+    },
+    {
+      "name": "Double Dragon Spiral",
+      "axiom": "fyx",
+      "directionIncrement": 90,
+      "rules": [
+        {
+          "match": "x",
+          "replacement": "x+(y+f)"
+        },
+        {
+          "match": "y",
+          "replacement": "f-(x-y)"
+        }
+      ]
+    },
+    {
+      "name": "30° Hibiscus",
+      "axiom": "f+f+f+f",
+      "directionIncrement": 30,
+      "rules": [
+        {
+          "match": "f",
+          "replacement": "ff+f++f+f"
+        }
+      ]
     }
   ]
 }
