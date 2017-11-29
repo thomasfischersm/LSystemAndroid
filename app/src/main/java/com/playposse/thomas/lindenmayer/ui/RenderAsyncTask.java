@@ -1,4 +1,4 @@
-package com.playposse.thomas.lindenmayer.widgets;
+package com.playposse.thomas.lindenmayer.ui;
 
 import android.app.ProgressDialog;
 import android.content.Context;

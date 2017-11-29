@@ -17,8 +17,8 @@ import android.widget.EditText;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.data.AppPreferences;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
-import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
-import com.playposse.thomas.lindenmayer.widgets.FractalView;
+import com.playposse.thomas.lindenmayer.ui.BruteForceRenderAsyncTask;
+import com.playposse.thomas.lindenmayer.ui.FractalView;
 
 import java.util.ArrayList;
 

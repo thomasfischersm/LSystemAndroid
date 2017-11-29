@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.playposse.thomas.lindenmayer.util.PaintCache;
-import com.playposse.thomas.lindenmayer.widgets.ProgressCallback;
+import com.playposse.thomas.lindenmayer.ui.ProgressCallback;
 
 import java.util.Stack;
 

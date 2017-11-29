@@ -7,9 +7,9 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.playposse.thomas.lindenmayer.domain.Dimension;
 import com.playposse.thomas.lindenmayer.domain.Turtle;
-import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
-import com.playposse.thomas.lindenmayer.widgets.FractalView;
-import com.playposse.thomas.lindenmayer.widgets.RenderAsyncTask;
+import com.playposse.thomas.lindenmayer.ui.BruteForceRenderAsyncTask;
+import com.playposse.thomas.lindenmayer.ui.FractalView;
+import com.playposse.thomas.lindenmayer.ui.RenderAsyncTask;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.bumptech.glide.load.Key;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
-import com.playposse.thomas.lindenmayer.widgets.ProgressCallback;
+import com.playposse.thomas.lindenmayer.ui.ProgressCallback;
 
 import javax.annotation.Nullable;
 

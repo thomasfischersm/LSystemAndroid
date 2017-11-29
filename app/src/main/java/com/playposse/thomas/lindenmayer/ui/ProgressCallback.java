@@ -1,4 +1,4 @@
-package com.playposse.thomas.lindenmayer.widgets;
+package com.playposse.thomas.lindenmayer.ui;
 
 /**
  * An interface that logs progress of rendering a fractal.

@@ -14,7 +14,7 @@ import com.playposse.thomas.lindenmayer.domain.Dimension;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.domain.Turtle;
 import com.playposse.thomas.lindenmayer.logic.BruteForceAlgorithm;
-import com.playposse.thomas.lindenmayer.widgets.ProgressCallback;
+import com.playposse.thomas.lindenmayer.ui.ProgressCallback;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

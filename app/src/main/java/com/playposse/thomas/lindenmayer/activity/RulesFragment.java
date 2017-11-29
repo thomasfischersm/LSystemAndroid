@@ -28,9 +28,9 @@ import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.activity.common.ActivityNavigator;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
-import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
-import com.playposse.thomas.lindenmayer.widgets.ColorPaletteAdapter;
-import com.playposse.thomas.lindenmayer.widgets.FractalView;
+import com.playposse.thomas.lindenmayer.ui.BruteForceRenderAsyncTask;
+import com.playposse.thomas.lindenmayer.ui.ColorPaletteAdapter;
+import com.playposse.thomas.lindenmayer.ui.FractalView;
 
 import java.util.ArrayList;
 import java.util.List;

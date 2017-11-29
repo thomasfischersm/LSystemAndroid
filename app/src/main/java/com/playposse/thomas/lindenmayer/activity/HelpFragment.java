@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.playposse.thomas.lindenmayer.R;
-import com.playposse.thomas.lindenmayer.widgets.ColorPaletteAdapter;
+import com.playposse.thomas.lindenmayer.ui.ColorPaletteAdapter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
-import com.playposse.thomas.lindenmayer.widgets.RenderAsyncTask;
+import com.playposse.thomas.lindenmayer.ui.RenderAsyncTask;
 
 /**
  * A {@link Turtle} that generates an Android vector file.

@@ -1,4 +1,4 @@
-package com.playposse.thomas.lindenmayer.widgets;
+package com.playposse.thomas.lindenmayer.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;

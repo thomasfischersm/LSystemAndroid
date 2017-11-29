@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.playposse.thomas.lindenmayer.widgets.SquareImageView
+    <com.playposse.thomas.lindenmayer.ui.SquareImageView
         android:id="@+id/preview_image_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

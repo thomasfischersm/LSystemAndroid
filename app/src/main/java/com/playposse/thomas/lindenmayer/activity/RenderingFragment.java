@@ -29,7 +29,7 @@ import com.playposse.thomas.lindenmayer.glide.GlideApp;
 import com.playposse.thomas.lindenmayer.glide.RuleSetResource;
 import com.playposse.thomas.lindenmayer.util.AnalyticsUtil;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
-import com.playposse.thomas.lindenmayer.widgets.ProgressCallback;
+import com.playposse.thomas.lindenmayer.ui.ProgressCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
