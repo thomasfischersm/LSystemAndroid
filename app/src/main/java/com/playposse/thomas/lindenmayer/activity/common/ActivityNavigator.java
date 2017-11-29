@@ -29,7 +29,9 @@ public class ActivityNavigator {
     }
 
     public static void startMainActivity(Context context) {
-        context.startActivity(new Intent(context, MainActivity.class));
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
     public static void startVideoTutorialActivity(Context context) {
