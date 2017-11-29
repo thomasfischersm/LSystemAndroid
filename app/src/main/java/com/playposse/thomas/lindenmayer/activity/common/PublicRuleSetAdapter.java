@@ -1,5 +1,6 @@
 package com.playposse.thomas.lindenmayer.activity.common;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.PublicRuleSetTable;
+import com.playposse.thomas.lindenmayer.firestore.FireAuth;
 import com.playposse.thomas.lindenmayer.firestore.FireStoreLikeHelper;
 import com.playposse.thomas.lindenmayer.glide.GlideApp;
 import com.playposse.thomas.lindenmayer.util.SmartCursor;
@@ -80,24 +83,36 @@ public class PublicRuleSetAdapter extends RuleSetAdapter {
         // Deal with the like icon.
         final ImageView likeImageView = holder.getLikeImageView();
         likeImageView.setTag(R.id.fire_rule_set_id_tag, fireStoreId);
-        FireStoreLikeHelper.read(fireStoreId, new FireStoreLikeHelper.LoadCallback() {
-            @Override
-            public void onLoaded(boolean hasLiked) {
-                String storedId = (String) likeImageView.getTag(R.id.fire_rule_set_id_tag);
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            // The user is not logged in. Show the empty heart.
+            updateLikeImageView(likeImageView, false);
+        } else {
+            FireStoreLikeHelper.read(fireStoreId, new FireStoreLikeHelper.LoadCallback() {
+                @Override
+                public void onLoaded(boolean hasLiked) {
+                    String storedId = (String) likeImageView.getTag(R.id.fire_rule_set_id_tag);
 
-                if ((storedId == null) || (!fireStoreId.equals(storedId))) {
-                    // The view holder has been reused since this loader finished. Discard the
-                    // result.
-                    return;
+                    if ((storedId == null) || (!fireStoreId.equals(storedId))) {
+                        // The view holder has been reused since this loader finished. Discard the
+                        // result.
+                        return;
+                    }
+
+                    updateLikeImageView(likeImageView, hasLiked);
                 }
-
-                updateLikeImageView(likeImageView, hasLiked);
-            }
-        });
+            });
+        }
 
         likeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+                    // Sign in first.
+                    FireAuth.signIn((Activity) getContext());
+
+                    return;
+                }
+
                 Boolean isLiked = (Boolean) likeImageView.getTag(R.id.is_liked_tag);
 
                 if (isLiked == null) {

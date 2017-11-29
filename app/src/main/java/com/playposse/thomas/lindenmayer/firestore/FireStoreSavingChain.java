@@ -3,15 +3,11 @@ package com.playposse.thomas.lindenmayer.firestore;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.data.AppPreferences;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.util.DialogUtil;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Helper for saving {@link RuleSet}s with Firestore. Saving is a chain of asynchronous methods
@@ -20,8 +16,6 @@ import java.util.List;
 public final class FireStoreSavingChain {
 
     private static final String LOG_TAG = FireStoreSavingChain.class.getSimpleName();
-
-    private static final int SIGN_IN_RETURN_CODE = 1;
 
     private FireStoreSavingChain() {
     }
@@ -57,16 +51,7 @@ public final class FireStoreSavingChain {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             FireStoreHelper.onPublishConfirmedAndSignedIn(activity, ruleSetName, ruleSetJson);
         } else {
-            List<AuthUI.IdpConfig> providers = Arrays.asList(
-                    new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-                    new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build());
-
-            activity.startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(providers)
-                            .build(),
-                    SIGN_IN_RETURN_CODE);
+            FireAuth.signIn(activity);
         }
     }
 
@@ -78,7 +63,7 @@ public final class FireStoreSavingChain {
             String ruleSetName,
             String ruleSetJson) {
 
-        if (requestCode == SIGN_IN_RETURN_CODE) {
+        if (requestCode == FireAuth.SIGN_IN_RETURN_CODE) {
             if ((resultCode == Activity.RESULT_OK)
                     && (FirebaseAuth.getInstance().getCurrentUser() != null)) {
                 activity.invalidateOptionsMenu();
