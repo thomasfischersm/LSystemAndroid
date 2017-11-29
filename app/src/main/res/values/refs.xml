@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fragment_rules" type="layout">@layout/fragment_rules_default</item>
+</resources>

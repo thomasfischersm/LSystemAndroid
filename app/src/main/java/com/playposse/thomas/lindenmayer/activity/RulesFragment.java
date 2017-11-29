@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -28,6 +29,7 @@ import com.playposse.thomas.lindenmayer.activity.common.ActivityNavigator;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
 import com.playposse.thomas.lindenmayer.widgets.BruteForceRenderAsyncTask;
+import com.playposse.thomas.lindenmayer.widgets.ColorPaletteAdapter;
 import com.playposse.thomas.lindenmayer.widgets.FractalView;
 
 import java.util.ArrayList;
@@ -49,6 +51,9 @@ public class RulesFragment extends Fragment {
     @BindView(R.id.relative_scroll_container) RelativeLayout relativeScrollContainer;
     @BindView(R.id.rules_table_layout)TableLayout rulesTableLayout;
     @BindView(R.id.preview_text_view) TextView previewTextView;
+
+    @Nullable
+    @BindView(R.id.color_palette_grid) GridView colorPaletteGridView;
 
     private final PreviewUpdateWatcher previewUpdateWatcher = new PreviewUpdateWatcher();
 
@@ -100,6 +105,11 @@ public class RulesFragment extends Fragment {
 
         if ((intentRuleSet != null) && !StringUtil.isEmpty(getRuleSetName())) {
             getActivity().setTitle(getRuleSetName());
+        }
+
+        // This is only visible on landscape tablets.
+        if (colorPaletteGridView != null) {
+            colorPaletteGridView.setAdapter(new ColorPaletteAdapter(getActivity()));
         }
 
         return rootView;

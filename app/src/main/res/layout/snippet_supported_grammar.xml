@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        style="@style/sectionHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/help_grammar_heading"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/help_grammar_body_text"/>
+
+    <TextView
+        style="@style/sectionHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/help_color_palette_heading"/>
+
+    <GridView
+        android:id="@+id/color_palette_grid"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:columnWidth="30dp"
+        android:numColumns="10"
+        android:paddingTop="10dp"/>
+</merge>
