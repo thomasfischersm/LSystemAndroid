@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.widget.Button;
 
 import com.playposse.thomas.lindenmayer.R;
@@ -16,6 +15,7 @@ import com.playposse.thomas.lindenmayer.util.AnalyticsUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.support.v4.view.ViewPager.OnPageChangeListener;
 
@@ -50,15 +50,13 @@ public class IntroductionActivity extends MinimumActivity {
         introductionSlidePager.setAdapter(pagerAdapter);
 
         introductionSlidePager.addOnPageChangeListener(new AnalyticsPageChangeListener());
+    }
 
-        getStartedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppPreferences.setHasSeenIntroDeck(getApplicationContext(), true);
-                finish();
-                ActivityNavigator.startMainActivity(getApplicationContext());
-            }
-        });
+    @OnClick(R.id.get_started_button)
+    void onGetStartedClicked() {
+        AppPreferences.setHasSeenIntroDeck(getApplicationContext(), true);
+        finish();
+        ActivityNavigator.startMainActivity(getApplicationContext());
     }
 
     private class IntroductionSlidePagerAdapter extends FragmentPagerAdapter {
