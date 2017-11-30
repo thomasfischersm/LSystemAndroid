@@ -69,6 +69,13 @@ public class RenderingFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         ruleSet = intent.getParcelableExtra(RuleSet.EXTRA_RULE_SET);
 
+        if (ruleSet == null) {
+            // Something unexpected and bad happened. Stop processing.
+            Log.e(LOG_TAG, "onCreateView: RenderingActivity called without a valid ruleSet " +
+                    "intent parameter!");
+            return rootView;
+        }
+
         if ((savedInstanceState != null) && (savedInstanceState.containsKey(ITERATION_COUNT_KEY))) {
             iterationCount = savedInstanceState.getInt(ITERATION_COUNT_KEY);
         }
