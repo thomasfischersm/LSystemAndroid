@@ -103,7 +103,7 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         }
 
         // Check if an existing rule set is updated.
-        if (currentRuleSetName.equals(newRuleSetName)) {
+        if ((currentRuleSetName != null) && currentRuleSetName.equals(newRuleSetName)) {
             saveRuleSet(newRuleSetName);
             return;
         }
