@@ -12,6 +12,7 @@ import android.os.AsyncTask;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 
 import com.playposse.thomas.lindenmayer.R;
 import com.playposse.thomas.lindenmayer.activity.RenderingActivity;
@@ -31,9 +32,10 @@ import java.io.IOException;
  * {@link RenderingActivity} uses the progress dialog because it
  * only renders complex enough iterations.
  */
-public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<Void, Integer, Bitmap> {
+public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION>
+        extends AsyncTask<Void, Integer, Bitmap> {
 
-    private static final String LOG_CAT = RenderAsyncTask.class.getSimpleName();
+    private static final String LOG_TAG = RenderAsyncTask.class.getSimpleName();
 
     private final RuleSet ruleSet;
     private final FractalView fractalView;
@@ -88,6 +90,13 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
 
     @Override
     protected Bitmap doInBackground(Void... params) {
+        if ((width == 0) || (height ==0)) {
+            // Not ready to render the preview yet.
+            Log.e(LOG_TAG, "doInBackground: Failed to render because the ImageView wasn't " +
+                    "attached yet.");
+            return null;
+        }
+
         FRACTAL_REPRESENTATION fractalRepresentation = iterate(ruleSet, iterationCount);
 
         long start = System.currentTimeMillis();
@@ -115,6 +124,11 @@ public abstract class RenderAsyncTask<FRACTAL_REPRESENTATION> extends AsyncTask<
 
     @Override
     protected void onPostExecute(Bitmap bitmap) {
+        if (bitmap == null) {
+            // The preview isn't ready to render yet.
+            return;
+        }
+
         if (enableProgressDialog) {
             progressDialog.hide();
         }
