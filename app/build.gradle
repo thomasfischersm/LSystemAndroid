@@ -5,6 +5,16 @@ android {
     compileSdkVersion 27
     buildToolsVersion "26.0.2"
 
+    // TODO: Remove this after the Udacity review.
+    signingConfigs {
+        config {
+            keyAlias 'key'
+            keyPassword '12345678'
+            storeFile file('../useless-for-udacity.jks')
+            storePassword '12345678'
+        }
+    }
+
     defaultConfig {
         applicationId "com.playposse.thomas.lindenmayer"
         minSdkVersion 18
@@ -18,6 +28,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
