@@ -33,6 +33,7 @@ import com.playposse.thomas.lindenmayer.ui.ProgressCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * The content {@link Fragment} for the {@link RenderingActivity}.
@@ -40,6 +41,8 @@ import butterknife.ButterKnife;
 public class RenderingFragment extends Fragment {
 
     private static final String LOG_TAG = RenderingFragment.class.getSimpleName();
+
+    private static final String ITERATION_COUNT_KEY = "iterationCount";
 
     @BindView(R.id.fractal_image_view) ImageView fractalImageView;
     @BindView(R.id.decrement_iteration_button) FloatingActionButton decrementButton;
@@ -66,40 +69,13 @@ public class RenderingFragment extends Fragment {
         Intent intent = getActivity().getIntent();
         ruleSet = intent.getParcelableExtra(RuleSet.EXTRA_RULE_SET);
 
-        decrementButton.hide();
-        decrementButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iterationCount--;
-                if (iterationCount < 1) {
-                    iterationCount = 1;
-                } else {
-                    render();
-                    AnalyticsUtil.sendEvent(
-                            getActivity().getApplication(),
-                            "DecrementIteration");
-                }
+        if ((savedInstanceState != null) && (savedInstanceState.containsKey(ITERATION_COUNT_KEY))) {
+            iterationCount = savedInstanceState.getInt(ITERATION_COUNT_KEY);
+        }
 
-                if (iterationCount == 1) {
-                    decrementButton.hide();
-                }
-            }
-        });
-
-        incrementButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iterationCount++;
-                render();
-                AnalyticsUtil.sendEvent(
-                        getActivity().getApplication(),
-                        "IncrementIteration");
-
-                if (!decrementButton.isShown()) {
-                    decrementButton.show();
-                }
-            }
-        });
+        if (iterationCount <= 1) {
+            decrementButton.hide();
+        }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -120,6 +96,40 @@ public class RenderingFragment extends Fragment {
         render();
 
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(ITERATION_COUNT_KEY, iterationCount);
+    }
+
+    @OnClick(R.id.decrement_iteration_button)
+    void onDecrementClicked() {
+        iterationCount--;
+        if (iterationCount < 1) {
+            iterationCount = 1;
+        } else {
+            render();
+            AnalyticsUtil.sendEvent(getActivity().getApplication(), "DecrementIteration");
+        }
+
+        if (iterationCount == 1) {
+            decrementButton.hide();
+        }
+    }
+
+    @OnClick(R.id.increment_iteration_button)
+    void onIncrementClicked() {
+        iterationCount++;
+        render();
+        AnalyticsUtil.sendEvent(getActivity().getApplication(), "IncrementIteration");
+
+        if (!decrementButton.isShown()) {
+            decrementButton.show();
+        }
+
     }
 
     protected void render() {
