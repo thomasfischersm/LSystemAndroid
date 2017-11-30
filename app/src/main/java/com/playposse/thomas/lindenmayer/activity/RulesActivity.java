@@ -145,7 +145,8 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
         setTitle(fileName);
 
         // Show the user a success toast.
-        Toast.makeText(getApplicationContext(), fileName + " saved.", Toast.LENGTH_SHORT)
+        String toastMsg = getString(R.string.rule_set_saved_toast, fileName);
+        Toast.makeText(getApplicationContext(), toastMsg, Toast.LENGTH_SHORT)
                 .show();
 
         // Might have to hide/show the delete action in the options menu.
