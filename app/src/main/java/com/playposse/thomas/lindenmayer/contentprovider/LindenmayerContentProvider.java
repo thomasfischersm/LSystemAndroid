@@ -11,13 +11,11 @@ import com.playposse.thomas.lindenmayer.util.BasicContentProvider;
  */
 public class LindenmayerContentProvider extends BasicContentProvider {
 
-    private static final int RECIPE_TABLE_KEY = 1;
-    private static final int INGREDIENT_TABLE_KEY = 2;
-    private static final int STEP_TABLE_KEY = 3;
+    private static final int RULE_SET_TABLE_KEY = 1;
 
     public LindenmayerContentProvider() {
         addTable(
-                RECIPE_TABLE_KEY,
+                RULE_SET_TABLE_KEY,
                 LindenmayerContentContract.AUTHORITY,
                 RuleSetTable.PATH,
                 RuleSetTable.CONTENT_URI,
