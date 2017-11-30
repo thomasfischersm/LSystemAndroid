@@ -68,6 +68,8 @@
     <string name="fractal_content_description">Rendering of the L-System.</string>
     <string name="progress_steps">%1$d/%2$d</string>
     <string name="share_message">Check out this cool L-System!"</string>
+    <string name="increment_button_content_description">Increments the iteration count.</string>
+    <string name="decrement_button_content_description">Decrements the iteration count.</string>
 
     <string name="feedback_dialog_title">Send us feedback!</string>
     <string name="feedback_dialog_message">An e-mail will be opened where you can send me feedback.</string>
