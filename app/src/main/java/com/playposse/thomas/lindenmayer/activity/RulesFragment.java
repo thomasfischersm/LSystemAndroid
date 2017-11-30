@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -265,7 +266,9 @@ public class RulesFragment extends Fragment {
         layoutParams.setMargins(10, 0, 10, 10);
         fractalView.setLayoutParams(layoutParams);
         fractalView.setBackgroundColor(Color.WHITE);
-        fractalView.setElevation(10);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            fractalView.setElevation(10);
+        }
         relativeScrollContainer.addView(fractalView);
         previewTextView.setVisibility(View.VISIBLE);
         previewTextView.bringToFront();
