@@ -6,7 +6,9 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.RemoteViews;
 
@@ -25,6 +27,8 @@ import java.util.Random;
  * A widget that shows a different L-System each day.
  */
 public class DailyLSystemWidgetProvider extends AppWidgetProvider {
+
+    private static final String LOG_TAG = DailyLSystemWidgetProvider.class.getSimpleName();
 
     private static final Random random = new Random();
     public static final int DEFAULT_ITERATION_COUNT = 5;
@@ -88,6 +92,7 @@ public class DailyLSystemWidgetProvider extends AppWidgetProvider {
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
 
+    @Nullable
     private static RuleSet pickRandomRuleSet(Context context) {
         ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = contentResolver.query(
@@ -102,7 +107,9 @@ public class DailyLSystemWidgetProvider extends AppWidgetProvider {
         }
 
         if (cursor.getCount() <= 0) {
-            throw new IllegalStateException("Unexpected amount of rule sets: " + cursor.getCount());
+            Log.e(LOG_TAG, "pickRandomRuleSet: Unexpected amount of rule sets: "
+                    + cursor.getCount());
+            return null;
         }
 
         try {
