@@ -39,6 +39,11 @@ public class DailyLSystemWidgetProvider extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         currentRuleSet = pickRandomRuleSet(context);
 
+        if (currentRuleSet == null) {
+            // Okay, we are not going to do anything this time.
+            return;
+        }
+
         for (int appWidgetId : appWidgetIds) {
             prepareView(context, appWidgetManager, appWidgetId);
         }
