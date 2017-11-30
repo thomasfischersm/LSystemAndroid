@@ -56,6 +56,11 @@ public class DailyLSystemWidgetProvider extends AppWidgetProvider {
         // The rule set should already be loaded. Let's be defensive anyway.
         if (currentRuleSet == null) {
             currentRuleSet = pickRandomRuleSet(context);
+
+            if (currentRuleSet == null) {
+                // Okay, we are not going to do anything this time.
+                return;
+            }
         }
 
         prepareView(context, appWidgetManager, appWidgetId);
