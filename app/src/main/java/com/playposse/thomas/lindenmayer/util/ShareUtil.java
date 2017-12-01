@@ -30,6 +30,7 @@ public final class ShareUtil {
     private static final String FILE_PROVIDER_AUTHORITY = "com.playposse.thomas.lindenmayer";
     private static final String IMAGE_CONTENT_TYPE = "image/png";
     private static final String UNKNOWN_METHOD = "unknown";
+    private static final String DEFAULT_FILE_NAME = "/lindemnayer.png";
 
     private ShareUtil() {
     }
@@ -76,7 +77,8 @@ public final class ShareUtil {
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_message));
         Uri contentUri = FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, file);
-        intent.putExtra(Intent.EXTRA_STREAM, contentUri);
+        Uri contentUriWithNiceFileName = Uri.parse(contentUri.toString() + DEFAULT_FILE_NAME);
+        intent.putExtra(Intent.EXTRA_STREAM, contentUriWithNiceFileName);
         intent.setType(IMAGE_CONTENT_TYPE);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
