@@ -69,8 +69,10 @@ public class PublicLibraryFragment extends Fragment {
 
                 if (cursor.getCount() > 0) {
                     emptyMessageTextView.setVisibility(View.GONE);
+                    ruleSetRecyclerView.setVisibility(View.VISIBLE);
                 } else {
                     emptyMessageTextView.setVisibility(View.VISIBLE);
+                    ruleSetRecyclerView.setVisibility(View.GONE);
                 }
             }
         });

@@ -24,7 +24,8 @@
             android:id="@+id/rule_set_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp"/>
+            android:layout_margin="8dp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/empty_message_text_view"
