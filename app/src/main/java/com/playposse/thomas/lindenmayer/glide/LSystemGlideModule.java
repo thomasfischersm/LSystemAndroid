@@ -25,7 +25,6 @@ public class LSystemGlideModule extends AppGlideModule {
         builder.setDefaultRequestOptions(
                 new RequestOptions()
                         .format(DecodeFormat.PREFER_ARGB_8888));
-        builder.setLogLevel(Log.DEBUG);
     }
 
     @Override
