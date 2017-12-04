@@ -82,7 +82,6 @@
                             android:id="@+id/preview_image_view"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:background="#0F0"
                             android:contentDescription="@string/rules_activity_preview_content_description"/>
 
                         <TextView
