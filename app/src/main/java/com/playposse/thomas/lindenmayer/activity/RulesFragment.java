@@ -2,9 +2,7 @@ package com.playposse.thomas.lindenmayer.activity;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
-import android.graphics.Color;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,9 +32,9 @@ import com.playposse.thomas.lindenmayer.activity.common.ActivityNavigator;
 import com.playposse.thomas.lindenmayer.contentprovider.LindenmayerContentContract.RuleSetTable;
 import com.playposse.thomas.lindenmayer.contentprovider.QueryHelper;
 import com.playposse.thomas.lindenmayer.domain.RuleSet;
-import com.playposse.thomas.lindenmayer.ui.BruteForceRenderAsyncTask;
+import com.playposse.thomas.lindenmayer.glide.GlideApp;
+import com.playposse.thomas.lindenmayer.glide.RuleSetResource;
 import com.playposse.thomas.lindenmayer.ui.ColorPaletteAdapter;
-import com.playposse.thomas.lindenmayer.ui.FractalView;
 import com.playposse.thomas.lindenmayer.util.StringUtil;
 
 import java.util.ArrayList;
@@ -56,7 +55,9 @@ public class RulesFragment extends Fragment {
     @BindView(R.id.direction_increment_text_view) TextView incrementTextView;
     @BindView(R.id.relative_scroll_container) RelativeLayout relativeScrollContainer;
     @BindView(R.id.rules_table_layout)TableLayout rulesTableLayout;
+    @BindView(R.id.preview_layout) FrameLayout previewLayout;
     @BindView(R.id.preview_text_view) TextView previewTextView;
+    @BindView(R.id.preview_image_view) ImageView previewImageView;
 
     @Nullable
     @BindView(R.id.color_palette_grid) GridView colorPaletteGridView;
@@ -65,7 +66,6 @@ public class RulesFragment extends Fragment {
 
     private RuleSet intentRuleSet;
     private NeatRowWatcher neatRowWatcher = new NeatRowWatcher();
-    private FractalView fractalView;
 
     /**
      * A rule set name that the user has specified after the intent was created.
@@ -125,6 +125,8 @@ public class RulesFragment extends Fragment {
         }
 
         checkIfSaved();
+
+        attemptToShowPreview();
 
         return rootView;
     }
@@ -245,50 +247,18 @@ public class RulesFragment extends Fragment {
     }
 
     private void attemptToShowPreview() {
-        // Clear out container.
-        if (fractalView != null) {
-            relativeScrollContainer.removeView(fractalView);
-            previewTextView.setVisibility(View.GONE);
-            fractalView = null;
-        }
-
         // Check if rules are complete.
         final RuleSet ruleSet = createRuleSet();
         if ((ruleSet == null) || !ruleSet.isValid()) {
+            previewLayout.setVisibility(View.INVISIBLE);
             return;
         }
 
-        // Add the preview to the UI.
-        // TODO: Move this into the layout file.
-        fractalView = new FractalView(getActivity());
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(180, 180);
-        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        layoutParams.setMargins(10, 0, 10, 10);
-        fractalView.setLayoutParams(layoutParams);
-        fractalView.setBackgroundColor(Color.WHITE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            fractalView.setElevation(10);
-        }
-        relativeScrollContainer.addView(fractalView);
-        previewTextView.setVisibility(View.VISIBLE);
-        previewTextView.bringToFront();
+        previewLayout.setVisibility(View.VISIBLE);
 
-        // Render the preview.
-        // TODO: Switch to Glide rendering for preview as well.
-        fractalView.post(new Runnable() {
-            @Override
-            public void run() {
-                new BruteForceRenderAsyncTask(
-                        ruleSet,
-                        fractalView,
-                        2,
-                        null,
-                        null,
-                        getActivity(),
-                        null,
-                        false).execute();
-            }
-        });
+        GlideApp.with(this)
+                .load(new RuleSetResource(ruleSet, 4, null, true))
+                .into(previewImageView);
     }
 
     /**
