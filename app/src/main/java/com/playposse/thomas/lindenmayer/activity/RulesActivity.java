@@ -59,14 +59,24 @@ public class RulesActivity extends ParentActivity<RulesFragment> {
                 onDeleteClicked();
                 return true;
             case R.id.action_publish:
-                RuleSet ruleSet = getContentFragment().createRuleSet();
-                String ruleSetJson = RuleSetConverter.write(ruleSet);
-                String ruleSetName = getContentFragment().getRuleSetName();
-                FireStoreSavingChain.onPublishClicked(this, ruleSetName, ruleSetJson);
+                onPublishClicked();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void onPublishClicked() {
+        RuleSet ruleSet = getContentFragment().createRuleSet();
+        if (ruleSet == null) {
+            Toast.makeText(this, R.string.not_ready_to_publish, Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
+        String ruleSetJson = RuleSetConverter.write(ruleSet);
+        String ruleSetName = getContentFragment().getRuleSetName();
+        FireStoreSavingChain.onPublishClicked(this, ruleSetName, ruleSetJson);
     }
 
     private void onSaveClicked() {
