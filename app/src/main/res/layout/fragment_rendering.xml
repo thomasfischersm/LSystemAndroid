@@ -69,7 +69,7 @@
                 android:layout_gravity="bottom|end"
                 android:layout_margin="16dp"
                 android:contentDescription="@string/decrement_button_content_description"
-                android:src="@drawable/ic_remove_circle_black_24dp"
+                app:srcCompat="@drawable/ic_remove_circle_black_24dp"
                 app:backgroundTint="@color/button_material_light"/>
 
             <android.support.design.widget.FloatingActionButton
@@ -81,7 +81,7 @@
                 android:layout_gravity="bottom|end"
                 android:layout_margin="16dp"
                 android:contentDescription="@string/increment_button_content_description"
-                android:src="@drawable/ic_add_circle_black_24dp"
+                app:srcCompat="@drawable/ic_add_circle_black_24dp"
                 app:backgroundTint="@color/button_material_light"/>
 
         </RelativeLayout>

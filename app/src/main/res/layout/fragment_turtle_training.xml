@@ -123,6 +123,5 @@
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:text="@string/turtle_tutorial_turn_around_button"/>
-
     </GridLayout>
 </LinearLayout>
