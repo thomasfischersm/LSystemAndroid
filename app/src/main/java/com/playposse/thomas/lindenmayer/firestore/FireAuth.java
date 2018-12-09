@@ -19,8 +19,8 @@ public final class FireAuth {
 
     public static void signIn(Activity activity) {
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build(),
-                new AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build());
+                new AuthUI.IdpConfig.GoogleBuilder().build(),
+                new AuthUI.IdpConfig.FacebookBuilder().build());
 
         activity.startActivityForResult(
                 AuthUI.getInstance()

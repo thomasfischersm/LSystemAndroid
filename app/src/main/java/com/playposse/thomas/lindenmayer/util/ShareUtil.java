@@ -30,7 +30,7 @@ public final class ShareUtil {
     private static final String FILE_PROVIDER_AUTHORITY = "com.playposse.thomas.lindenmayer";
     private static final String IMAGE_CONTENT_TYPE = "image/png";
     private static final String UNKNOWN_METHOD = "unknown";
-    private static final String DEFAULT_FILE_NAME = "/lindemnayer.png";
+    private static final String DEFAULT_FILE_NAME = "/lindenmayer.png";
 
     private ShareUtil() {
     }
